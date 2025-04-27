@@ -1,0 +1,40 @@
+{
+  "compilerOptions": {
+    "target": "ES2022",
+    "lib": ["ES2023", "DOM", "DOM.Iterable"],
+    "module": "ESNext",
+    "types": ["vite/client"],
+    "skipLibCheck": true,
+    "useDefineForClassFields": true,
+    /* bundler mode */
+    "moduleResolution": "bundler",
+    "allowImportingTsExtensions": true,
+    "isolatedModules": true,
+    "moduleDetection": "force",
+    "noEmit": true,
+    "jsx": "react-jsx",
+    /* linting */
+    "strict": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "noFallthroughCasesInSwitch": true,
+    /* paths */
+    "rootDir": "./src/",
+    "baseUrl": "./src/",
+    "paths": {
+      "@/*": ["*"],
+      "@root/*": ["../*"],
+      "@commons/*": ["commons/*"],
+      "@layout/*": ["commons/layout/*"],
+      "@ui/*": ["commons/ui/*"],
+      "@utils/*": ["commons/utils/*"],
+      "@hooks/*": ["commons/hooks/*"],
+      "@styles/*": ["commons/styles/*"],
+      "@features/*": ["features/*"],
+      "@user/*": ["features/user/*"],
+      "@chat/*": ["features/chat/*"],
+      "@images/*": ["/images/*"]
+    }
+  },
+  "include": ["src", "@root/vite.config.ts"]
+}

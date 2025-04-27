@@ -1,0 +1,24 @@
+.root {
+  display: flex;
+  flex-direction: row;
+  flex-grow: 0;
+  flex-shrink: 0;
+  column-gap: var(--margin);
+  align-items: start;
+  align-self: stretch;
+  padding-left: var(--margin);
+  height: fit-content;
+}
+
+.copyright {
+  opacity: var(--opacity-secondary);
+}
+
+.info {
+  opacity: var(--opacity-tertiary);
+  word-break: break-all;
+}
+
+.version {
+  opacity: var(--opacity-secondary);
+}

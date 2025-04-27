@@ -1,0 +1,37 @@
+.root {
+  text-wrap: wrap;
+  p {
+    white-space: wrap;
+    margin-bottom: var(--line-height);
+  }
+}
+
+.user {
+  display: flex;
+  flex-direction: row;
+  column-gap: var(--margin);
+}
+
+.user-pill {
+  vertical-align: top;
+  opacity: var(--opacity-tertiary);
+}
+
+.bot {
+  display: flex;
+  flex-direction: column;
+  opacity: var(--opacity-secondary);
+  p {
+    display: inline-block;
+    vertical-align: top;
+  }
+}
+
+.bot-line {
+  flex-grow: 0;
+  flex-shrink: 0;
+  align-self: start;
+  width: var(--margin);
+  height: 100%;
+  opacity: var(--opacity-tierary);
+}

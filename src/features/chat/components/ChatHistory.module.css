@@ -1,0 +1,41 @@
+.root {
+  width: 100%;
+}
+
+.item {
+  display: flex;
+  flex-direction: row;
+  column-gap: var(--margin);
+}
+
+.text {
+  text-align: left;
+  flex-grow: 1;
+  word-break: break-all;
+  overflow-wrap: break-word;
+}
+
+.not-selected {
+  opacity: var(--opacity-secondary);
+}
+
+.not-selected::before {
+  content: ">";
+  vertical-align: top;
+  opacity: 0;
+}
+
+.selected {
+  opacity: var(--opacity-primary);
+}
+
+.selected::before {
+  content: ">";
+  vertical-align: top;
+  opacity: var(--opacity-secondary);
+}
+
+.button {
+  place-self: start;
+  align-self: right;
+}

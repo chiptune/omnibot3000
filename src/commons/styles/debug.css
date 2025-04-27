@@ -1,0 +1,51 @@
+.debug {
+  --color-rainbow: 0.8 0.333;
+  --color-rainbow-1: oklch(var(--color-rainbow) 135);
+  --color-rainbow-2: oklch(var(--color-rainbow) 90);
+  --color-rainbow-3: oklch(var(--color-rainbow) 45);
+  --color-rainbow-4: oklch(var(--color-rainbow) 0);
+  --color-rainbow-5: oklch(var(--color-rainbow) -45);
+  --color-rainbow-6: oklch(var(--color-rainbow) -90);
+  --color-rainbow-7: oklch(var(--color-rainbow) -135);
+  --color-rainbow-8: oklch(var(--color-rainbow) -180);
+}
+
+.debug * {
+  border-radius: 0.125rem;
+  outline-style: dashed !important;
+  outline-width: 0.125rem !important;
+  outline-color: var(--color-rainbow-1) !important;
+  outline-offset: 0.25rem;
+}
+
+.debug * > * {
+  outline-color: var(--color-rainbow-2) !important;
+}
+
+.debug * > * > * {
+  outline-color: var(--color-rainbow-3) !important;
+}
+
+.debug * > * > * > * {
+  outline-color: var(--color-rainbow-4) !important;
+}
+
+.debug * > * > * > * > * {
+  outline-color: var(--color-rainbow-5) !important;
+}
+
+.debug * > * > * > * > * > * {
+  outline-color: var(--color-rainbow-6) !important;
+}
+
+.debug * > * > * > * > * > * {
+  outline-color: var(--color-rainbow-7) !important;
+}
+
+.debug * > * > * > * > * > * > * {
+  outline-color: var(--color-rainbow-8) !important;
+}
+
+.debug * > * > * > * > * > * > * > * {
+  outline-color: var(--color-rainbow-1) !important;
+}

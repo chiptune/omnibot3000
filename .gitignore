@@ -1,0 +1,8 @@
+node_modules
+.work
+.yarn*
+yarn.lock
+.env
+deploy.sh
+*.code-workspace
+.DS_Store

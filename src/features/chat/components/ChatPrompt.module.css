@@ -1,0 +1,37 @@
+.form {
+  display: flex;
+  flex-direction: row;
+  flex-grow: 0;
+  flex-shrink: 1;
+  column-gap: var(--margin);
+  align-items: end;
+  width: 100%;
+  max-width: var(--chat-width);
+}
+
+.input {
+  display: none;
+}
+
+.prompt {
+  width: 100%;
+  min-height: var(--line-height);
+  text-wrap: wrap;
+  word-break: break-all;
+  cursor: text;
+}
+
+.placeholder {
+  position: absolute;
+  opacity: var(--opacity-tertiary);
+}
+
+.caret {
+  bottom: 0;
+  width: var(--margin);
+  height: var(--line-height);
+}
+
+.submit {
+  place-self: "start";
+}

@@ -1,0 +1,51 @@
+@font-face {
+  font-family: "tty-vt220";
+  src: url("fonts/glass-tty-vt220.woff2") format("woff2");
+  font-display: swap;
+  font-weight: normal;
+  font-style: normal;
+  font-synthesis: none;
+}
+
+.ascii {
+  color: var(--color);
+  font-family: "tty-vt220", monospace;
+  font-size: var(--font-size);
+  font-weight: var(--font-weight);
+  line-height: var(--line-height);
+  text-shadow:
+    -0.02rem 0rem 0.4rem var(--color-secondary),
+    -0.01rem 0rem 0.2rem var(--color-secondary),
+    0rem 0rem 0.1rem var(--color),
+    0.3rem -0.02rem 0.2rem var(--color-tertiary),
+    0.15rem 0.02rem 0.1rem #000,
+    0rem 0rem 0.5rem var(--color-secondary);
+  text-transform: uppercase;
+}
+
+.blink {
+  display: inline-block;
+  animation: blinker 1.5s linear infinite;
+}
+
+@keyframes blinker {
+  0% {
+    opacity: 0;
+  }
+
+  45% {
+    opacity: 0;
+  }
+
+  50% {
+    opacity: 1;
+  }
+
+  95% {
+    opacity: 1;
+  }
+
+  100% {
+    opacity: 0;
+  }
+}

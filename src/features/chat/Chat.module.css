@@ -1,0 +1,31 @@
+.root {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: end;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+}
+
+.container {
+  margin-left: var(--margin);
+  margin-right: var(--margin);
+  width: 100%;
+  overflow: hidden auto;
+  height: fit-content;
+  outline: none;
+}
+
+.chat {
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+  flex-shrink: 1;
+  justify-content: end;
+  row-gap: var(--line-height);
+  margin: 0 auto;
+  width: 100%;
+  max-width: var(--chat-width);
+  height: fit-content;
+}

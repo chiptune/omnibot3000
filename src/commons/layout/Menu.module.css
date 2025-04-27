@@ -1,0 +1,10 @@
+.root {
+  display: flex;
+  flex-direction: row;
+  column-gap: var(--margin);
+  padding-right: var(--margin);
+  width: var(--menu-width);
+  max-width: var(--menu-width);
+  height: 100%;
+  overflow: none auto;
+}
