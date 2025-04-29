@@ -5,7 +5,12 @@ import IconButton from "@mui/material/IconButton";
 import Menu from "@mui/material/Menu";
 import Tooltip from "@mui/material/Tooltip";
 
-const ButtonMenu = (props: {type?: "button" | "icon"; name?: ReactNode; tooltip?: string; children: ReactNode}) => {
+const ButtonMenu = (props: {
+  type?: "button" | "icon";
+  name?: ReactNode;
+  tooltip?: string;
+  children: ReactNode;
+}) => {
   const {type, name, tooltip, children} = props;
 
   const [anchor, setAnchor] = useState<HTMLElement | null>(null);
@@ -26,7 +31,11 @@ const ButtonMenu = (props: {type?: "button" | "icon"; name?: ReactNode; tooltip?
   return (
     <>
       <Tooltip title={tooltip}>
-        {type !== "icon" ? <Button {...ButtonProps}>{name}</Button> : <IconButton {...ButtonProps}>{name}</IconButton>}
+        {type !== "icon" ? (
+          <Button {...ButtonProps}>{name}</Button>
+        ) : (
+          <IconButton {...ButtonProps}>{name}</IconButton>
+        )}
       </Tooltip>
       <Menu anchorEl={anchor} open={open} onClose={closeMenuHandler}>
         {children}

@@ -10,6 +10,7 @@
   display: flex;
   flex-direction: row;
   column-gap: var(--margin);
+  margin-bottom: var(--line-height);
 }
 
 .user-pill {
@@ -18,6 +19,12 @@
 }
 
 .bot {
+  display: flex;
+  flex-direction: row;
+  column-gap: var(--margin);
+}
+
+.bot-text {
   display: flex;
   flex-direction: column;
   opacity: var(--opacity-secondary);
@@ -33,5 +40,5 @@
   align-self: start;
   width: var(--margin);
   height: 100%;
-  opacity: var(--opacity-tierary);
+  opacity: var(--opacity-tertiary);
 }

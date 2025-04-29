@@ -1,5 +1,11 @@
 import {useEffect, useRef, useState} from "react";
-import {BrowserRouter as Router, Navigate, Outlet, Route, Routes} from "react-router-dom";
+import {
+  BrowserRouter as Router,
+  Navigate,
+  Outlet,
+  Route,
+  Routes,
+} from "react-router-dom";
 
 import Footer from "@layout/Footer";
 import Header from "@layout/Header";
@@ -45,7 +51,10 @@ const Layout = () => {
       screen.style.width = `${w - cw * 6}px`;
       screen.style.height = `${h - lh * 3}px`;
 
-      console.info(`%cresize screen: ${w.toFixed(0)}x${h.toFixed(0)}`, "color:#999");
+      console.info(
+        `%cresize screen: ${w.toFixed(0)}x${h.toFixed(0)}`,
+        "color:#999",
+      );
     };
 
     update();
@@ -66,7 +75,9 @@ const Layout = () => {
   }, [debugHotKey]);
 
   return (
-    <div ref={rootRef} className={cls(styles.root, !darkMode || "dark", !debug || "debug")}>
+    <div
+      ref={rootRef}
+      className={cls(styles.root, !darkMode || "dark", !debug || "debug")}>
       <div ref={screenRef} className={cls("ascii", styles.screen)}>
         <Menu />
         <Line variant="vertical" className={styles["v-line"]} />

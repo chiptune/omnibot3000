@@ -14,11 +14,17 @@
 }
 
 .prompt {
-  width: 100%;
+  flex-grow: 1;
   min-height: var(--line-height);
   text-wrap: wrap;
   word-break: break-all;
   cursor: text;
+}
+
+.prompt-line {
+  clear: both;
+  float: left;
+  width: fit-content;
 }
 
 .placeholder {
@@ -27,11 +33,13 @@
 }
 
 .caret {
+  float: left;
   bottom: 0;
   width: var(--margin);
   height: var(--line-height);
 }
 
 .submit {
+  flex-grow: 0;
   place-self: "start";
 }

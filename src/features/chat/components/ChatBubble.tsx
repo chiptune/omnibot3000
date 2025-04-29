@@ -8,7 +8,11 @@ import styles from "./ChatBubble.module.css";
 
 import type {ChatCompletionRole} from "openai/resources/index.mjs";
 
-const ChatBubble = (props: {role: ChatCompletionRole; content: string; hasCursor?: boolean}) => {
+const ChatBubble = (props: {
+  role: ChatCompletionRole;
+  content: string;
+  hasCursor?: boolean;
+}) => {
   const {role, content} = props;
 
   const isUser = Boolean(role === "user");
@@ -22,20 +26,22 @@ const ChatBubble = (props: {role: ChatCompletionRole; content: string; hasCursor
         </div>
       ) : (
         <div className={styles.bot}>
-          <Line variant="vertical" className={styles["bot-line"]} />
-          <Markdown
-            components={{
-              code(props) {
-                const {children, className, ...rest} = props;
-                return (
-                  <code {...rest} className={className}>
-                    {children}
-                  </code>
-                );
-              },
-            }}>
-            {sanitizeHTML(content)}
-          </Markdown>
+          <Line variant="vertical" char=">" className={styles["bot-line"]} />
+          <div className={styles["bot-text"]}>
+            <Markdown
+              components={{
+                code(props) {
+                  const {children, className, ...rest} = props;
+                  return (
+                    <code {...rest} className={className}>
+                      {children}
+                    </code>
+                  );
+                },
+              }}>
+              {sanitizeHTML(content)}
+            </Markdown>
+          </div>
         </div>
       )}
     </div>

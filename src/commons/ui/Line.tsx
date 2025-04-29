@@ -6,7 +6,11 @@ import cls from "classnames";
 
 export type LineVariant = "horizontal" | "vertical";
 
-const Line = (props: {variant?: LineVariant; char?: string; className?: string}) => {
+const Line = (props: {
+  variant?: LineVariant;
+  char?: string;
+  className?: string;
+}) => {
   const {variant, char} = props;
   const isVertical = Boolean(variant === "vertical");
 

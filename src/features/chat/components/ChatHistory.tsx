@@ -20,9 +20,14 @@ const ChatHistory = () => {
       {chatStore.getChats().map((chat: Chat) => (
         <div
           key={`chat-history-${chat.id}`}
-          className={cls(styles.item, styles[chatId === chat.id ? "selected" : "not-selected"])}>
+          className={cls(
+            styles.item,
+            styles[chatId === chat.id ? "selected" : "not-selected"],
+          )}>
           <button
-            className={cls("ascii", styles.text, {opacity: chatId === chat.id ? 1 : 0.7})}
+            className={cls("ascii", styles.text, {
+              opacity: chatId === chat.id ? 1 : 0.7,
+            })}
             onClick={() => {
               navigate(`/chat/${chat.id}`);
             }}>

@@ -6,4 +6,5 @@ export const BUTTON_REMOVE = "[-]";
 export const BUTTON_CLEAR = "[x]";
 export const BUTTON_SUBMIT = "[req]";
 
+export const AUTHOR_URL = "https://github.com/chiptune";
 export const SOURCE_URL = "https://github.com/chiptune/omnibot3000";

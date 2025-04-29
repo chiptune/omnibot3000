@@ -1,6 +1,6 @@
 import {memo} from "react";
 
-import {SOURCE_URL} from "@commons/constants";
+import {AUTHOR_URL, SOURCE_URL} from "@commons/constants";
 import Spacer from "@ui/Spacer";
 import {numberToRoman} from "@utils/math";
 import VERSION from "@utils/version";
@@ -15,14 +15,21 @@ const Footer = () => {
 
   return (
     <div className={styles.root}>
-      <div className={styles.copyright}>{`©${numberToRoman(Number(new Date().getFullYear()))}`}</div>
-      <a href={SOURCE_URL} target="_blank">
+      <div
+        className={
+          styles.copyright
+        }>{`©${numberToRoman(Number(new Date().getFullYear()))}`}</div>
+      <a href={AUTHOR_URL} target="_blank">
         REZ
       </a>
       <Spacer />
       {chatId && <div className={styles.info}>{`id: ${chatId}`}</div>}
       <Spacer />
-      <div className={styles.version}>{`v${VERSION.map((n) => numberToRoman(n)).join(".")}`}</div>
+      <div className={styles.version}>
+        <a href={SOURCE_URL} target="_blank">
+          {`v${VERSION.map((n) => numberToRoman(n)).join(".")}`}
+        </a>
+      </div>
     </div>
   );
 };

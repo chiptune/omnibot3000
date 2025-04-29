@@ -7,7 +7,9 @@ import styles from "./Chat.module.css";
 
 import ChatBubble from "@chat/components/ChatBubble";
 import ChatPrompt from "@chat/components/ChatPrompt";
-import useChatCompletionStore, {Completion} from "@chat/hooks/useChatCompletionStore";
+import useChatCompletionStore, {
+  Completion,
+} from "@chat/hooks/useChatCompletionStore";
 import useKeyPress from "@hooks/useKeyPress";
 import OpenAI from "openai";
 import {ChatCompletionMessageParam} from "openai/resources/index.mjs";
@@ -75,12 +77,17 @@ const Chat: React.FC = () => {
     current time: ${new Date().toLocaleDateString()}\
     current unix EPOCH time: ${Math.floor(Date.now() / 1000)}\
     ${persona}`;
-    const messages: ChatCompletionMessageParam[] = [{role: "system", content: systemConfig}];
+    const messages: ChatCompletionMessageParam[] = [
+      {role: "system", content: systemConfig},
+    ];
 
     /* add chat history to the messages array to give context */
     if (chatId) {
       chatStore.getCompletions(chatId).forEach((completion: Completion) => {
-        messages.push({role: "user", content: completion.prompt}, {role: "assistant", content: completion.message});
+        messages.push(
+          {role: "user", content: completion.prompt},
+          {role: "assistant", content: completion.message},
+        );
       });
     }
 
@@ -165,7 +172,11 @@ const Chat: React.FC = () => {
           {loading && response && (
             <Fragment key="chat-completion">
               <ChatBubble role="user" content={prompt} />
-              <ChatBubble role="assistant" content={response} hasCursor={true} />
+              <ChatBubble
+                role="assistant"
+                content={response}
+                hasCursor={true}
+              />
             </Fragment>
           )}
         </div>

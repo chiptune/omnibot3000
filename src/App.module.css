@@ -30,7 +30,6 @@
   align-items: center;
   align-self: stretch;
   height: 100%;
-  overflow: hidden;
 }
 
 .body {
@@ -59,4 +58,13 @@
   width: 100%;
   height: var(--line-height);
   opacity: var(--opacity-secondary);
+}
+
+.error {
+  display: flex;
+  flex-direction: column;
+  padding: var(--padding);
+  border-radius: var(--margin);
+  width: calc(100% - var(--margin) * 6);
+  background-color: var(--color-background);
 }

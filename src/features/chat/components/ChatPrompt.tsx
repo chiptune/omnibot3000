@@ -1,4 +1,4 @@
-import {useEffect, useRef} from "react";
+import {memo, useEffect, useRef} from "react";
 
 import {BUTTON_SUBMIT} from "@commons/constants";
 
@@ -31,7 +31,10 @@ const ChatPrompt = (props: {
     hasRunOnce.current = true;
 
     const handleKeyPress = (e: KeyboardEvent): void => {
-      if (e.key === "Enter") return;
+      if (e.key === "Enter") {
+        if (e.shiftKey) props.setPrompt((prompt) => prompt + "\n");
+        return;
+      }
       props.setPrompt((prompt) => prompt + e.key);
     };
 
@@ -44,6 +47,10 @@ const ChatPrompt = (props: {
       props.setPrompt((prompt) => prompt.substring(0, prompt.length - 1));
     }
   }, [backSpace]);
+
+  useEffect(() => {
+    console.log("update prompt", prompt);
+  }, [prompt]);
 
   /* update the chat when the user submit the prompt using enter */
   useEffect(() => {
@@ -65,11 +72,22 @@ const ChatPrompt = (props: {
           formulate your query{/* generate random placeholder */}
         </div>
         <div>
-          <span ref={promptRef}>{prompt}</span>
+          <span ref={promptRef}>
+            {prompt.split("\n").map((line, i) => (
+              <div key={`prompt-line-${i}`} className={styles["prompt-line"]}>
+                {line}
+              </div>
+            ))}
+          </span>
           <span className={cls("ascii", "blink", styles.caret)}>{"_"}</span>
         </div>
       </div>
-      <input ref={inputRef} name="prompt" className={styles.input} defaultValue={!loading && prompt ? prompt : ""} />
+      <input
+        ref={inputRef}
+        name="prompt"
+        className={styles.input}
+        defaultValue={!loading && prompt ? prompt : ""}
+      />
       <div>
         <button
           type="submit"
@@ -85,4 +103,4 @@ const ChatPrompt = (props: {
   );
 };
 
-export default ChatPrompt;
+export default memo(ChatPrompt);

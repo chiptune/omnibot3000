@@ -13,7 +13,8 @@ export const getCharWidth = (): number => {
   return box.width;
 };
 
-export const getLineHeight = (el: HTMLElement): number => parseFloat(getComputedStyle(el).lineHeight);
+export const getLineHeight = (el: HTMLElement): number =>
+  parseFloat(getComputedStyle(el).lineHeight);
 
 export const sanitizeHTML = (html: string): string => {
   const parser = new DOMParser();
@@ -22,4 +23,5 @@ export const sanitizeHTML = (html: string): string => {
   return body.replace(/<body[^>]*>|<\/body>/g, "");
 };
 
-export const formatChatId = (id: ChatId): ChatId => id && id.replace(COMPLETION_ID_WILDCARD, "").toLowerCase();
+export const formatChatId = (id: ChatId): ChatId =>
+  id && id.replace(COMPLETION_ID_WILDCARD, "").toLowerCase();
