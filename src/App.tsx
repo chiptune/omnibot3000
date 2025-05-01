@@ -7,11 +7,12 @@ import {
   Routes,
 } from "react-router-dom";
 
+import Background from "@layout/Background";
 import Footer from "@layout/Footer";
 import Header from "@layout/Header";
 import Menu from "@layout/Menu";
 import Line from "@ui/Line";
-import {getCharWidth, getLineHeight} from "@utils/strings";
+import {getCharHeight, getCharWidth, getLineHeight} from "@utils/strings";
 import {isSystemDarkModeOn} from "@utils/system";
 import {displayPackageVersion} from "@utils/version";
 
@@ -35,29 +36,31 @@ const Layout = () => {
   };
 
   const rootRef = useRef<HTMLDivElement | null>(null);
-  const screenRef = useRef<HTMLDivElement | null>(null);
+
+  const [cw, setCharWidth] = useState<number>(getCharWidth());
+  const [lh, setLineHeight] = useState<number>(getCharHeight());
+  const [w, setWidth] = useState<number>(window.innerWidth);
+  const [h, setHeight] = useState<number>(window.innerHeight);
 
   useEffect(() => {
     const update = () => {
       const root = rootRef.current;
-      const screen = screenRef.current;
-      if (!root || !screen) return;
+      if (!root) return;
 
-      const cw = getCharWidth();
-      const lh = getLineHeight(root);
+      setCharWidth(getCharWidth());
+      setLineHeight(getLineHeight(root));
 
-      const w = root.offsetWidth - (root.offsetWidth % cw);
-      const h = root.offsetHeight - (root.offsetHeight % lh);
-      screen.style.width = `${w - cw * 6}px`;
-      screen.style.height = `${h - lh * 3}px`;
+      const vw = window.innerWidth;
+      const vh = window.innerHeight;
+
+      setWidth(vw - (vw % cw));
+      setHeight(vh - (vh % cw));
 
       console.info(
         `%cresize screen: ${w.toFixed(0)}x${h.toFixed(0)}`,
         "color:#999",
       );
     };
-
-    update();
 
     const resizeObserver = new ResizeObserver(update);
     if (rootRef.current) {
@@ -67,7 +70,7 @@ const Layout = () => {
     return () => {
       resizeObserver.disconnect();
     };
-  }, []);
+  }, [w, h]);
 
   useEffect(() => {
     toggleDebug(debugHotKey);
@@ -77,18 +80,34 @@ const Layout = () => {
   return (
     <div
       ref={rootRef}
-      className={cls(styles.root, !darkMode || "dark", !debug || "debug")}>
-      <div ref={screenRef} className={cls("ascii", styles.screen)}>
-        <Menu />
-        <Line variant="vertical" className={styles["v-line"]} />
-        <div className={styles.content}>
-          <Header darkMode={darkMode} onThemeToggle={themeSwitchHandler} />
-          <Line variant="horizontal" char="-" className={styles["h-line"]} />
-          <div className={styles.body}>
-            <Outlet />
+      className={cls(styles.root, !darkMode || "dark", !debug || "debug")}
+      style={{padding: `${cw}px`}}>
+      <div
+        className={cls("ascii", styles.screen)}
+        style={{
+          padding: `${cw}px`,
+          width: `${w - cw * 4}px`,
+          height: `${h - cw * 4}px`,
+        }}>
+        <Background w={Math.round(w / cw) - 4} h={Math.round(h / lh) - 3} />
+        <div
+          className={styles.tty}
+          style={{
+            top: `${cw * 2}px`,
+            width: `${w - cw * 4}px`,
+            height: `${h - cw * 4}px`,
+          }}>
+          <Menu />
+          <Line variant="vertical" className={styles["v-line"]} />
+          <div className={styles.content}>
+            <Header darkMode={darkMode} onThemeToggle={themeSwitchHandler} />
+            <Line variant="horizontal" char="-" className={styles["h-line"]} />
+            <div className={styles.body} style={{}}>
+              <Outlet />
+            </div>
+            <Line variant="horizontal" char="-" className={styles["h-line"]} />
+            <Footer />
           </div>
-          <Line variant="horizontal" char="-" className={styles["h-line"]} />
-          <Footer />
         </div>
       </div>
     </div>

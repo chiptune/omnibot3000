@@ -1,5 +1,5 @@
 .root {
-  margin: var(--margin);
+  transform: none;
   padding: 0;
   border-radius: var(--margin);
   width: 100vw;
@@ -11,16 +11,20 @@
 }
 
 .screen {
-  display: flex;
-  flex-direction: row;
-  place-items: start;
-  column-gap: 0;
-  margin: 0;
-  padding: var(--padding);
   border-radius: var(--margin);
   width: 100%;
   height: 100%;
   background-color: var(--color-background);
+}
+
+.tty {
+  position: absolute;
+  display: flex;
+  flex-direction: row;
+  place-items: start;
+  margin: 0;
+  padding: 0;
+  z-index: var(--z-index-screen);
 }
 
 .content {

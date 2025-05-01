@@ -1,7 +1,6 @@
 .root {
   text-wrap: wrap;
   p {
-    white-space: wrap;
     margin-bottom: var(--line-height);
   }
 }
