@@ -31,8 +31,8 @@
       "@hooks/*": ["commons/hooks/*"],
       "@styles/*": ["commons/styles/*"],
       "@features/*": ["features/*"],
-      "@user/*": ["features/user/*"],
       "@chat/*": ["features/chat/*"],
+      "@history/*": ["features/history/*"],
       "@images/*": ["/images/*"]
     }
   },

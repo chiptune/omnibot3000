@@ -34,6 +34,7 @@ const Chat: React.FC = () => {
   const [response, setResponse] = useState<string>("");
   const [completion, setCompletion] = useState<Completion>();
   const [loading, setLoading] = useState<boolean>(false);
+  const [query, setQuery] = useState<string>("");
 
   const chatRef = useRef<HTMLDivElement>(null);
   const navigate = useNavigate();
@@ -68,6 +69,8 @@ const Chat: React.FC = () => {
   }, []);
 
   const getCompletion = async (prompt: string) => {
+    setQuery(prompt); /* save the prompt before reset */
+
     if (String(prompt).replace("\n", "").trim() === "") return;
 
     setLoading(true);
@@ -120,7 +123,6 @@ const Chat: React.FC = () => {
           message: "",
           previousCompletion: undefined,
         });
-        setPrompt("");
       }
       if (!text) continue;
       setResponse((prev) => `${prev}${text}`);
@@ -171,7 +173,7 @@ const Chat: React.FC = () => {
           ))}
           {loading && response && (
             <Fragment key="chat-completion">
-              <ChatBubble role="user" content={prompt} />
+              <ChatBubble role="user" content={query} />
               <ChatBubble
                 role="assistant"
                 content={response}

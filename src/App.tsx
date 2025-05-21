@@ -89,7 +89,7 @@ const Layout = () => {
           width: `${w - cw * 4}px`,
           height: `${h - cw * 4}px`,
         }}>
-        <Background w={Math.round(w / cw) - 4} h={Math.round(h / lh) - 3} />
+        <Background w={Math.floor(w / cw) - 4} h={Math.floor(h / lh) - 2} />
         <div
           className={styles.tty}
           style={{

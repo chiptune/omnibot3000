@@ -8,7 +8,7 @@
   --font-size-px: 15px;
   --font-size: 2rem;
   --font-weight: 400;
-  --line-height: calc(var(--font-size) * 0.8);
+  --line-height: calc(var(--font-size) * 1);
   --opacity-primary: 1;
   --opacity-secondary: 0.7;
   --opacity-tertiary: 0.5;

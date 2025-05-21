@@ -1,6 +1,8 @@
 .root {
   transform: none;
-  padding: 0;
+  display: static;
+  padding: var(--margin) !important;
+  margin: 0 !important;
   border-radius: var(--margin);
   width: 100vw;
   height: 100vh;
@@ -11,6 +13,7 @@
 }
 
 .screen {
+  transform: none;
   border-radius: var(--margin);
   width: 100%;
   height: 100%;

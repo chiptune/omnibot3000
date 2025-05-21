@@ -1,11 +1,10 @@
 import {memo} from "react";
 
-import {AUTHOR_URL, SOURCE_URL} from "@commons/constants";
+import {ASCII_COPYRIGHT, AUTHOR_URL, SOURCE_URL} from "@commons/constants";
+import styles from "@layout/Footer.module.css";
 import Spacer from "@ui/Spacer";
 import {numberToRoman} from "@utils/math";
 import VERSION from "@utils/version";
-
-import styles from "./Footer.module.css";
 
 import useChatCompletionStore from "@chat/hooks/useChatCompletionStore";
 
@@ -18,7 +17,7 @@ const Footer = () => {
       <div
         className={
           styles.copyright
-        }>{`©${numberToRoman(Number(new Date().getFullYear()))}`}</div>
+        }>{`${ASCII_COPYRIGHT}${numberToRoman(Number(new Date().getFullYear()))}`}</div>
       <a href={AUTHOR_URL} target="_blank">
         REZ
       </a>

@@ -7,6 +7,23 @@ import styles from "./ChatPrompt.module.css";
 import useKeyPress from "@hooks/useKeyPress";
 import cls from "classnames";
 
+export const PromptDisplay = (props: {prompt: string; caret?: boolean}) => {
+  const lines: string[] = props.prompt.split("\n");
+  return lines.map((line: string, i: number) => (
+    <>
+      <span
+        key={`prompt-line-${i}`}
+        className={styles["prompt-line"]}
+        style={{clear: i > 0 ? "both" : "none"}}>
+        {line}
+        {props.caret && i === lines.length - 1 && (
+          <span className={cls("ascii", "blink", styles.caret)}>{"_"}</span>
+        )}
+      </span>
+    </>
+  ));
+};
+
 const ChatPrompt = (props: {
   loading: boolean;
   prompt: string;
@@ -19,7 +36,6 @@ const ChatPrompt = (props: {
 
   const formRef = useRef<HTMLFormElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
-  const promptRef = useRef<HTMLDivElement>(null);
 
   const isDisabled = loading || String(prompt).replace("\n", "").trim() === "";
 
@@ -48,15 +64,10 @@ const ChatPrompt = (props: {
     }
   }, [backSpace]);
 
-  useEffect(() => {
-    console.log("update prompt", prompt);
-  }, [prompt]);
-
   /* update the chat when the user submit the prompt using enter */
   useEffect(() => {
     if (submitOnEnter === true) {
-      if (inputRef.current) inputRef.current.defaultValue = "";
-      if (promptRef.current) promptRef.current.innerHTML = "";
+      props.setPrompt("");
     }
   }, [submitOnEnter]);
 
@@ -72,14 +83,7 @@ const ChatPrompt = (props: {
           formulate your query{/* generate random placeholder */}
         </div>
         <div>
-          <span ref={promptRef}>
-            {prompt.split("\n").map((line, i) => (
-              <div key={`prompt-line-${i}`} className={styles["prompt-line"]}>
-                {line}
-              </div>
-            ))}
-          </span>
-          <span className={cls("ascii", "blink", styles.caret)}>{"_"}</span>
+          <PromptDisplay prompt={prompt} caret />
         </div>
       </div>
       <input

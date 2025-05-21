@@ -1,6 +1,6 @@
 import styles from "./Menu.module.css";
 
-import ChatHistory from "@chat/components/ChatHistory";
+import ChatHistory from "@history/ChatHistory";
 
 const Menu = () => {
   return (

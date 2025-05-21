@@ -1,5 +1,6 @@
 import {useEffect, useRef} from "react";
 
+import {ASCII_VBAR} from "@commons/constants";
 import {getCharWidth, getLineHeight} from "@utils/strings";
 
 import cls from "classnames";
@@ -27,7 +28,7 @@ const Line = (props: {
       if (isVertical) {
         el.style.width = "var(--margin)";
         const h = el.offsetHeight;
-        el.innerHTML = (char || "|").repeat(Math.round(h / lh));
+        el.innerHTML = (char || ASCII_VBAR).repeat(Math.round(h / lh));
       } else {
         el.style.height = `${lh}px`;
         const w = el.offsetWidth;

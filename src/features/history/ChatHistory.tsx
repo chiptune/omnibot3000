@@ -3,9 +3,9 @@ import {useNavigate} from "react-router-dom";
 
 import styles from "./ChatHistory.module.css";
 
-import ChatRemoveButton from "@chat/components/ChatRemoveButton";
 import type {Chat} from "@chat/hooks/useChatCompletionStore";
 import useChatCompletionStore from "@chat/hooks/useChatCompletionStore";
+import ChatRemoveButton from "@history/components/ChatRemoveButton";
 import cls from "classnames";
 
 const ChatHistory = () => {

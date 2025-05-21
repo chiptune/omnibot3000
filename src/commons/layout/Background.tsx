@@ -1,10 +1,11 @@
-import {useEffect, useState} from "react";
+import {memo, useEffect, useState} from "react";
 
-import styles from "./Background.module.css";
+import {ASCII_SPACE} from "@commons/constants";
+import styles from "@layout/Background.module.css";
 
 import cls from "classnames";
 
-const chars = "X";
+const chars = ASCII_SPACE;
 
 const Background = (props: {w: number; h: number}) => {
   const {w, h} = props;
@@ -13,10 +14,13 @@ const Background = (props: {w: number; h: number}) => {
 
   useEffect(() => {
     const g = [];
+    //let n = 0;
     for (let y = 0; y < h; y++) {
       g[y] = "";
       for (let x = 0; x < w; x++) {
         const char = chars[Math.floor(Math.random() * chars.length)];
+        //const char = String.fromCharCode(n % 256);
+        //n++;
         g[y] += char;
       }
     }
@@ -35,4 +39,4 @@ const Background = (props: {w: number; h: number}) => {
   );
 };
 
-export default Background;
+export default memo(Background);

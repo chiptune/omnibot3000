@@ -6,6 +6,7 @@ import {sanitizeHTML} from "@utils/strings";
 
 import styles from "./ChatBubble.module.css";
 
+import {PromptDisplay} from "@chat/components/ChatPrompt";
 import type {ChatCompletionRole} from "openai/resources/index.mjs";
 
 const ChatBubble = (props: {
@@ -22,7 +23,9 @@ const ChatBubble = (props: {
       {isUser ? (
         <div className={styles.user}>
           <div className={styles["user-pill"]}>{"#"}</div>
-          <div>{content}</div>
+          <div>
+            <PromptDisplay prompt={content} />
+          </div>
         </div>
       ) : (
         <div className={styles.bot}>

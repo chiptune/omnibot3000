@@ -1,6 +1,6 @@
 import {BUTTON_REMOVE} from "@/commons/constants";
 
-import styles from "./ChatHistory.module.css";
+import styles from "@history/ChatHistory.module.css";
 
 import type {ChatId} from "@chat/hooks/useChatCompletionStore";
 import useChatCompletionStore from "@chat/hooks/useChatCompletionStore";
