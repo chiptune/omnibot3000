@@ -7,7 +7,7 @@ export const BUTTON_CLEAR = "[x]";
 export const BUTTON_SUBMIT = "[req]";
 
 export const AUTHOR_URL = "https://github.com/chiptune";
-export const SOURCE_URL = "https://github.com/chiptune/omnibot3000";
+export const SOURCE_URL = `${AUTHOR_URL}/omnibot3000`;
 
 export const ASCII_SPACE = String.fromCharCode(31);
 export const ASCII_LOSANGE = String.fromCharCode(1);

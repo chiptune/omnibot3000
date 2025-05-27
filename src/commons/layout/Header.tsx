@@ -11,6 +11,9 @@ import Spacer from "@ui/Spacer";
 
 import ChatNewButton from "@chat/components/ChatNewButton";
 
+export const AVATAR_1 = `${ASCII_LDAB}${ASCII_LOSANGE}${ASCII_RDAB}`;
+export const AVATAR_2 = `/${ASCII_BLOCK}\\`;
+
 const Header = (_props: {darkMode: boolean; onThemeToggle: () => void}) => {
   return (
     <div className={styles.root}>
@@ -21,9 +24,9 @@ const Header = (_props: {darkMode: boolean; onThemeToggle: () => void}) => {
           <div className={styles.subtitle}>your omniscient source of truth</div>
         </div>
         <div className={styles.button}>
-          {`${ASCII_LDAB}${ASCII_LOSANGE}${ASCII_RDAB}`}
+          {AVATAR_1}
           <br />
-          {`/${ASCII_BLOCK}\\`}
+          {AVATAR_2}
         </div>
       </div>
       <Spacer />

@@ -1,7 +1,3 @@
-import {COMPLETION_ID_WILDCARD} from "@commons/constants";
-
-import {ChatId} from "@chat/hooks/useChatCompletionStore";
-
 export const getTextBoundingBox = (text: string): DOMRect => {
   const el = document.createElement("span");
   el.className = "ascii";
@@ -26,5 +22,5 @@ export const sanitizeHTML = (html: string): string => {
   return body.replace(/<body[^>]*>|<\/body>/g, "");
 };
 
-export const formatChatId = (id: ChatId): ChatId =>
-  id && id.replace(COMPLETION_ID_WILDCARD, "").toLowerCase();
+export const getVariableFromCSS = (variable: string): string =>
+  getComputedStyle(document.documentElement).getPropertyValue(variable).trim();

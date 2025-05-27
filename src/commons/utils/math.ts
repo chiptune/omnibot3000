@@ -1,3 +1,7 @@
+export const PI = Math.PI; /* 180° in radians */
+export const HALF_PI = Math.PI / 2; /* 90° in radians */
+export const TWO_PI = Math.PI * 2; /* 360° in radians */
+
 const ROMAN_SYMBOLS = [
   {value: 1000, symbol: "M"},
   {value: 900, symbol: "CM"},

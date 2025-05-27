@@ -1,3 +1,5 @@
+import {getColorFromCSS} from "@utils/color";
+
 import packageJson from "@root/package.json";
 
 const VERSION = String(packageJson.version)
@@ -20,7 +22,7 @@ export const displayPackageVersion = (): void => {
 
   console.info(
     `%c${lines.join("\n")}`,
-    "font:15px monospace;color:hsl(150 65 50);background:hsl(150 65 50 / 0.1)",
+    `font:15px monospace;color:${getColorFromCSS("primary")};background:${getColorFromCSS("background")}`,
   );
 };
 
