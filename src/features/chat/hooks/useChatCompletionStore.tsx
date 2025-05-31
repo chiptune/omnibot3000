@@ -3,6 +3,7 @@ import {create} from "zustand";
 import {COMPLETION_MAX_TOKENS} from "@commons/constants";
 
 import {formatChatId} from "@chat/commons/strings";
+import {ChatCompletionMessageParam} from "openai/resources/index.mjs";
 
 export interface ChatSettings {
   maxTokens: number;
@@ -50,6 +51,8 @@ export interface ChatCompletionStoreState {
   getCompletion: (id: CompletionId) => Completion | undefined;
   updateChatCompletions: (id: ChatId) => void;
   resetCompletions: () => void;
+  messages: ChatCompletionMessageParam[];
+  getMessages: (id: ChatId) => ChatCompletionMessageParam[];
 }
 
 const useChatCompletionStore = create<ChatCompletionStoreState>()(
@@ -72,7 +75,7 @@ const useChatCompletionStore = create<ChatCompletionStoreState>()(
           ...state.chats,
           {
             id: formatChatId(completion.id),
-            title: completion.prompt,
+            title: "...",
             created: completion.created, //new Date().getTime(),
             completions: [completion],
             lastCompletion: completion.id,
@@ -91,6 +94,7 @@ const useChatCompletionStore = create<ChatCompletionStoreState>()(
       }
     },
     updateChatTitle: (id: ChatId, title: string) => {
+      console.log(id, title, get().chats);
       const updatedChats: Chat[] = get().chats.map(
         (chat: Chat): Chat => (chat.id === id ? {...chat, title} : chat),
       );
@@ -119,6 +123,17 @@ const useChatCompletionStore = create<ChatCompletionStoreState>()(
       set(() => ({
         completions: [],
       })),
+    messages: [],
+    getMessages: (id: ChatId) =>
+      get()
+        .getCompletions(id)
+        .map((completion: Completion) => {
+          return [
+            {role: "user", content: completion.prompt},
+            {role: "assistant", content: completion.message},
+          ];
+        })
+        .flat(Infinity) as ChatCompletionMessageParam[],
   }),
 );
 

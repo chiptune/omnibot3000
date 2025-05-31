@@ -10,17 +10,15 @@ import cls from "classnames";
 export const PromptDisplay = (props: {prompt: string; caret?: boolean}) => {
   const lines: string[] = props.prompt.split("\n");
   return lines.map((line: string, i: number) => (
-    <>
-      <span
-        key={`prompt-line-${i}`}
-        className={styles["prompt-line"]}
-        style={{clear: i > 0 ? "both" : "none"}}>
-        {line}
-        {props.caret && i === lines.length - 1 && (
-          <span className={cls("ascii", "blink", styles.caret)}>{"_"}</span>
-        )}
-      </span>
-    </>
+    <span
+      key={`prompt-line-${i}`}
+      className={styles["prompt-line"]}
+      style={{clear: i > 0 ? "both" : "none"}}>
+      {line}
+      {props.caret && i === lines.length - 1 && (
+        <span className={cls("ascii", "blink", styles.caret)}>{"_"}</span>
+      )}
+    </span>
   ));
 };
 
@@ -39,7 +37,6 @@ const ChatPrompt = (props: {
 
   const isDisabled = loading || String(prompt).replace("\n", "").trim() === "";
 
-  const submitOnEnter = useKeyPress("Enter", {meta: false}); // true to allow new line
   const backSpace = useKeyPress("Backspace", {meta: false});
 
   useEffect(() => {
@@ -63,13 +60,6 @@ const ChatPrompt = (props: {
       props.setPrompt((prompt) => prompt.substring(0, prompt.length - 1));
     }
   }, [backSpace]);
-
-  /* update the chat when the user submit the prompt using enter */
-  useEffect(() => {
-    if (submitOnEnter === true) {
-      props.setPrompt("");
-    }
-  }, [submitOnEnter]);
 
   return (
     <form ref={formRef} onSubmit={props.submitHandler} className={styles.form}>

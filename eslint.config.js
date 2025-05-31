@@ -44,7 +44,7 @@ export default tseslint.config(
             ["^(vite.*)(/.*|$)"],
             ["^(react.*|zustand)(/.*|$)"],
             ["^(@mui.*)(/.*|$)"],
-            ["^(@commons|@layout|@ui|@utils|@styles)(/.*|$)"],
+            ["^(@api|@commons|@layout|@ui|@utils|@styles)(/.*|$)"],
             ["^(@)(/.*|$)"],
             ["^\\u0000"],
             // parent imports. put ".." last

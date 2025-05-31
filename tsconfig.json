@@ -25,6 +25,7 @@
       "@/*": ["*"],
       "@root/*": ["../*"],
       "@commons/*": ["commons/*"],
+      "@api/*": ["commons/api/*"],
       "@layout/*": ["commons/layout/*"],
       "@ui/*": ["commons/ui/*"],
       "@utils/*": ["commons/utils/*"],

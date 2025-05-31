@@ -1,6 +1,7 @@
 import React, {Fragment, useEffect, useRef, useState} from "react";
 import {useNavigate, useParams} from "react-router-dom";
 
+import getStream from "@api/openAI";
 import persona from "@commons/persona.txt?raw";
 
 import styles from "./Chat.module.css";
@@ -8,24 +9,16 @@ import styles from "./Chat.module.css";
 import ChatBubble from "@chat/components/ChatBubble";
 import ChatPrompt from "@chat/components/ChatPrompt";
 import useChatCompletionStore, {
+  ChatId,
   Completion,
 } from "@chat/hooks/useChatCompletionStore";
 import useKeyPress from "@hooks/useKeyPress";
-import OpenAI from "openai";
-import {ChatCompletionMessageParam} from "openai/resources/index.mjs";
-
-const openai = new OpenAI({
-  apiKey: import.meta.env.VITE_OPENAI_API_KEY,
-  organization: import.meta.env.OPENAI_ORG_ID,
-  project: import.meta.env.OPENAI_PROJECT_ID,
-  dangerouslyAllowBrowser: true,
-});
-
-/*const openai = new OpenAI({
-  apiKey: import.meta.env.VITE_OPENROUTER_API_KEY,
-  baseURL: "https://openrouter.ai/api/v1",
-  dangerouslyAllowBrowser: true,
-});*/
+import {
+  ChatCompletion,
+  ChatCompletionChunk,
+  ChatCompletionMessageParam,
+} from "openai/resources/index.mjs";
+import {Stream} from "openai/streaming.mjs";
 
 const Chat: React.FC = () => {
   const chatStore = useChatCompletionStore();
@@ -46,7 +39,10 @@ const Chat: React.FC = () => {
 
   /* update the chat when the user submit the prompt using meta+enter */
   useEffect(() => {
-    if (submitOnEnter === true) getCompletion(prompt);
+    if (submitOnEnter === true) {
+      getCompletion(prompt);
+      setPrompt("");
+    }
   }, [submitOnEnter]);
 
   /* handle chat id url parameter */
@@ -86,27 +82,15 @@ const Chat: React.FC = () => {
 
     /* add chat history to the messages array to give context */
     if (chatId) {
-      chatStore.getCompletions(chatId).forEach((completion: Completion) => {
-        messages.push(
-          {role: "user", content: completion.prompt},
-          {role: "assistant", content: completion.message},
-        );
-      });
+      messages.push(...chatStore.getMessages(chatId));
     }
 
     /* append current prompt */
     messages.push({role: "user", content: prompt});
 
-    const stream = await openai.chat.completions.create({
-      model: "gpt-4o-mini-2024-07-18", // "gpt-40" "gpt-4o-mini" -> https://openai.com/api/pricing/
-      //model: "deepseek/deepseek-chat-v3-0324:free",
-      messages,
-      max_tokens: chatStore.getSettings().maxTokens,
-      temperature: 0.0, // lower temperature to get stricter completion (good for code)
-      stream: true,
-    });
+    const response = (await getStream(messages)) as Stream<ChatCompletionChunk>;
 
-    for await (const chunk of stream) {
+    for await (const chunk of response) {
       const choice = chunk.choices[0] || {};
       const finish_reason = choice.finish_reason;
       const text = choice.delta?.content || "";
@@ -127,6 +111,24 @@ const Chat: React.FC = () => {
       if (!text) continue;
       setResponse((prev) => `${prev}${text}`);
     }
+  };
+
+  const getTitle = async (id: ChatId) => {
+    const messages: ChatCompletionMessageParam[] = [
+      ...chatStore.getMessages(id),
+      {
+        role: "user",
+        content: `please sum up all this conversation.
+           exclude this last message from the summary.
+           as a simple, short and descriptive title.
+           do not use more than 28 characters.
+           do not add comments or any punctuations.
+           use small words as far as possible.
+           `,
+      },
+    ];
+    const response = (await getStream(messages, false)) as ChatCompletion;
+    chatStore.updateChatTitle(id, response.choices[0].message.content || "?");
   };
 
   useEffect(() => {
@@ -150,10 +152,12 @@ const Chat: React.FC = () => {
         chatStore.resetCompletions();
         chatStore.setChat(completion);
         chatStore.setChatId(completion.id);
+        getTitle(chatStore.getChatId());
       }
       chatStore.addCompletion(completion);
       if (chatId) {
         chatStore.updateChatCompletions(chatId);
+        getTitle(chatId);
       }
       /* reset values once the completion is saved in the store */
       setCompletion(undefined);

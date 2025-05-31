@@ -11,8 +11,7 @@
 .text {
   text-align: left;
   flex-grow: 1;
-  word-break: break-all;
-  overflow-wrap: break-word;
+  text-wrap: wrap;
 }
 
 .not-selected {

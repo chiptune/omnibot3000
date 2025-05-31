@@ -17,7 +17,7 @@
   --menu-width: 20rem;
   --chat-width: 48rem;
   /* colors */
-  --hue: 25; /* amber:25 | green:140 */
+  --hue: 150; /* amber:25 | green:140 */
   --sat: 65;
   --lgt: 65;
   --color-primary: hsl(var(--hue) var(--sat) var(--lgt) / 0.7);
@@ -78,7 +78,7 @@ h6 {
   display: inline-block;
   margin: 0;
   padding: 0;
-  padding-bottom: var(--line-height);
+  margin-bottom: var(--line-height);
   font-family: inherit;
   font-size: inherit;
   font-weight: inherit;
@@ -92,6 +92,7 @@ p {
 
 strong {
   font-weight: inherit;
+  color: var(--color-primary) !important;
 }
 
 textarea {
@@ -104,10 +105,35 @@ textarea {
   caret-color: transparent;
 }
 
+ul,
+ol {
+  margin: 0;
+  padding: 0;
+  margin-bottom: var(--line-height);
+}
+
+ul {
+  list-style: none;
+  list-style-type: none;
+  margin-right: var(--padding);
+}
+
+ul > li {
+  margin: 0;
+  padding: 0;
+  margin-bottom: var(--line-height);
+}
+
+ul > li > p::before {
+  display: inline-block;
+  content: "*";
+  margin-right: var(--margin);
+}
+
 pre {
   margin: 0;
   padding: 0;
-  padding-bottom: var(--line-height);
+  margin-bottom: var(--line-height);
   font-family: inherit;
   font-weight: inherit;
   white-space: pre-wrap;

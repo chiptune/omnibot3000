@@ -4,7 +4,7 @@ export const COMPLETION_ID_WILDCARD = "chatcmpl-";
 export const BUTTON_NEW = "[+]";
 export const BUTTON_REMOVE = "[-]";
 export const BUTTON_CLEAR = "[x]";
-export const BUTTON_SUBMIT = "[req]";
+export const BUTTON_SUBMIT = "[ok]";
 
 export const AUTHOR_URL = "https://github.com/chiptune";
 export const SOURCE_URL = `${AUTHOR_URL}/omnibot3000`;

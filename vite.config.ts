@@ -12,8 +12,14 @@ export default defineConfig({
   },
   plugins: [react(), tsconfigPaths()],
   server: {
+    host: true,
+    port: 5173,
     allowedHosts: ["localhost", "lol"],
     watch: {usePolling: true},
-    hmr: true,
+    hmr: {
+      protocol: "ws",
+      host: "localhost",
+      port: 5173,
+    },
   },
 });

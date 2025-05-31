@@ -21,7 +21,6 @@ const Footer = () => {
       <a href={AUTHOR_URL} target="_blank">
         REZ
       </a>
-      <Spacer />
       {chatId && <div className={styles.info}>{`id: ${chatId}`}</div>}
       <Spacer />
       <div className={styles.version}>
