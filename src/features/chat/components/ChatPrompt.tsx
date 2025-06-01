@@ -1,6 +1,8 @@
-import {memo, useEffect, useRef} from "react";
+import {memo, useEffect, useRef, useState} from "react";
 
 import {BUTTON_SUBMIT} from "@commons/constants";
+
+import {getPromptPlaceholder} from "../commons/api";
 
 import styles from "./ChatPrompt.module.css";
 
@@ -32,6 +34,8 @@ const ChatPrompt = (props: {
 
   const hasRunOnce = useRef(false);
 
+  const [placeholder, setPlaceholder] = useState<string>("");
+
   const formRef = useRef<HTMLFormElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
 
@@ -39,9 +43,16 @@ const ChatPrompt = (props: {
 
   const backSpace = useKeyPress("Backspace", {meta: false});
 
+  const updatePlaceholder = async () => {
+    const placeholder = await getPromptPlaceholder();
+    setPlaceholder(placeholder);
+  };
+
   useEffect(() => {
     if (hasRunOnce.current) return;
     hasRunOnce.current = true;
+
+    updatePlaceholder();
 
     const handleKeyPress = (e: KeyboardEvent): void => {
       if (e.key === "Enter") {
@@ -70,7 +81,7 @@ const ChatPrompt = (props: {
           style={{
             visibility: prompt ? "hidden" : "visible",
           }}>
-          formulate your query{/* generate random placeholder */}
+          {placeholder}
         </div>
         <div>
           <PromptDisplay prompt={prompt} caret />

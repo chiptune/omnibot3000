@@ -2,10 +2,10 @@ import React, {Fragment, useEffect, useRef, useState} from "react";
 import {useNavigate, useParams} from "react-router-dom";
 
 import getStream from "@api/openAI";
-import persona from "@commons/persona.txt?raw";
 
 import styles from "./Chat.module.css";
 
+import {getChatTitle, getSystemConfig} from "@chat/commons/api";
 import ChatBubble from "@chat/components/ChatBubble";
 import ChatPrompt from "@chat/components/ChatPrompt";
 import useChatCompletionStore, {
@@ -14,7 +14,6 @@ import useChatCompletionStore, {
 } from "@chat/hooks/useChatCompletionStore";
 import useKeyPress from "@hooks/useKeyPress";
 import {
-  ChatCompletion,
   ChatCompletionChunk,
   ChatCompletionMessageParam,
 } from "openai/resources/index.mjs";
@@ -36,6 +35,11 @@ const Chat: React.FC = () => {
 
   const {id} = useParams();
   const chatId = chatStore.getChatId();
+
+  const setTitle = async (id: ChatId) => {
+    const title = await getChatTitle(chatStore.getMessages(id));
+    chatStore.updateChatTitle(id, title);
+  };
 
   /* update the chat when the user submit the prompt using meta+enter */
   useEffect(() => {
@@ -71,14 +75,7 @@ const Chat: React.FC = () => {
 
     setLoading(true);
 
-    const systemConfig = `\
-    current date: ${new Date().toLocaleDateString()}\
-    current time: ${new Date().toLocaleDateString()}\
-    current unix EPOCH time: ${Math.floor(Date.now() / 1000)}\
-    ${persona}`;
-    const messages: ChatCompletionMessageParam[] = [
-      {role: "system", content: systemConfig},
-    ];
+    const messages: ChatCompletionMessageParam[] = [getSystemConfig()];
 
     /* add chat history to the messages array to give context */
     if (chatId) {
@@ -113,24 +110,6 @@ const Chat: React.FC = () => {
     }
   };
 
-  const getTitle = async (id: ChatId) => {
-    const messages: ChatCompletionMessageParam[] = [
-      ...chatStore.getMessages(id),
-      {
-        role: "user",
-        content: `please sum up all this conversation.
-           exclude this last message from the summary.
-           as a simple, short and descriptive title.
-           do not use more than 28 characters.
-           do not add comments or any punctuations.
-           use small words as far as possible.
-           `,
-      },
-    ];
-    const response = (await getStream(messages, false)) as ChatCompletion;
-    chatStore.updateChatTitle(id, response.choices[0].message.content || "?");
-  };
-
   useEffect(() => {
     if (chatRef.current && chatRef.current.firstElementChild) {
       chatRef.current.scrollTo({
@@ -152,12 +131,12 @@ const Chat: React.FC = () => {
         chatStore.resetCompletions();
         chatStore.setChat(completion);
         chatStore.setChatId(completion.id);
-        getTitle(chatStore.getChatId());
+        setTitle(chatStore.getChatId());
       }
       chatStore.addCompletion(completion);
       if (chatId) {
         chatStore.updateChatCompletions(chatId);
-        getTitle(chatId);
+        setTitle(chatId);
       }
       /* reset values once the completion is saved in the store */
       setCompletion(undefined);

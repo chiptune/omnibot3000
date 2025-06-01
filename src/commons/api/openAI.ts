@@ -3,9 +3,9 @@ import {COMPLETION_MAX_TOKENS} from "@commons/constants";
 import OpenAI from "openai";
 import {
   ChatCompletion,
+  ChatCompletionChunk,
   ChatCompletionMessageParam,
 } from "openai/resources/index.mjs";
-import {ChatCompletionChunk} from "openai/src/resources/index.js";
 import {Stream} from "openai/streaming.mjs";
 
 export const getStream = async (

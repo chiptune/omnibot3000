@@ -75,7 +75,7 @@ const useChatCompletionStore = create<ChatCompletionStoreState>()(
           ...state.chats,
           {
             id: formatChatId(completion.id),
-            title: "...",
+            title: "",
             created: completion.created, //new Date().getTime(),
             completions: [completion],
             lastCompletion: completion.id,
@@ -94,7 +94,6 @@ const useChatCompletionStore = create<ChatCompletionStoreState>()(
       }
     },
     updateChatTitle: (id: ChatId, title: string) => {
-      console.log(id, title, get().chats);
       const updatedChats: Chat[] = get().chats.map(
         (chat: Chat): Chat => (chat.id === id ? {...chat, title} : chat),
       );
