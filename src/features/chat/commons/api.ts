@@ -24,12 +24,13 @@ export const getChatTitle = async (
     {
       role: "user",
       content: `\
-      please sum up this conversation as title\
-      keep it as simple, short and descriptive as possible\
-      do not include this request when you sump up\
-      do not use more than 28 characters\
-      do not add any comments or punctuations\
-      use small words as far as possible`,
+      please sum up this conversation as title.\
+      keep it as simple, short and descriptive as possible.\
+      do not include this last message in the result.\
+      do not mention this request for a title in the result.\
+      do not use more than 25 characters (counting spaces).\
+      do not add any comments or punctuations.\
+      use small words as far as possible to maximize text wrapping.`,
     },
   ];
   const response = (await getStream(updatedMessages, false)) as ChatCompletion;

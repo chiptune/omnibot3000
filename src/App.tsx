@@ -18,22 +18,49 @@ import {displayPackageVersion} from "@utils/version";
 
 import styles from "@/App.module.css";
 
+import {SESSION_KEY} from "./commons/constants";
+
 import "@styles/debug.css";
 import "@styles/main.css";
 import "@styles/vt-220.css";
 
 import Chat from "@chat/Chat";
+import useChatCompletionStore from "@chat/hooks/useChatCompletionStore";
 import useKeyPress from "@hooks/useKeyPress";
 import cls from "classnames";
 
 const Layout = () => {
-  const debugHotKey = useKeyPress("Escape", {shift: true});
+  const chatStore = useChatCompletionStore();
+
+  useEffect(() => {
+    const data = localStorage.getItem(SESSION_KEY);
+    if (data) chatStore.importData(JSON.parse(data));
+
+    const beforeUnloadHandler = () => {
+      console.info("%cunload application", "color:#999");
+      localStorage.setItem(SESSION_KEY, JSON.stringify(chatStore.exportData()));
+    };
+
+    window.addEventListener("beforeunload", beforeUnloadHandler);
+
+    return () => {
+      window.removeEventListener("beforeunload", beforeUnloadHandler);
+    };
+  }, []);
+
   const [debug, toggleDebug] = useState(false);
   const [darkMode, toggleDarkMode] = useState(isSystemDarkModeOn());
 
   const themeSwitchHandler = () => {
     toggleDarkMode(!darkMode);
   };
+
+  const debugHotKey = useKeyPress("Escape", {shift: true});
+
+  useEffect(() => {
+    toggleDebug(debugHotKey);
+    if (!debug) displayPackageVersion();
+  }, [debugHotKey]);
 
   const rootRef = useRef<HTMLDivElement | null>(null);
 
@@ -71,11 +98,6 @@ const Layout = () => {
       resizeObserver.disconnect();
     };
   }, [w, h]);
-
-  useEffect(() => {
-    toggleDebug(debugHotKey);
-    if (!debug) displayPackageVersion();
-  }, [debugHotKey]);
 
   return (
     <div

@@ -26,8 +26,10 @@ export const getStream = async (
   });*/
 
   return openai.chat.completions.create({
-    /* "gpt-40" "gpt-4o-mini" -> https://openai.com/api/pricing/ */
-    model: "gpt-4o-mini-2024-07-18",
+    /* https://openai.com/api/pricing/ */
+    //model: "gpt-4.1-nano",
+    model: "gpt-4.1-mini-2025-04-14",
+    //model: "gpt-4o-mini-2024-07-18",
     //model: "deepseek/deepseek-chat-v3-0324:free",
     messages,
     max_tokens: COMPLETION_MAX_TOKENS,

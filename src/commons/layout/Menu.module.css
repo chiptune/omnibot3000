@@ -1,11 +1,29 @@
 .root {
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
   flex-grow: 0;
   flex-shrink: 0;
-  column-gap: var(--margin);
-  padding-right: var(--margin);
   width: var(--menu-width);
   height: 100%;
-  overflow: none auto;
+}
+
+.title {
+  opacity: var(--opacity-secondary);
+}
+
+.subtitle {
+  opacity: var(--opacity-secondary);
+}
+
+.count {
+  opacity: var(--opacity-primary);
+}
+
+.line {
+  flex-grow: 0;
+  flex-shrink: 0;
+  align-self: start;
+  width: 100%;
+  height: var(--line-height);
+  opacity: var(--opacity-secondary);
 }

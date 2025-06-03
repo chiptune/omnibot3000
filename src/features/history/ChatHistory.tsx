@@ -16,26 +16,40 @@ const ChatHistory = () => {
 
   return (
     <div className={styles.root}>
-      <h1>history</h1>
-      {chatStore.getChats().map((chat: Chat) => (
-        <div
-          key={`chat-history-${chat.id}`}
-          className={cls(
-            styles.item,
-            styles[chatId === chat.id ? "selected" : "not-selected"],
-          )}>
-          <button
-            className={cls("ascii", styles.text, {
-              opacity: chatId === chat.id ? 1 : 0.7,
-            })}
-            onClick={() => {
-              navigate(`/chat/${chat.id}`);
-            }}>
-            {chat.title}
-          </button>
-          <ChatRemoveButton id={chat.id} />
-        </div>
-      ))}
+      {chatStore
+        .getChats()
+        .map((chat: Chat) => {
+          const selected = Boolean(chatId === chat.id);
+          return (
+            <>
+              <div
+                key={`chat-history-${chat.id}`}
+                className={cls(
+                  styles.content,
+                  styles[`${selected ? "" : "not-"}selected`],
+                )}>
+                <button
+                  className={cls("ascii", styles.text, {
+                    opacity: selected ? 1 : 0.7,
+                  })}
+                  onClick={() => {
+                    navigate(`/chat/${chat.id}`);
+                  }}>
+                  {chat.title}
+                </button>
+              </div>
+              <div className={styles.item}>
+                <div
+                  key={`chat-history-${chat.id}-separator`}
+                  className={styles.line}>
+                  {String("-").repeat(selected ? 18 : 19)}
+                </div>
+                {selected && <ChatRemoveButton id={chat.id} />}
+              </div>
+            </>
+          );
+        })
+        .reverse()}
     </div>
   );
 };

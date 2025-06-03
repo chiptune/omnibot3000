@@ -1,4 +1,4 @@
-import {BUTTON_REMOVE} from "@/commons/constants";
+import {BUTTON_REMOVE, SESSION_KEY} from "@commons/constants";
 
 import styles from "@history/ChatHistory.module.css";
 
@@ -16,6 +16,8 @@ const ChatRemoveButton: React.FC<{id: ChatId}> = ({id}) => {
       chatStore.resetCompletions();
       chatStore.resetChatId();
     }
+    localStorage.setItem(SESSION_KEY, JSON.stringify(chatStore.exportData()));
+    console.log(JSON.parse(String(localStorage.getItem(SESSION_KEY))));
   };
 
   return (

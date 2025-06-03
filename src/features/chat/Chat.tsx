@@ -3,9 +3,12 @@ import {useNavigate, useParams} from "react-router-dom";
 
 import getStream from "@api/openAI";
 
+import {SESSION_KEY} from "@/commons/constants";
+
 import styles from "./Chat.module.css";
 
 import {getChatTitle, getSystemConfig} from "@chat/commons/api";
+import {formatText} from "@chat/commons/strings";
 import ChatBubble from "@chat/components/ChatBubble";
 import ChatPrompt from "@chat/components/ChatPrompt";
 import useChatCompletionStore, {
@@ -39,6 +42,7 @@ const Chat: React.FC = () => {
   const setTitle = async (id: ChatId) => {
     const title = await getChatTitle(chatStore.getMessages(id));
     chatStore.updateChatTitle(id, title);
+    localStorage.setItem(SESSION_KEY, JSON.stringify(chatStore.exportData()));
   };
 
   /* update the chat when the user submit the prompt using meta+enter */
@@ -124,18 +128,18 @@ const Chat: React.FC = () => {
     if (completion) {
       setCompletion((prev) => {
         if (!prev) return;
-        prev.message = response;
+        prev.message = formatText(response);
         return prev;
       });
       if (!chatId) {
         chatStore.resetCompletions();
-        chatStore.setChat(completion);
+        chatStore.createChat(completion);
         chatStore.setChatId(completion.id);
         setTitle(chatStore.getChatId());
       }
       chatStore.addCompletion(completion);
       if (chatId) {
-        chatStore.updateChatCompletions(chatId);
+        chatStore.updateCompletions(chatId);
         setTitle(chatId);
       }
       /* reset values once the completion is saved in the store */

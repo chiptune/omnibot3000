@@ -30,6 +30,10 @@ export interface Completion {
   previousCompletion: CompletionId | undefined;
 }
 
+export interface Data {
+  chats: Chat[];
+}
+
 export interface ChatCompletionStoreState {
   settings: ChatSettings;
   getSettings: () => ChatSettings;
@@ -39,7 +43,7 @@ export interface ChatCompletionStoreState {
   resetChatId: () => void;
   getChatId: () => ChatId;
   chats: Chat[];
-  setChat: (completion: Completion) => void;
+  createChat: (completion: Completion) => void;
   getChats: () => Chat[];
   getChat: (id?: ChatId) => Chat | undefined;
   removeChat: (id?: ChatId) => void;
@@ -49,10 +53,12 @@ export interface ChatCompletionStoreState {
   addCompletion: (completion: Completion) => void;
   getCompletions: (id: ChatId) => Completion[];
   getCompletion: (id: CompletionId) => Completion | undefined;
-  updateChatCompletions: (id: ChatId) => void;
+  updateCompletions: (id: ChatId) => void;
   resetCompletions: () => void;
   messages: ChatCompletionMessageParam[];
   getMessages: (id: ChatId) => ChatCompletionMessageParam[];
+  exportData: () => Data;
+  importData: (data: Data) => void;
 }
 
 const useChatCompletionStore = create<ChatCompletionStoreState>()(
@@ -68,7 +74,7 @@ const useChatCompletionStore = create<ChatCompletionStoreState>()(
     resetChatId: () => set({chatId: undefined}),
     getChatId: () => get().chatId,
     chats: [],
-    setChat: (completion: Completion) =>
+    createChat: (completion: Completion) =>
       set((state) => ({
         chatId: formatChatId(completion.id),
         chats: [
@@ -111,7 +117,7 @@ const useChatCompletionStore = create<ChatCompletionStoreState>()(
     getCompletions: (id: ChatId) => get().getChat(id)?.completions || [],
     getCompletion: (id: CompletionId) =>
       get().completions.find((completion: Completion) => completion.id === id),
-    updateChatCompletions: (id: ChatId) => {
+    updateCompletions: (id: ChatId) => {
       const updatedChats: Chat[] = get().chats.map(
         (chat: Chat): Chat =>
           chat.id === id ? {...chat, completions: get().completions} : chat,
@@ -133,6 +139,16 @@ const useChatCompletionStore = create<ChatCompletionStoreState>()(
           ];
         })
         .flat(Infinity) as ChatCompletionMessageParam[],
+    exportData: (): Data => {
+      return {
+        chats: get().chats,
+      };
+    },
+    importData: (data: Data) => {
+      set(() => ({
+        chats: [...data.chats],
+      }));
+    },
   }),
 );
 

@@ -1,8 +1,21 @@
 .root {
   width: 100%;
+  margin-right: calc(var(--margin) - var(--scrollbar-size));
+  overflow-x: hidden;
+  overflow-y: scroll;
 }
 
-.item {
+.header {
+  display: flex;
+  flex-direction: row;
+}
+
+.line {
+  display: inline-block;
+  opacity: var(--opacity-tertiary);
+}
+
+.content {
   display: flex;
   flex-direction: row;
   column-gap: var(--margin);
