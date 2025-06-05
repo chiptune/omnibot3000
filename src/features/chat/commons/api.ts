@@ -24,13 +24,11 @@ export const getChatTitle = async (
     {
       role: "user",
       content: `\
-      please sum up this conversation as title.\
-      keep it as simple, short and descriptive as possible.\
-      do not include this last message in the result.\
-      do not mention this request for a title in the result.\
-      do not use more than 25 characters (counting spaces).\
-      do not add any comments or punctuations.\
-      use small words as far as possible to maximize text wrapping.`,
+      make a title for this chat, excluding this request\
+      keep it as simple, short and descriptive as possible\
+      do not use more than 28 characters including spaces\
+      do not add any comments or punctuations\
+      prefer small words to maximize text wrapping`,
     },
   ];
   const response = (await getStream(updatedMessages, false)) as ChatCompletion;
@@ -43,8 +41,8 @@ export const getPromptPlaceholder = async (): Promise<string> => {
     {
       role: "user",
       content: `\
-      write an imperative input placeholder\
-      you request must be harsh and punitive\
+      write an imperative user input placeholder\
+      your request must be harsh and punitive\
       do not use more than 25 characters\
       do not add any comments or punctuations\
       use small words as far as possible`,

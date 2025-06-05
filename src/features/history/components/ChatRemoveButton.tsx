@@ -1,13 +1,15 @@
-import {BUTTON_REMOVE, SESSION_KEY} from "@commons/constants";
+import {BUTTON_REMOVE} from "@commons/constants";
 
 import styles from "@history/ChatHistory.module.css";
 
 import type {ChatId} from "@chat/hooks/useChatCompletionStore";
 import useChatCompletionStore from "@chat/hooks/useChatCompletionStore";
+import useStorage from "@hooks/useStorage";
 import cls from "classnames";
 
 const ChatRemoveButton: React.FC<{id: ChatId}> = ({id}) => {
   const chatStore = useChatCompletionStore();
+  const storage = useStorage();
 
   const removeChatHandler = (chatId: ChatId) => {
     chatStore.removeChat(chatId);
@@ -16,8 +18,7 @@ const ChatRemoveButton: React.FC<{id: ChatId}> = ({id}) => {
       chatStore.resetCompletions();
       chatStore.resetChatId();
     }
-    localStorage.setItem(SESSION_KEY, JSON.stringify(chatStore.exportData()));
-    console.log(JSON.parse(String(localStorage.getItem(SESSION_KEY))));
+    storage.save();
   };
 
   return (

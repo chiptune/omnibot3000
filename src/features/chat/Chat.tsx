@@ -3,9 +3,7 @@ import {useNavigate, useParams} from "react-router-dom";
 
 import getStream from "@api/openAI";
 
-import {SESSION_KEY} from "@/commons/constants";
-
-import styles from "./Chat.module.css";
+import styles from "@chat/Chat.module.css";
 
 import {getChatTitle, getSystemConfig} from "@chat/commons/api";
 import {formatText} from "@chat/commons/strings";
@@ -16,6 +14,7 @@ import useChatCompletionStore, {
   Completion,
 } from "@chat/hooks/useChatCompletionStore";
 import useKeyPress from "@hooks/useKeyPress";
+import useStorage from "@hooks/useStorage";
 import {
   ChatCompletionChunk,
   ChatCompletionMessageParam,
@@ -24,6 +23,8 @@ import {Stream} from "openai/streaming.mjs";
 
 const Chat: React.FC = () => {
   const chatStore = useChatCompletionStore();
+
+  const storage = useStorage();
 
   const [prompt, setPrompt] = useState<string>("");
   const [response, setResponse] = useState<string>("");
@@ -42,7 +43,7 @@ const Chat: React.FC = () => {
   const setTitle = async (id: ChatId) => {
     const title = await getChatTitle(chatStore.getMessages(id));
     chatStore.updateChatTitle(id, title);
-    localStorage.setItem(SESSION_KEY, JSON.stringify(chatStore.exportData()));
+    storage.save();
   };
 
   /* update the chat when the user submit the prompt using meta+enter */

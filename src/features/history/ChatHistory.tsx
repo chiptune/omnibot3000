@@ -21,9 +21,8 @@ const ChatHistory = () => {
         .map((chat: Chat) => {
           const selected = Boolean(chatId === chat.id);
           return (
-            <>
+            <div key={`chat-history-${chat.id}`}>
               <div
-                key={`chat-history-${chat.id}`}
                 className={cls(
                   styles.content,
                   styles[`${selected ? "" : "not-"}selected`],
@@ -39,14 +38,12 @@ const ChatHistory = () => {
                 </button>
               </div>
               <div className={styles.item}>
-                <div
-                  key={`chat-history-${chat.id}-separator`}
-                  className={styles.line}>
-                  {String("-").repeat(selected ? 18 : 19)}
+                <div className={styles.line}>
+                  {String("-").repeat(selected ? 16 : 17)}
                 </div>
                 {selected && <ChatRemoveButton id={chat.id} />}
               </div>
-            </>
+            </div>
           );
         })
         .reverse()}

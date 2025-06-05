@@ -18,28 +18,25 @@ import {displayPackageVersion} from "@utils/version";
 
 import styles from "@/App.module.css";
 
-import {SESSION_KEY} from "./commons/constants";
-
 import "@styles/debug.css";
 import "@styles/main.css";
 import "@styles/vt-220.css";
 
 import Chat from "@chat/Chat";
-import useChatCompletionStore from "@chat/hooks/useChatCompletionStore";
 import useKeyPress from "@hooks/useKeyPress";
+import useStorage from "@hooks/useStorage";
 import cls from "classnames";
 
 const Layout = () => {
-  const chatStore = useChatCompletionStore();
+  const storage = useStorage();
+
+  const beforeUnloadHandler = () => {
+    console.info("%cunload application", "color:#999");
+    storage.save();
+  };
 
   useEffect(() => {
-    const data = localStorage.getItem(SESSION_KEY);
-    if (data) chatStore.importData(JSON.parse(data));
-
-    const beforeUnloadHandler = () => {
-      console.info("%cunload application", "color:#999");
-      localStorage.setItem(SESSION_KEY, JSON.stringify(chatStore.exportData()));
-    };
+    storage.load();
 
     window.addEventListener("beforeunload", beforeUnloadHandler);
 
