@@ -1,10 +1,10 @@
 import {StrictMode} from "react";
 import {createRoot} from "react-dom/client";
 
-import App from "@/App";
-import favIcon from "@/commons/favicon";
+import favIcon from "@commons/favicon";
 
-import {ErrorBoundary} from "./Error";
+import App from "@/App";
+import {ErrorBoundary} from "@/Error";
 
 const root = createRoot(document.getElementById("root")!);
 

@@ -13,7 +13,6 @@
   margin-right: var(--margin);
   width: 100%;
   overflow: hidden auto;
-  height: fit-content;
   outline: none;
 }
 
@@ -26,5 +25,4 @@
   margin: 0 auto;
   width: 100%;
   max-width: var(--chat-width);
-  height: fit-content;
 }

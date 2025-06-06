@@ -1,14 +1,14 @@
 import {memo} from "react";
 import {useNavigate} from "react-router-dom";
 
-import styles from "./ChatHistory.module.css";
+import styles from "@history/History.module.css";
 
+import ButtonRemove from "@chat/components/ButtonRemove";
 import type {Chat} from "@chat/hooks/useChatCompletionStore";
 import useChatCompletionStore from "@chat/hooks/useChatCompletionStore";
-import ChatRemoveButton from "@history/components/ChatRemoveButton";
 import cls from "classnames";
 
-const ChatHistory = () => {
+const History = () => {
   const chatStore = useChatCompletionStore();
   const chatId = chatStore.getChatId();
 
@@ -41,7 +41,11 @@ const ChatHistory = () => {
                 <div className={styles.line}>
                   {String("-").repeat(selected ? 16 : 17)}
                 </div>
-                {selected && <ChatRemoveButton id={chat.id} />}
+                {selected && (
+                  <div className={styles["button-remove"]}>
+                    <ButtonRemove id={chat.id} />
+                  </div>
+                )}
               </div>
             </div>
           );
@@ -51,4 +55,4 @@ const ChatHistory = () => {
   );
 };
 
-export default memo(ChatHistory);
+export default memo(History);

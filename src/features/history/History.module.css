@@ -48,7 +48,8 @@
   opacity: var(--opacity-secondary);
 }
 
-.button {
+.button-remove {
+  display: inline-block;
   place-self: start;
   align-self: right;
 }

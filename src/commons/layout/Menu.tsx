@@ -4,7 +4,7 @@ import styles from "@layout/Menu.module.css";
 import Line from "@ui/Line";
 
 import useChatCompletionStore from "@chat/hooks/useChatCompletionStore";
-import ChatHistory from "@history/ChatHistory";
+import History from "@history/History";
 
 const Menu = () => {
   const chatStore = useChatCompletionStore();
@@ -22,7 +22,7 @@ const Menu = () => {
           }>{` talk${count > 1 ? "s" : ""} wasted`}</span>
       </div>
       <Line variant="horizontal" char="-" className={styles.line} />
-      <ChatHistory />
+      <History />
     </div>
   );
 };

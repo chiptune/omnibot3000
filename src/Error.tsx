@@ -2,7 +2,7 @@ import React, {ReactNode} from "react";
 
 import Line from "@ui/Line";
 
-import styles from "./App.module.css";
+import styles from "@/App.module.css";
 
 import cls from "classnames";
 

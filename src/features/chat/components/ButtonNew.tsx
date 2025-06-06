@@ -1,8 +1,8 @@
-import {BUTTON_NEW} from "@/commons/constants";
+import {BUTTON_NEW} from "@commons/constants";
 
 import useChatCompletionStore from "@chat/hooks/useChatCompletionStore";
 
-const ChatNewButton: React.FC = () => {
+const ButtonNew: React.FC = () => {
   const chatStore = useChatCompletionStore();
 
   const resetChatHandler = () => {
@@ -23,4 +23,4 @@ const ChatNewButton: React.FC = () => {
   );
 };
 
-export default ChatNewButton;
+export default ButtonNew;

@@ -9,7 +9,7 @@ import {
 import styles from "@layout/Header.module.css";
 import Spacer from "@ui/Spacer";
 
-import ChatNewButton from "@chat/components/ChatNewButton";
+import ButtonNew from "@chat/components/ButtonNew";
 
 export const AVATAR_1 = `${ASCII_LDAB}${ASCII_LOSANGE}${ASCII_RDAB}`;
 export const AVATAR_2 = `/${ASCII_BLOCK}\\`;
@@ -31,7 +31,7 @@ const Header = (_props: {darkMode: boolean; onThemeToggle: () => void}) => {
       </div>
       <Spacer />
       <div className={styles.button}>
-        <ChatNewButton />
+        <ButtonNew />
       </div>
     </div>
   );

@@ -1,11 +1,8 @@
 import {BUTTON_REMOVE} from "@commons/constants";
 
-import styles from "@history/ChatHistory.module.css";
-
 import type {ChatId} from "@chat/hooks/useChatCompletionStore";
 import useChatCompletionStore from "@chat/hooks/useChatCompletionStore";
 import useStorage from "@hooks/useStorage";
-import cls from "classnames";
 
 const ChatRemoveButton: React.FC<{id: ChatId}> = ({id}) => {
   const chatStore = useChatCompletionStore();
@@ -23,7 +20,7 @@ const ChatRemoveButton: React.FC<{id: ChatId}> = ({id}) => {
 
   return (
     <button
-      className={cls("ascii", styles.button)}
+      className={"ascii"}
       onClick={(e) => {
         e.preventDefault();
         e.stopPropagation();

@@ -1,7 +1,7 @@
 .root {
   text-wrap: wrap;
   p {
-    margin-bottom: var(--line-height);
+    padding-bottom: var(--line-height);
   }
 }
 
@@ -21,6 +21,7 @@
   display: flex;
   flex-direction: row;
   column-gap: var(--margin);
+  align-items: stretch;
 }
 
 .bot-text {
@@ -36,8 +37,7 @@
 .bot-line {
   flex-grow: 0;
   flex-shrink: 0;
-  align-self: start;
-  width: var(--margin);
-  height: 100%;
+  vertical-align: top;
+  margin-bottom: var(--line-height);
   opacity: var(--opacity-tertiary);
 }

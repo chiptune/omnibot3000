@@ -7,8 +7,8 @@ import styles from "@chat/Chat.module.css";
 
 import {getChatTitle, getSystemConfig} from "@chat/commons/api";
 import {formatText} from "@chat/commons/strings";
-import ChatBubble from "@chat/components/ChatBubble";
-import ChatPrompt from "@chat/components/ChatPrompt";
+import Message from "@chat/components/Message";
+import Prompt from "@chat/components/Prompt";
 import useChatCompletionStore, {
   ChatId,
   Completion,
@@ -155,23 +155,19 @@ const Chat: React.FC = () => {
         <div className={styles.chat}>
           {chatStore.getCompletions(chatId).map((completion: Completion) => (
             <Fragment key={`chat-completion-${completion.id}`}>
-              <ChatBubble role="user" content={completion.prompt} />
-              <ChatBubble role="assistant" content={completion.message} />
+              <Message role="user" content={completion.prompt} />
+              <Message role="assistant" content={completion.message} />
             </Fragment>
           ))}
           {loading && response && (
             <Fragment key="chat-completion">
-              <ChatBubble role="user" content={query} />
-              <ChatBubble
-                role="assistant"
-                content={response}
-                hasCursor={true}
-              />
+              <Message role="user" content={query} />
+              <Message role="assistant" content={response} hasCursor={true} />
             </Fragment>
           )}
         </div>
       </div>
-      <ChatPrompt
+      <Prompt
         loading={loading}
         prompt={prompt}
         setPrompt={setPrompt}

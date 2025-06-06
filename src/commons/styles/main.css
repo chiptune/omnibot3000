@@ -107,27 +107,19 @@ textarea {
 
 ul,
 ol {
+  list-style-position: inside;
   margin: 0;
   padding: 0;
   margin-bottom: var(--line-height);
 }
 
 ul {
-  list-style: none;
-  list-style-type: none;
-  margin-right: var(--padding);
+  list-style-type: "* ";
 }
 
-ul > li {
+li {
   margin: 0;
   padding: 0;
-  margin-bottom: var(--line-height);
-}
-
-ul > li > p::before {
-  display: inline-block;
-  content: "*";
-  margin-right: var(--margin);
 }
 
 pre {

@@ -2,10 +2,9 @@ import {memo, useEffect, useRef, useState} from "react";
 
 import {BUTTON_SUBMIT} from "@commons/constants";
 
-import {getPromptPlaceholder} from "../commons/api";
+import styles from "@chat/components/Prompt.module.css";
 
-import styles from "./ChatPrompt.module.css";
-
+import {getPromptPlaceholder} from "@chat/commons/api";
 import useKeyPress from "@hooks/useKeyPress";
 import cls from "classnames";
 
@@ -24,7 +23,7 @@ export const PromptDisplay = (props: {prompt: string; caret?: boolean}) => {
   ));
 };
 
-const ChatPrompt = (props: {
+const Prompt = (props: {
   loading: boolean;
   prompt: string;
   setPrompt: React.Dispatch<React.SetStateAction<string>>;
@@ -108,4 +107,4 @@ const ChatPrompt = (props: {
   );
 };
 
-export default memo(ChatPrompt);
+export default memo(Prompt);

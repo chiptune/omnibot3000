@@ -1,15 +1,16 @@
 import {memo} from "react";
 import Markdown from "react-markdown";
 
+import {ASCII_VBAR} from "@commons/constants";
 import Line from "@ui/Line";
 import {sanitizeHTML} from "@utils/strings";
 
-import styles from "./ChatBubble.module.css";
+import styles from "@chat/components/Message.module.css";
 
-import {PromptDisplay} from "@chat/components/ChatPrompt";
+import {PromptDisplay} from "@chat/components/Prompt";
 import type {ChatCompletionRole} from "openai/resources/index.mjs";
 
-const ChatBubble = (props: {
+const Message = (props: {
   role: ChatCompletionRole;
   content: string;
   hasCursor?: boolean;
@@ -29,7 +30,11 @@ const ChatBubble = (props: {
         </div>
       ) : (
         <div className={styles.bot}>
-          <Line variant="vertical" char=">" className={styles["bot-line"]} />
+          <Line
+            variant="vertical"
+            char={ASCII_VBAR}
+            className={styles["bot-line"]}
+          />
           <div className={styles["bot-text"]}>
             <Markdown
               components={{
@@ -51,4 +56,4 @@ const ChatBubble = (props: {
   );
 };
 
-export default memo(ChatBubble);
+export default memo(Message);
