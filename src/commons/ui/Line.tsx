@@ -52,7 +52,11 @@ const Line = (props: {
     <div
       ref={lineRef}
       className={cls("ascii", props.className)}
-      style={{wordWrap: "break-word", overflow: "hidden"}}></div>
+      style={{
+        userSelect: "none",
+        wordWrap: "break-word",
+        overflow: "hidden",
+      }}></div>
   );
 };
 

@@ -1,6 +1,11 @@
 export const PI = Math.PI; /* 180° in radians */
 export const HALF_PI = Math.PI / 2; /* 90° in radians */
 export const TWO_PI = Math.PI * 2; /* 360° in radians */
+export const PHI = (Math.sqrt(5) + 1) / 2; /* golden ratio */
+export const EULER = Math.E;
+
+export const clamp = (n: number, min: number, max: number): number =>
+  Math.max(min, Math.min(n, max));
 
 const ROMAN_SYMBOLS = [
   {value: 1000, symbol: "M"},

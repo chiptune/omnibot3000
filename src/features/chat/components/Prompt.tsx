@@ -66,7 +66,7 @@ const Prompt = (props: {
   }, []);
 
   useEffect(() => {
-    if (backSpace === true) {
+    if (backSpace === 1) {
       props.setPrompt((prompt) => prompt.substring(0, prompt.length - 1));
     }
   }, [backSpace]);

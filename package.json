@@ -1,8 +1,13 @@
 {
   "name": "omnibot3000",
   "private": true,
-  "version": "1.43",
+  "version": "1.44",
   "type": "module",
+  "author": {
+    "name": "rez",
+    "email": "rez@lol.pm",
+    "url": "https://github.com/chiptune"
+  },
   "scripts": {
     "dev": "vite",
     "build": "tsc -b && vite build",

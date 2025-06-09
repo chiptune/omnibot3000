@@ -39,12 +39,8 @@ const Message = (props: {
             <Markdown
               components={{
                 code(props) {
-                  const {children, className, ...rest} = props;
-                  return (
-                    <code {...rest} className={className}>
-                      {children}
-                    </code>
-                  );
+                  const {children, className} = props;
+                  return <code className={className}>{children}</code>;
                 },
               }}>
               {sanitizeHTML(content)}

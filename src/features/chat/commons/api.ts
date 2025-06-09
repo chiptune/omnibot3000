@@ -11,10 +11,13 @@ export const getSystemConfig = (): ChatCompletionMessageParam => {
     current date: ${new Date().toLocaleDateString()}\
     current time: ${new Date().toLocaleDateString()}\
     current unix EPOCH time: ${Math.floor(Date.now() / 1000)}\
+    a list of random number: ${Array.from({length: 32}, () =>
+      Math.round(Math.random() * 100),
+    ).join(", ")}\
     ${persona}\
     use only the 256 first ASCII character in your answers.\
     do not use any special characters outside the ASCII table.\
-    reply with the same language used in the initial query.`;
+    use the same language that is mostly used by the user.`;
   return {role: "system", content: systemConfig};
 };
 

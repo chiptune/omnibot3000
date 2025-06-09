@@ -48,7 +48,7 @@ const Chat: React.FC = () => {
 
   /* update the chat when the user submit the prompt using meta+enter */
   useEffect(() => {
-    if (submitOnEnter === true) {
+    if (submitOnEnter === 1) {
       getCompletion(prompt);
       setPrompt("");
     }
@@ -174,6 +174,7 @@ const Chat: React.FC = () => {
         submitHandler={async (e: React.FormEvent) => {
           e.preventDefault();
           getCompletion(prompt);
+          setPrompt("");
         }}
       />
     </div>

@@ -14,6 +14,7 @@
   display: inline-block;
   margin-left: var(--padding);
   opacity: var(--opacity-tertiary);
+  user-select: none;
 }
 
 .content {

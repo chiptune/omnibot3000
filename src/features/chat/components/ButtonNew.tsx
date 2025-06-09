@@ -13,6 +13,7 @@ const ButtonNew: React.FC = () => {
   return (
     <button
       className="ascii"
+      style={{userSelect: "none"}}
       onClick={(e) => {
         e.preventDefault();
         e.stopPropagation();

@@ -3,11 +3,13 @@ import {memo, useEffect, useState} from "react";
 import {ASCII_SPACE} from "@commons/constants";
 import styles from "@layout/Background.module.css";
 
+import useDebug from "@hooks/useDebug";
 import cls from "classnames";
 
 const chars = ASCII_SPACE;
 
 const Background = (props: {w: number; h: number}) => {
+  const debug = useDebug();
   const {w, h} = props;
 
   const [grid, setGrid] = useState<string[]>([]);
@@ -25,7 +27,7 @@ const Background = (props: {w: number; h: number}) => {
       }
     }
     setGrid(g);
-    console.info(`%cresize grid: ${w}x${h}`, "color:#999");
+    if (debug) console.info(`%cresize grid: ${w}x${h}`, "color:#999");
   }, [w, h]);
 
   return (

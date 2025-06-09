@@ -1,17 +1,25 @@
 import {useEffect, useState} from "react";
 
+import {clamp} from "@utils/math";
+
 export type Modifiers = {
-  shift?: boolean;
+  shft?: boolean;
   ctrl?: boolean;
   alt?: boolean;
   meta?: boolean;
 };
 
-function useKeyPress(targetKey: string, modifiers: Modifiers) {
-  const [keyPressed, setKeyPressed] = useState(false);
+export type Detection = "all" | "keydown" | "keyup";
+
+function useKeyPress(
+  targetKey: string,
+  modifiers: Modifiers,
+  detection: Detection = "all",
+): number {
+  const [keyCount, setKeyCount] = useState(0);
 
   const getModifiers = (e: KeyboardEvent): Modifiers => ({
-    shift: Boolean(e.shiftKey),
+    shft: Boolean(e.shiftKey),
     ctrl: Boolean(e.ctrlKey),
     alt: Boolean(e.altKey),
     meta: Boolean(e.metaKey),
@@ -21,14 +29,15 @@ function useKeyPress(targetKey: string, modifiers: Modifiers) {
     sourceMod: Modifiers,
     targetMod: Modifiers,
   ): boolean =>
-    Boolean(sourceMod.shift) === Boolean(targetMod.shift) &&
+    Boolean(sourceMod.shft) === Boolean(targetMod.shft) &&
     Boolean(sourceMod.ctrl) === Boolean(targetMod.ctrl) &&
     Boolean(sourceMod.alt) === Boolean(targetMod.alt) &&
     Boolean(sourceMod.meta) === Boolean(targetMod.meta);
 
   const onKeyDownHandler = (key: string, mod: Modifiers): void => {
     if (detectModifiers(modifiers, mod) && key === targetKey)
-      setKeyPressed(true);
+      setKeyCount((n) => clamp(n + 1, 0, 16));
+    else setKeyCount(0);
   };
 
   const onKeyUpHandler = (key: string, mod: Modifiers): void => {
@@ -36,28 +45,32 @@ function useKeyPress(targetKey: string, modifiers: Modifiers) {
       !detectModifiers(modifiers, mod) ||
       (detectModifiers(modifiers, mod) && key === targetKey)
     )
-      setKeyPressed(false);
+      setKeyCount(0);
   };
 
   useEffect(() => {
-    window.addEventListener("keydown", (e) =>
-      onKeyDownHandler(e.key, getModifiers(e)),
-    );
-    window.addEventListener("keyup", (e) =>
-      onKeyUpHandler(e.key, getModifiers(e)),
-    );
-
-    return () => {
-      window.removeEventListener("keydown", (e) =>
+    if (detection === "all" || detection === "keydown")
+      window.addEventListener("keydown", (e) =>
         onKeyDownHandler(e.key, getModifiers(e)),
       );
-      window.removeEventListener("keyup", (e) =>
+    if (detection === "all" || detection === "keyup")
+      window.addEventListener("keyup", (e) =>
         onKeyUpHandler(e.key, getModifiers(e)),
       );
+
+    return () => {
+      if (detection === "all" || detection === "keydown")
+        window.removeEventListener("keydown", (e) =>
+          onKeyDownHandler(e.key, getModifiers(e)),
+        );
+      if (detection === "all" || detection === "keyup")
+        window.removeEventListener("keyup", (e) =>
+          onKeyUpHandler(e.key, getModifiers(e)),
+        );
     };
   }); // create this event only on first run
 
-  return keyPressed;
+  return keyCount;
 }
 
 export default useKeyPress;

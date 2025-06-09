@@ -3,8 +3,10 @@ import {useCallback} from "react";
 import {SESSION_KEY} from "@commons/constants";
 
 import useChatCompletionStore from "@chat/hooks/useChatCompletionStore";
+import useDebug from "@hooks/useDebug";
 
 function useStorage() {
+  const debug = useDebug();
   const chatStore = useChatCompletionStore();
 
   const load = useCallback(() => {
@@ -12,7 +14,7 @@ function useStorage() {
       const data = localStorage.getItem(SESSION_KEY);
       if (data) {
         chatStore.importData(JSON.parse(data));
-        console.info("%cdata loaded", "color:#999");
+        if (debug) console.info("%cdata loaded", "color:#999");
       }
     } catch (error) {
       console.error("failed to load:", error);
@@ -23,7 +25,7 @@ function useStorage() {
     try {
       const data = chatStore.exportData();
       localStorage.setItem(SESSION_KEY, JSON.stringify(data));
-      console.info("%cdata saved", "color:#999");
+      if (debug) console.info("%cdata saved", "color:#999");
     } catch (error) {
       console.error("failed to save:", error);
     }

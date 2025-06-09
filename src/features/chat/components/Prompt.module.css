@@ -38,5 +38,6 @@
 
 .submit {
   flex-grow: 0;
-  place-self: "start";
+  place-self: start;
+  user-select: none;
 }

@@ -19,7 +19,10 @@ export const sanitizeHTML = (html: string): string => {
   const parser = new DOMParser();
   const doc = parser.parseFromString(html, "text/html");
   const body = new XMLSerializer().serializeToString(doc.body);
-  return body.replace(/<body[^>]*>|<\/body>/g, "");
+  const text = body.replace(/<body[^>]*>|<\/body>/g, "");
+  const textarea = document.createElement("textarea");
+  textarea.innerHTML = text;
+  return textarea.value;
 };
 
 export const getVariableFromCSS = (variable: string): string =>

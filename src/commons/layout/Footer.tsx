@@ -7,8 +7,10 @@ import {numberToRoman} from "@utils/math";
 import VERSION from "@utils/version";
 
 import useChatCompletionStore from "@chat/hooks/useChatCompletionStore";
+import useDebug from "@hooks/useDebug";
 
 const Footer = () => {
+  const debug = useDebug();
   const chatStore = useChatCompletionStore();
   const chatId = chatStore.getChatId();
 
@@ -21,7 +23,7 @@ const Footer = () => {
       <a href={AUTHOR_URL} target="_blank">
         REZ
       </a>
-      {chatId && <div className={styles.info}>{`id: ${chatId}`}</div>}
+      {debug && chatId && <div className={styles.info}>{`id: ${chatId}`}</div>}
       <Spacer />
       <div className={styles.version}>
         <a href={SOURCE_URL} target="_blank">

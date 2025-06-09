@@ -14,7 +14,6 @@ import Menu from "@layout/Menu";
 import Line from "@ui/Line";
 import {getCharHeight, getCharWidth, getLineHeight} from "@utils/strings";
 import {isSystemDarkModeOn} from "@utils/system";
-import {displayPackageVersion} from "@utils/version";
 
 import styles from "@/App.module.css";
 
@@ -23,15 +22,15 @@ import "@styles/main.css";
 import "@styles/vt-220.css";
 
 import Chat from "@chat/Chat";
-import useKeyPress from "@hooks/useKeyPress";
+import useDebug from "@hooks/useDebug";
 import useStorage from "@hooks/useStorage";
 import cls from "classnames";
 
 const Layout = () => {
+  const debug = useDebug();
   const storage = useStorage();
 
   const beforeUnloadHandler = () => {
-    console.info("%cunload application", "color:#999");
     storage.save();
   };
 
@@ -45,19 +44,11 @@ const Layout = () => {
     };
   }, []);
 
-  const [debug, toggleDebug] = useState(false);
   const [darkMode, toggleDarkMode] = useState(isSystemDarkModeOn());
 
   const themeSwitchHandler = () => {
     toggleDarkMode(!darkMode);
   };
-
-  const debugHotKey = useKeyPress("Escape", {shift: true});
-
-  useEffect(() => {
-    toggleDebug(debugHotKey);
-    if (!debug) displayPackageVersion();
-  }, [debugHotKey]);
 
   const rootRef = useRef<HTMLDivElement | null>(null);
 
@@ -66,26 +57,27 @@ const Layout = () => {
   const [w, setWidth] = useState<number>(window.innerWidth);
   const [h, setHeight] = useState<number>(window.innerHeight);
 
-  useEffect(() => {
-    const update = () => {
-      const root = rootRef.current;
-      if (!root) return;
+  const update = () => {
+    const root = rootRef.current;
+    if (!root) return;
 
-      setCharWidth(getCharWidth());
-      setLineHeight(getLineHeight(root));
+    setCharWidth(getCharWidth());
+    setLineHeight(getLineHeight(root));
 
-      const vw = window.innerWidth;
-      const vh = window.innerHeight;
+    const vw = window.innerWidth;
+    const vh = window.innerHeight;
 
-      setWidth(vw - (vw % cw));
-      setHeight(vh - (vh % cw));
+    setWidth(vw - (vw % cw));
+    setHeight(vh - (vh % cw));
 
+    if (debug)
       console.info(
         `%cresize screen: ${w.toFixed(0)}x${h.toFixed(0)}`,
         "color:#999",
       );
-    };
+  };
 
+  useEffect(() => {
     const resizeObserver = new ResizeObserver(update);
     if (rootRef.current) {
       resizeObserver.observe(rootRef.current);
@@ -94,7 +86,7 @@ const Layout = () => {
     return () => {
       resizeObserver.disconnect();
     };
-  }, [w, h]);
+  }, []);
 
   return (
     <div
@@ -121,7 +113,7 @@ const Layout = () => {
           <div className={styles.content}>
             <Header darkMode={darkMode} onThemeToggle={themeSwitchHandler} />
             <Line variant="horizontal" char="-" className={styles["h-line"]} />
-            <div className={styles.body} style={{}}>
+            <div className={styles.body}>
               <Outlet />
             </div>
             <Line variant="horizontal" char="-" className={styles["h-line"]} />

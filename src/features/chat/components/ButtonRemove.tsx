@@ -21,6 +21,7 @@ const ChatRemoveButton: React.FC<{id: ChatId}> = ({id}) => {
   return (
     <button
       className={"ascii"}
+      style={{userSelect: "none"}}
       onClick={(e) => {
         e.preventDefault();
         e.stopPropagation();
