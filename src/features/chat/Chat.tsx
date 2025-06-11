@@ -1,11 +1,11 @@
 import React, {Fragment, useEffect, useRef, useState} from "react";
 import {useNavigate, useParams} from "react-router-dom";
 
+import {getChatTitle, getSystemConfig} from "@api/api";
 import getStream from "@api/openAI";
 
 import styles from "@chat/Chat.module.css";
 
-import {getChatTitle, getSystemConfig} from "@chat/commons/api";
 import {formatText} from "@chat/commons/strings";
 import Message from "@chat/components/Message";
 import Prompt from "@chat/components/Prompt";

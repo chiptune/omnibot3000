@@ -31,7 +31,7 @@
 }
 
 .subtitle {
-  opacity: var(--opacity-secondary);
+  opacity: var(--opacity-tertiary);
 }
 
 .button {

@@ -32,12 +32,31 @@ export const getChatTitle = async (
       content: `\
       make a title for this chat, excluding this request.\
       keep it as simple, short and descriptive as possible.\
+      do not mention your name in the result.\
       do not use more than 28 characters including spaces.\
       do not add any comments or punctuations.\
       prefer small words to maximize text wrapping.`,
     },
   ];
   const response = (await getStream(updatedMessages, false)) as ChatCompletion;
+  return response.choices[0].message.content || "?";
+};
+
+export const getSubtitle = async (): Promise<string> => {
+  const messages: ChatCompletionMessageParam[] = [
+    getSystemConfig(),
+    {
+      role: "user",
+      content: `\
+      make a list of 5 catch phrase to present you to the user.\
+      do not mention your name in the result.\
+      emphasize on your infinite source of knowledge.\
+      boast yourself to the maximum, demonstrate! EGO TRIP!\
+      do not use more than 32 characters.\
+      do not add any comments or punctuations.`,
+    },
+  ];
+  const response = (await getStream(messages, false)) as ChatCompletion;
   return response.choices[0].message.content || "?";
 };
 

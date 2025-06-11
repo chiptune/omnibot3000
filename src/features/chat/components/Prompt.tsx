@@ -1,10 +1,10 @@
 import {memo, useEffect, useRef, useState} from "react";
 
+import {getPromptPlaceholder} from "@api/api";
 import {BUTTON_SUBMIT} from "@commons/constants";
 
 import styles from "@chat/components/Prompt.module.css";
 
-import {getPromptPlaceholder} from "@chat/commons/api";
 import useKeyPress from "@hooks/useKeyPress";
 import cls from "classnames";
 
