@@ -1,4 +1,5 @@
-import {useEffect, useRef, useState} from "react";
+import type {ProfilerOnRenderCallback} from "react";
+import {Profiler, useEffect, useRef, useState} from "react";
 import {
   BrowserRouter as Router,
   Navigate,
@@ -25,6 +26,11 @@ import Chat from "@chat/Chat";
 import useDebug from "@hooks/useDebug";
 import useStorage from "@hooks/useStorage";
 import cls from "classnames";
+
+export interface RenderTime {
+  phase: string;
+  duration: number;
+}
 
 const Layout = () => {
   const debug = useDebug();
@@ -72,7 +78,7 @@ const Layout = () => {
 
     if (debug)
       console.info(
-        `%cresize screen: ${w.toFixed(0)}x${h.toFixed(0)}`,
+        `%cresize screen: ${w.toFixed(0)} x ${h.toFixed(0)}`,
         "color:#999",
       );
   };
@@ -88,40 +94,76 @@ const Layout = () => {
     };
   }, []);
 
+  const [renderTime, setRenderTime] = useState<RenderTime>({
+    phase: "none",
+    duration: 0,
+  });
+
+  const savedRenderTime = useRef<RenderTime>(renderTime);
+
+  const profilerCallback: ProfilerOnRenderCallback = (
+    id,
+    phase,
+    actualDuration,
+    baseDuration,
+  ) => {
+    savedRenderTime.current = {phase, duration: actualDuration};
+    if (debug)
+      console.info(
+        `%c${id} ${phase}: ${Math.round(actualDuration)} ms / ${Math.round(baseDuration)} ms`,
+        "color:#999",
+      );
+  };
+
+  useEffect(() => {
+    if (savedRenderTime.current !== renderTime)
+      setRenderTime(savedRenderTime.current);
+  }, []);
+
   return (
-    <div
-      ref={rootRef}
-      className={cls(styles.root, !darkMode || "dark", !debug || "debug")}
-      style={{padding: `${cw}px`}}>
+    <Profiler id="app" onRender={profilerCallback}>
       <div
-        className={cls("ascii", styles.screen)}
-        style={{
-          padding: `${cw}px`,
-          width: `${w - cw * 4}px`,
-          height: `${h - cw * 4}px`,
-        }}>
-        <Background w={Math.floor(w / cw) - 4} h={Math.floor(h / lh) - 2} />
+        ref={rootRef}
+        className={cls(styles.root, !darkMode || "dark", !debug || "debug")}
+        style={{padding: `${cw}px`}}>
         <div
-          className={styles.tty}
+          className={cls("ascii", styles.screen)}
           style={{
-            top: `${cw * 2}px`,
+            padding: `${cw}px`,
             width: `${w - cw * 4}px`,
             height: `${h - cw * 4}px`,
           }}>
-          <Menu />
-          <Line variant="vertical" className={styles["v-line"]} />
-          <div className={styles.content}>
-            <Header darkMode={darkMode} onThemeToggle={themeSwitchHandler} />
-            <Line variant="horizontal" char="-" className={styles["h-line"]} />
-            <div className={styles.body}>
-              <Outlet />
+          <Background w={Math.floor(w / cw) - 4} h={Math.floor(h / lh) - 2} />
+          <div
+            className={styles.tty}
+            style={{
+              top: `${cw * 2}px`,
+              width: `${w - cw * 4}px`,
+              height: `${h - cw * 4}px`,
+            }}>
+            <Menu />
+            <Line variant="vertical" className={styles["v-line"]} />
+            <div className={styles.content}>
+              <Header darkMode={darkMode} onThemeToggle={themeSwitchHandler} />
+              <Line
+                variant="horizontal"
+                char="-"
+                className={styles["h-line"]}
+              />
+              <div className={styles.body}>
+                <Outlet />
+              </div>
+              <Line
+                variant="horizontal"
+                char="-"
+                className={styles["h-line"]}
+              />
+              <Footer renderTime={renderTime} />
             </div>
-            <Line variant="horizontal" char="-" className={styles["h-line"]} />
-            <Footer />
           </div>
         </div>
       </div>
-    </div>
+    </Profiler>
   );
 };
 

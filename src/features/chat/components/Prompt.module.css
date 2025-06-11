@@ -3,10 +3,10 @@
   flex-direction: row;
   flex-grow: 0;
   flex-shrink: 1;
-  column-gap: var(--margin);
+  column-gap: var(--font-width);
   align-items: end;
   width: 100%;
-  max-width: var(--chat-width);
+  max-width: calc(var(--chat-width) * var(--font-width));
 }
 
 .input {
@@ -32,7 +32,7 @@
 
 .caret {
   bottom: 0;
-  width: var(--margin);
+  width: var(--font-width);
   height: var(--line-height);
 }
 

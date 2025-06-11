@@ -7,9 +7,8 @@ export const BUTTON_NEW = "[+]";
 export const BUTTON_REMOVE = "x";
 export const BUTTON_CLEAR = "[x]";
 export const BUTTON_SUBMIT = "[ask]";
-
-export const AUTHOR_URL = "https://github.com/chiptune";
-export const SOURCE_URL = `${AUTHOR_URL}/omnibot3000`;
+export const BUTTON_PREVIOUS = "<";
+export const BUTTON_NEXT = ">";
 
 export const ASCII_SPACE = String.fromCharCode(31);
 export const ASCII_LOSANGE = String.fromCharCode(1);

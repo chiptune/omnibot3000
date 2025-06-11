@@ -1,6 +1,8 @@
 import {memo} from "react";
 import {useNavigate} from "react-router-dom";
 
+import {getVariableFromCSS} from "@utils/strings";
+
 import styles from "@history/History.module.css";
 
 import ButtonRemove from "@chat/components/ButtonRemove";
@@ -13,6 +15,8 @@ const History = () => {
   const chatId = chatStore.getChatId();
 
   const navigate = useNavigate();
+
+  const w = parseInt(getVariableFromCSS("menu-width") ?? 0);
 
   return (
     <div className={styles.root}>
@@ -39,7 +43,7 @@ const History = () => {
               </div>
               <div className={styles.item}>
                 <div className={styles.line}>
-                  {String("-").repeat(selected ? 16 : 17)}
+                  {String("-").repeat(selected ? w - 4 : w - 3)}
                 </div>
                 {selected && (
                   <div className={styles["button-remove"]}>

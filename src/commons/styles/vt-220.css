@@ -12,10 +12,11 @@
 .ascii {
   color: var(--color-primary);
   font-family: "tty-vt220", monospace;
-  font-size: var(--font-size);
+  font-size: var(--font-height);
   font-weight: var(--font-weight);
   line-height: var(--line-height);
   text-shadow:
+    -0.5rem -0.01rem 0.2rem var(--color-background),
     -0.02rem 0rem 0.4rem var(--color-secondary),
     -0.01rem 0rem 0.2rem var(--color-secondary),
     0rem 0rem 0.1rem var(--color-primary),

@@ -1,6 +1,6 @@
 .root {
   width: 100%;
-  margin-right: calc(var(--margin) - var(--scrollbar-size));
+  margin-right: calc(var(--font-width) - var(--scrollbar-size));
   overflow-x: hidden;
   overflow-y: scroll;
 }
@@ -12,7 +12,7 @@
 
 .line {
   display: inline-block;
-  margin-left: var(--padding);
+  margin-left: calc(var(--font-width) * 2);
   opacity: var(--opacity-tertiary);
   user-select: none;
 }
@@ -20,7 +20,7 @@
 .content {
   display: flex;
   flex-direction: row;
-  column-gap: var(--margin);
+  column-gap: var(--font-width);
 }
 
 .text {

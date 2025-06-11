@@ -26,4 +26,6 @@ export const sanitizeHTML = (html: string): string => {
 };
 
 export const getVariableFromCSS = (variable: string): string =>
-  getComputedStyle(document.documentElement).getPropertyValue(variable).trim();
+  getComputedStyle(document.documentElement)
+    .getPropertyValue(`--${variable}`)
+    .trim();

@@ -26,4 +26,7 @@ export const displayPackageVersion = (): void => {
   );
 };
 
+export const NAME = packageJson.name;
+export const AUTHOR = packageJson.author;
+
 export default VERSION;

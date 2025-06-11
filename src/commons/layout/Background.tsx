@@ -27,7 +27,7 @@ const Background = (props: {w: number; h: number}) => {
       }
     }
     setGrid(g);
-    if (debug) console.info(`%cresize grid: ${w}x${h}`, "color:#999");
+    if (debug) console.info(`%cresize grid: ${w} x ${h}`, "color:#999");
   }, [w, h]);
 
   return (

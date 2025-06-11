@@ -3,7 +3,7 @@
   flex-direction: column;
   flex-grow: 0;
   flex-shrink: 0;
-  width: var(--menu-width);
+  width: calc(var(--menu-width) * var(--font-width));
   height: 100%;
 }
 
@@ -12,7 +12,7 @@
 }
 
 .subtitle {
-  opacity: var(--opacity-secondary);
+  opacity: var(--opacity-tertiary);
 }
 
 .count {

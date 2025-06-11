@@ -3,10 +3,10 @@
   flex-direction: row;
   flex-grow: 0;
   flex-shrink: 0;
-  column-gap: var(--margin);
+  column-gap: var(--font-width);
   align-items: start;
   align-self: stretch;
-  padding-left: var(--margin);
+  padding-left: var(--font-width);
   height: fit-content;
 }
 

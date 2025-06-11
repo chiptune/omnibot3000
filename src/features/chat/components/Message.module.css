@@ -8,7 +8,7 @@
 .user {
   display: flex;
   flex-direction: row;
-  column-gap: var(--margin);
+  column-gap: var(--font-width);
   margin-bottom: var(--line-height);
 }
 
@@ -20,7 +20,7 @@
 .bot {
   display: flex;
   flex-direction: row;
-  column-gap: var(--margin);
+  column-gap: var(--font-width);
   align-items: stretch;
 }
 
