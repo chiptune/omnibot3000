@@ -15,11 +15,18 @@ export default defineConfig({
     host: true,
     port: 5173,
     allowedHosts: ["localhost", "lol"],
-    watch: {usePolling: true},
+    watch: {
+      usePolling: false /* speed up updates */,
+      ignored: ["**/node_modules/**", "**/dist/**"],
+    },
     hmr: {
       protocol: "ws",
       host: "localhost",
       port: 5173,
     },
+  },
+  optimizeDeps: {
+    include: ["react", "react-dom"],
+    exclude: [] /* exclude heavy libs not much used */,
   },
 });

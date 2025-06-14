@@ -9,7 +9,7 @@ import useKeyPress from "@hooks/useKeyPress";
 import cls from "classnames";
 
 export const PromptDisplay = (props: {prompt: string; caret?: boolean}) => {
-  const lines: string[] = props.prompt.split("\n");
+  const lines: string[] = String(props.prompt || "").split("\n");
   return lines.map((line: string, i: number) => (
     <span
       key={`prompt-line-${i}`}
@@ -33,7 +33,8 @@ const Prompt = (props: {
 
   const hasRunOnce = useRef(false);
 
-  const [placeholder, setPlaceholder] = useState<string>("");
+  const [placeholders, setPlaceholders] = useState<string[]>([]);
+  const [count, setCount] = useState<number>(0);
 
   const formRef = useRef<HTMLFormElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
@@ -43,8 +44,13 @@ const Prompt = (props: {
   const backSpace = useKeyPress("Backspace", {meta: false});
 
   const updatePlaceholder = async () => {
-    const placeholder = await getPromptPlaceholder();
-    setPlaceholder(placeholder);
+    const data = await getPromptPlaceholder();
+    setPlaceholders(
+      data
+        .split("\n")
+        .filter((v) => v.trim() !== "")
+        .map((v) => v.trim()),
+    );
   };
 
   useEffect(() => {
@@ -66,21 +72,23 @@ const Prompt = (props: {
   }, []);
 
   useEffect(() => {
-    if (backSpace === 1) {
+    if (backSpace === 1)
       props.setPrompt((prompt) => prompt.substring(0, prompt.length - 1));
-    }
   }, [backSpace]);
+
+  useEffect(() => {
+    if (prompt.length === 0)
+      setCount(Math.round(Math.random() * (placeholders.length - 1)));
+  }, [prompt, placeholders]);
 
   return (
     <form ref={formRef} onSubmit={props.submitHandler} className={styles.form}>
       <div>{">"}</div>
       <div className={cls("ascii", styles.prompt)}>
-        <div
-          className={styles.placeholder}
-          style={{
-            visibility: prompt ? "hidden" : "visible",
-          }}>
-          {placeholder}
+        <div className={styles.placeholder}>
+          <div className={styles[prompt ? "hide" : "show"]}>
+            {placeholders[count]}
+          </div>
         </div>
         <div>
           <PromptDisplay prompt={prompt} caret />

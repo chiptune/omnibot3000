@@ -3,6 +3,7 @@ import {useNavigate, useParams} from "react-router-dom";
 
 import {getChatTitle, getSystemConfig} from "@api/api";
 import getStream from "@api/openAI";
+import {getCharWidth} from "@utils/strings";
 
 import styles from "@chat/Chat.module.css";
 
@@ -33,6 +34,7 @@ const Chat: React.FC = () => {
   const [query, setQuery] = useState<string>("");
 
   const chatRef = useRef<HTMLDivElement>(null);
+
   const navigate = useNavigate();
 
   const submitOnEnter = useKeyPress("Enter", {meta: false}); // true to allow new line
@@ -71,7 +73,7 @@ const Chat: React.FC = () => {
       navigate(`/chat${state.chatId ? `/${state.chatId}` : ""}`);
     });
     return () => unsubscribe();
-  }, []);
+  });
 
   const getCompletion = async (prompt: string) => {
     setQuery(prompt); /* save the prompt before reset */
@@ -114,6 +116,30 @@ const Chat: React.FC = () => {
       setResponse((prev) => `${prev}${text}`);
     }
   };
+
+  const update = () => {
+    const chat = chatRef.current;
+    if (!chat) return;
+
+    const body = chat.parentElement?.parentElement;
+    if (!body) return;
+
+    const cw = getCharWidth();
+
+    const bodyWidth = body.offsetWidth ?? 0;
+    const chatWidth = chat.firstElementChild?.clientWidth ?? 0;
+
+    const n = Math.floor((bodyWidth - chatWidth) / 2 / cw);
+    body.style.paddingLeft = `calc(${n} * var(--font-width))`;
+  };
+
+  useEffect(() => {
+    const resizeObserver = new ResizeObserver(update);
+    if (chatRef.current) resizeObserver.observe(chatRef.current);
+    return () => {
+      resizeObserver.disconnect();
+    };
+  });
 
   useEffect(() => {
     if (chatRef.current && chatRef.current.firstElementChild) {

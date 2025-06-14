@@ -1,44 +1,35 @@
 import {memo, useEffect, useState} from "react";
 
-import {ASCII_SPACE} from "@commons/constants";
+import {ASCII_BLOCK, ASCII_SPACE} from "@commons/constants";
 import styles from "@layout/Background.module.css";
 
 import useDebug from "@hooks/useDebug";
-import cls from "classnames";
-
-const chars = ASCII_SPACE;
 
 const Background = (props: {w: number; h: number}) => {
   const debug = useDebug();
   const {w, h} = props;
 
-  const [grid, setGrid] = useState<string[]>([]);
+  const setPixel = (
+    grid: string,
+    x: number,
+    y: number,
+    char: string,
+  ): string => {
+    const n = (y % h) * w + (x % w);
+    return grid.slice(0, n) + char + grid.slice(n + 1);
+  };
+
+  const [grid, setGrid] = useState<string>("");
 
   useEffect(() => {
-    const g = [];
-    //let n = 0;
-    for (let y = 0; y < h; y++) {
-      g[y] = "";
-      for (let x = 0; x < w; x++) {
-        const char = chars[Math.floor(Math.random() * chars.length)];
-        //const char = String.fromCharCode(n % 256);
-        //n++;
-        g[y] += char;
-      }
-    }
-    setGrid(g);
+    setGrid(ASCII_SPACE.repeat(w * h));
+    setGrid((g) => setPixel(g, w - 1, 1, ASCII_BLOCK));
+    setGrid((g) => setPixel(g, 18, 0, ASCII_BLOCK));
+    setGrid((g) => setPixel(g, 0, h - 1, ASCII_BLOCK));
     if (debug) console.info(`%cresize grid: ${w} x ${h}`, "color:#999");
   }, [w, h]);
 
-  return (
-    <div className={cls("ascii", styles.root)}>
-      {grid.map((char, y) => (
-        <div key={`grid-${y}`} className={styles.line}>
-          {char}
-        </div>
-      ))}
-    </div>
-  );
+  return <div className={styles.root}>{grid}</div>;
 };
 
 export default memo(Background);

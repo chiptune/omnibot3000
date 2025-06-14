@@ -17,6 +17,9 @@
   flex-grow: 1;
   min-height: var(--line-height);
   text-wrap: wrap;
+  white-space: pre-wrap;
+  word-break: normal;
+  overflow-wrap: break-word;
   cursor: text;
 }
 
@@ -27,7 +30,38 @@
 
 .placeholder {
   position: absolute;
+  height: var(--line-height);
   opacity: var(--opacity-tertiary);
+}
+
+.show {
+  height: var(--line-height);
+  opacity: 0;
+  animation: fadein var(--duration-fade) forwards;
+}
+
+.hide {
+  height: var(--line-height);
+  opacity: var(--opacity-tertiary);
+  animation: fadeout var(--duration-fade) forwards;
+}
+
+@keyframes fadein {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes fadeout {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
 }
 
 .caret {

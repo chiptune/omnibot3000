@@ -1,7 +1,7 @@
 import {memo} from "react";
 import {useNavigate} from "react-router-dom";
 
-import {getVariableFromCSS} from "@utils/strings";
+import {getVariableFromCSS} from "@utils/styles";
 
 import styles from "@history/History.module.css";
 

@@ -39,10 +39,12 @@ const Header = (_props: {darkMode: boolean; onThemeToggle: () => void}) => {
         <div className={styles.title}>
           OMNIBOT 3000
           <br />
-          <div className={styles.subtitle}>{subtitle}</div>
+          <div className={styles.subtitle}>
+            <div className={subtitle && styles.subtext}>{subtitle}</div>
+          </div>
         </div>
         {subtitle && (
-          <div className={styles.button}>
+          <div className={styles.avatar}>
             {AVATAR_1}
             <br />
             {AVATAR_2}

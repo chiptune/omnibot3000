@@ -24,8 +24,3 @@ export const sanitizeHTML = (html: string): string => {
   textarea.innerHTML = text;
   return textarea.value;
 };
-
-export const getVariableFromCSS = (variable: string): string =>
-  getComputedStyle(document.documentElement)
-    .getPropertyValue(`--${variable}`)
-    .trim();

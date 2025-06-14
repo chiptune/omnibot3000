@@ -17,9 +17,14 @@ export const getSystemConfig = (): ChatCompletionMessageParam => {
     ${persona}\
     use only the 256 first ASCII character in your answers.\
     do not use any special characters outside the ASCII table.\
-    use the same language that is mostly used by the user.`;
+    answer with the language used the most by the user.`;
   return {role: "system", content: systemConfig};
 };
+
+export const queryFormat = (max: number): string => `
+  dot not use more than ${max} characters, including spaces.\
+  do not add any comments or punctuations.\
+  data only, it's not a regular query, no ending comments!`;
 
 export const getChatTitle = async (
   messages: ChatCompletionMessageParam[],
@@ -32,10 +37,8 @@ export const getChatTitle = async (
       content: `\
       make a title for this chat, excluding this request.\
       keep it as simple, short and descriptive as possible.\
-      do not mention your name in the result.\
-      do not use more than 28 characters including spaces.\
-      do not add any comments or punctuations.\
-      prefer small words to maximize text wrapping.`,
+      do not mention your name in the result.\`
+      ${queryFormat(28)}`,
     },
   ];
   const response = (await getStream(updatedMessages, false)) as ChatCompletion;
@@ -49,11 +52,10 @@ export const getSubtitle = async (): Promise<string> => {
       role: "user",
       content: `\
       make a list of 5 catch phrase to present you to the user.\
-      do not mention your name in the result.\
+      do not mention your name in the result, it's a motto.\
       emphasize on your infinite source of knowledge.\
-      boast yourself to the maximum, demonstrate! EGO TRIP!\
-      do not use more than 32 characters.\
-      do not add any comments or punctuations.`,
+      boast yourself to the maximum, demonstrate that your are the best.\
+      ${queryFormat(32)}`,
     },
   ];
   const response = (await getStream(messages, false)) as ChatCompletion;
@@ -66,11 +68,10 @@ export const getPromptPlaceholder = async (): Promise<string> => {
     {
       role: "user",
       content: `\
-      write an imperative user input placeholder.\
-      your request must be harsh and punitive.\
-      do not use more than 25 characters.\
-      do not add any comments or punctuations.\
-      use small words as far as possible.`,
+      make a list of 10 imperatives input placeholder.\
+      this input is where the user is asking you question.\
+      you are not asking, you are imposing, user must comply.\
+      ${queryFormat(25)}`,
     },
   ];
   const response = (await getStream(messages, false)) as ChatCompletion;

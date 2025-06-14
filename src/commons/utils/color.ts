@@ -1,4 +1,4 @@
-import {getVariableFromCSS} from "@utils/strings";
+import {getVariableFromCSS} from "@utils/styles";
 
 export const getColorFromCSS = (variable: string): string =>
   getVariableFromCSS(`color-${variable}`);

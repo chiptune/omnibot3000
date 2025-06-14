@@ -57,6 +57,7 @@ const Layout = () => {
   };
 
   const rootRef = useRef<HTMLDivElement | null>(null);
+  const bodyRef = useRef<HTMLDivElement | null>(null);
 
   const [cw, setCharWidth] = useState<number>(getCharWidth());
   const [lh, setLineHeight] = useState<number>(getCharHeight());
@@ -85,21 +86,16 @@ const Layout = () => {
 
   useEffect(() => {
     const resizeObserver = new ResizeObserver(update);
-    if (rootRef.current) {
-      resizeObserver.observe(rootRef.current);
-    }
-
+    if (rootRef.current) resizeObserver.observe(rootRef.current);
     return () => {
       resizeObserver.disconnect();
     };
-  }, []);
+  });
 
-  const [renderTime, setRenderTime] = useState<RenderTime>({
+  const renderTime = useRef<RenderTime>({
     phase: "none",
     duration: 0,
   });
-
-  const savedRenderTime = useRef<RenderTime>(renderTime);
 
   const profilerCallback: ProfilerOnRenderCallback = (
     id,
@@ -107,18 +103,13 @@ const Layout = () => {
     actualDuration,
     baseDuration,
   ) => {
-    savedRenderTime.current = {phase, duration: actualDuration};
+    renderTime.current = {phase, duration: actualDuration};
     if (debug)
       console.info(
         `%c${id} ${phase}: ${Math.round(actualDuration)} ms / ${Math.round(baseDuration)} ms`,
         "color:#999",
       );
   };
-
-  useEffect(() => {
-    if (savedRenderTime.current !== renderTime)
-      setRenderTime(savedRenderTime.current);
-  }, []);
 
   return (
     <Profiler id="app" onRender={profilerCallback}>
@@ -150,7 +141,7 @@ const Layout = () => {
                 char="-"
                 className={styles["h-line"]}
               />
-              <div className={styles.body}>
+              <div ref={bodyRef} className={styles.body}>
                 <Outlet />
               </div>
               <Line
@@ -158,7 +149,7 @@ const Layout = () => {
                 char="-"
                 className={styles["h-line"]}
               />
-              <Footer renderTime={renderTime} />
+              <Footer renderTime={renderTime.current} />
             </div>
           </div>
         </div>
