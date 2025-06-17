@@ -75,7 +75,7 @@ const Layout = () => {
     const vh = window.innerHeight;
 
     setWidth(vw - (vw % cw));
-    setHeight(vh - (vh % cw));
+    setHeight(vh - (vh % lh));
 
     if (debug)
       console.info(
@@ -116,7 +116,10 @@ const Layout = () => {
       <div
         ref={rootRef}
         className={cls(styles.root, !darkMode || "dark", !debug || "debug")}
-        style={{padding: `${cw}px`}}>
+        style={{
+          marginTop: `calc((100vh - (${h - cw * 2}px)) / 2)`,
+          marginLeft: `calc((100vw - (${w - cw * 2}px)) / 2)`,
+        }}>
         <div
           className={cls("ascii", styles.screen)}
           style={{
@@ -128,7 +131,7 @@ const Layout = () => {
           <div
             className={styles.tty}
             style={{
-              top: `${cw * 2}px`,
+              top: `${cw}px`,
               width: `${w - cw * 4}px`,
               height: `${h - cw * 4}px`,
             }}>

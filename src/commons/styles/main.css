@@ -18,7 +18,7 @@
   --menu-width: 20;
   --chat-width: 48;
   /* colors */
-  --hue: 25; /* amber:25 | yellow: 90 | green:135 | blue:180 */
+  --hue: 180; /* amber:25 | yellow: 90 | green:135 | blue:180 */
   --sat: 60;
   --lgt: 65;
   --color-primary: hsl(var(--hue) var(--sat) var(--lgt) / 0.7);
@@ -59,7 +59,17 @@
   }
 }
 
+html {
+  font-feature-settings:
+    "liga" 0,
+    "calt" 0,
+    "ss01" 0,
+    "ss02" 0;
+}
+
 body {
+  font-feature-settings: "kern" 1;
+  font-variant-ligatures: none;
   margin: 0;
   padding: 0;
   background-color: #000;

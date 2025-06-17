@@ -2,9 +2,7 @@
   translate: none;
   transform: none;
   transform-origin: 50% 50% 0;
-  display: static;
-  padding: var(--margin) !important;
-  margin: 0 !important;
+  padding: 0;
   border-radius: var(--margin);
   width: 100vw;
   height: 100vh;

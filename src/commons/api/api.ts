@@ -22,9 +22,9 @@ export const getSystemConfig = (): ChatCompletionMessageParam => {
 };
 
 export const queryFormat = (max: number): string => `
-  dot not use more than ${max} characters, including spaces.\
+  no more than ${max} characters (including spaces)! NO MORE!\
   do not add any comments or punctuations.\
-  data only, it's not a regular query, no ending comments!`;
+  it's not an answer to a query, make it compact and catchy!`;
 
 export const getChatTitle = async (
   messages: ChatCompletionMessageParam[],

@@ -2,6 +2,7 @@ import {memo, useEffect, useState} from "react";
 
 import {ASCII_BLOCK, ASCII_SPACE} from "@commons/constants";
 import styles from "@layout/Background.module.css";
+import {getVariableFromCSS} from "@utils/styles";
 
 import useDebug from "@hooks/useDebug";
 
@@ -21,10 +22,13 @@ const Background = (props: {w: number; h: number}) => {
 
   const [grid, setGrid] = useState<string>("");
 
+  const mw = parseInt(getVariableFromCSS("menu-width"));
+
   useEffect(() => {
     setGrid(ASCII_SPACE.repeat(w * h));
     setGrid((g) => setPixel(g, w - 1, 1, ASCII_BLOCK));
-    setGrid((g) => setPixel(g, 18, 0, ASCII_BLOCK));
+    setGrid((g) => setPixel(g, mw - 1, 0, ASCII_BLOCK));
+    setGrid((g) => setPixel(g, mw + 2, h - 3, ASCII_BLOCK));
     setGrid((g) => setPixel(g, 0, h - 1, ASCII_BLOCK));
     if (debug) console.info(`%cresize grid: ${w} x ${h}`, "color:#999");
   }, [w, h]);
