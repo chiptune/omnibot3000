@@ -5,35 +5,43 @@ import {getColorFromCSS} from "@utils/color";
 const favIcon = () => {
   const dpr = window.devicePixelRatio;
   const canvas = document.createElement("canvas");
-  const size = 80 * dpr;
+  const size = 72 * dpr;
   const w = 128 * dpr;
   const h = 128 * dpr;
-  const r = 4 * dpr;
+  const r = 8 * dpr;
   canvas.width = w;
   canvas.height = h;
   const ctx = canvas.getContext("2d", {alpha: true});
   if (!ctx) return;
+
   squircle(ctx, 0, 0, w, h, r);
   ctx.clip();
-  /*
+
+  ctx.globalCompositeOperation = "hard-light";
+
   ctx.fillStyle = "#000";
   ctx.fill();
   ctx.fillStyle = getColorFromCSS("background");
   ctx.fill();
-  */
-  ctx.translate(3 * dpr, -6 * dpr);
+  ctx.fill();
+
+  ctx.translate(3 * dpr, 0);
   ctx.font = `normal ${size}px tty-vt220`;
   ctx.textAlign = "center";
   ctx.textBaseline = "top";
 
   ctx.shadowColor = getColorFromCSS("primary");
-  ctx.shadowBlur = 4 * dpr;
-  ctx.lineWidth = 2 * dpr;
-  ctx.strokeStyle = getColorFromCSS("tertiary");
+  ctx.shadowBlur = 8 * dpr;
+  ctx.lineWidth = 3 * dpr;
+  ctx.strokeStyle = getColorFromCSS("secondary");
   ctx.strokeText(AVATAR_1, w / 2, 0);
   ctx.strokeText(AVATAR_2, w / 2, size * 0.9);
-  ctx.shadowBlur = 4 * dpr;
+
+  ctx.shadowBlur = 8 * dpr;
   ctx.fillStyle = getColorFromCSS("primary");
+  ctx.fillText(AVATAR_1, w / 2, 0);
+  ctx.fillText(AVATAR_2, w / 2, size * 0.9);
+  ctx.fillStyle = getColorFromCSS("highlight");
   ctx.fillText(AVATAR_1, w / 2, 0);
   ctx.fillText(AVATAR_2, w / 2, size * 0.9);
 
