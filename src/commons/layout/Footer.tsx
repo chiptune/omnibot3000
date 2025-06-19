@@ -9,14 +9,11 @@ import VERSION, {AUTHOR, NAME} from "@utils/version";
 
 import {RenderTime} from "@/App";
 
-import useChatCompletionStore from "@chat/hooks/useChatCompletionStore";
 import useDebug from "@hooks/useDebug";
 import cls from "classnames";
 
 const Footer = (props: {renderTime: RenderTime}) => {
   const debug = useDebug();
-  const chatStore = useChatCompletionStore();
-  const chatId = chatStore.getChatId();
 
   return (
     <div className={cls("text", styles.root)}>
@@ -30,7 +27,7 @@ const Footer = (props: {renderTime: RenderTime}) => {
         </a>
       </div>
       <Separator />
-      <div className={styles.info}></div>
+      {debug && <div className={styles.info}>debug mode</div>}
       <Spacer />
       <Separator />
       <div>
