@@ -6,6 +6,5 @@
   white-space: pre-wrap;
   opacity: var(--opacity-ghosting);
   z-index: var(--z-index-background);
-  user-select: none;
   cursor: default;
 }

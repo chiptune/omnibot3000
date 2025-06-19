@@ -20,7 +20,7 @@ import styles from "@/App.module.css";
 
 import "@styles/debug.css";
 import "@styles/main.css";
-import "@styles/vt-220.css";
+import "@styles/vt220.css";
 
 import Chat from "@chat/Chat";
 import useDebug from "@hooks/useDebug";
@@ -139,19 +139,11 @@ const Layout = () => {
             <Line variant="vertical" className={styles["v-line"]} />
             <div className={styles.content}>
               <Header darkMode={darkMode} onThemeToggle={themeSwitchHandler} />
-              <Line
-                variant="horizontal"
-                char="-"
-                className={styles["h-line"]}
-              />
+              <Line variant="horizontal" className={styles["h-line"]} />
               <div ref={bodyRef} className={styles.body}>
                 <Outlet />
               </div>
-              <Line
-                variant="horizontal"
-                char="-"
-                className={styles["h-line"]}
-              />
+              <Line variant="horizontal" className={styles["h-line"]} />
               <Footer renderTime={renderTime.current} />
             </div>
           </div>

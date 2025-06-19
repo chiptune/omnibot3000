@@ -2,7 +2,7 @@ import {memo, useEffect, useRef, useState} from "react";
 
 import {getSubtitle} from "@api/api";
 import {
-  ASCII_BLOCK,
+  ASCII_BLOCK2,
   ASCII_LDAB,
   ASCII_LOSANGE,
   ASCII_RDAB,
@@ -11,9 +11,10 @@ import styles from "@layout/Header.module.css";
 import Spacer from "@ui/Spacer";
 
 import ButtonNew from "@chat/components/ButtonNew";
+import cls from "classnames";
 
 export const AVATAR_1 = `${ASCII_LDAB}${ASCII_LOSANGE}${ASCII_RDAB}`;
-export const AVATAR_2 = `/${ASCII_BLOCK}\\`;
+export const AVATAR_2 = `/${ASCII_BLOCK2}\\`;
 
 const Header = (_props: {darkMode: boolean; onThemeToggle: () => void}) => {
   const hasRunOnce = useRef(false);
@@ -36,7 +37,7 @@ const Header = (_props: {darkMode: boolean; onThemeToggle: () => void}) => {
   return (
     <div className={styles.root}>
       <div className={styles.container}>
-        <div className={styles.title}>
+        <div className={cls("text", styles.title)}>
           OMNIBOT 3000
           <br />
           <div className={styles.subtitle}>

@@ -4,31 +4,24 @@ export const COMPLETION_MAX_TOKENS = 1000;
 export const COMPLETION_ID_WILDCARD = "chatcmpl-";
 
 export const BUTTON_NEW = "[+]";
-export const BUTTON_REMOVE = "x";
-export const BUTTON_CLEAR = "[x]";
-export const BUTTON_SUBMIT = "[ask]";
+export const BUTTON_REMOVE = "X";
+export const BUTTON_CLEAR = "[X]";
+export const BUTTON_SUBMIT = "[ASK]";
 export const BUTTON_PREVIOUS = "<";
 export const BUTTON_NEXT = ">";
 
-export const ASCII_SPACE = String.fromCharCode(31);
-export const ASCII_LOSANGE = String.fromCharCode(1);
-export const ASCII_BLOCK = String.fromCharCode(2);
-export const ASCII_VBAR = String.fromCharCode(25);
-export const ASCII_PI = String.fromCharCode(28);
-export const ASCII_POINT = String.fromCharCode(31);
-export const ASCII_SECTION = String.fromCharCode(167);
-export const ASCII_CURRENCY = String.fromCharCode(168);
-export const ASCII_COPYRIGHT = String.fromCharCode(169);
-export const ASCII_LDAB = String.fromCharCode(171); // double angle bracket
-export const ASCII_RDAB = String.fromCharCode(187);
-export const ASCII_DOT = String.fromCharCode(183);
-export const ASCII_PARAGRAPH = String.fromCharCode(181);
-
-/*
-7=°
-8=±
-16-20=-
-26=≤
-27=≥
-29=≠
-*/
+export const ASCII_SPACE = "\u00a0";
+export const ASCII_LOSANGE = "\u00ac";
+export const ASCII_BLOCK1 = "\u00b8";
+export const ASCII_BLOCK2 = "\u00ae";
+export const ASCII_RECTANGLE = "\u00ff";
+export const ASCII_VLINE = "\u00af";
+export const ASCII_HLINE = "-";
+export const ASCII_POINT = "\u00a0";
+export const ASCII_PI = "π";
+export const ASCII_CURRENCY = "¤";
+export const ASCII_COPYRIGHT = "©";
+export const ASCII_LDAB = "«";
+export const ASCII_RDAB = "»";
+export const ASCII_DOT = "·";
+export const ASCII_PARAGRAPH = "¶";

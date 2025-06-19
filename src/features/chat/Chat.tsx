@@ -84,6 +84,15 @@ const Chat: React.FC = () => {
 
     const messages: ChatCompletionMessageParam[] = [getSystemConfig()];
 
+    messages.push({
+      role: "system",
+      content: `\
+        end all messages with a short, acid and fun commment about humankind weakness.\
+        keep your message short, do not write more than 256 characters as comment.\
+        you can use italic to emphasise some words but not bold and not whole sentences.\
+        you must separate each part of your answer with an empty line.`,
+    });
+
     /* add chat history to the messages array to give context */
     if (chatId) {
       messages.push(...chatStore.getMessages(chatId));

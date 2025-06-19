@@ -1,6 +1,6 @@
 import {memo, useEffect, useState} from "react";
 
-import {ASCII_BLOCK, ASCII_SPACE} from "@commons/constants";
+import {ASCII_BLOCK1, ASCII_BLOCK2, ASCII_SPACE} from "@commons/constants";
 import styles from "@layout/Background.module.css";
 import {getVariableFromCSS} from "@utils/styles";
 
@@ -26,10 +26,10 @@ const Background = (props: {w: number; h: number}) => {
 
   useEffect(() => {
     setGrid(ASCII_SPACE.repeat(w * h));
-    setGrid((g) => setPixel(g, w - 1, 1, ASCII_BLOCK));
-    setGrid((g) => setPixel(g, mw - 1, 0, ASCII_BLOCK));
-    setGrid((g) => setPixel(g, mw + 2, h - 3, ASCII_BLOCK));
-    setGrid((g) => setPixel(g, 0, h - 1, ASCII_BLOCK));
+    setGrid((g) => setPixel(g, w - 1, 1, ASCII_BLOCK1));
+    setGrid((g) => setPixel(g, mw - 1, 0, ASCII_BLOCK2));
+    setGrid((g) => setPixel(g, mw + 2, h - 3, ASCII_BLOCK2));
+    setGrid((g) => setPixel(g, 0, h - 1, ASCII_BLOCK1));
     if (debug) console.info(`%cresize grid: ${w} x ${h}`, "color:#999");
   }, [w, h]);
 

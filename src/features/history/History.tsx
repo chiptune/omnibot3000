@@ -1,6 +1,7 @@
 import {memo} from "react";
 import {useNavigate} from "react-router-dom";
 
+import {ASCII_HLINE} from "@commons/constants";
 import {getVariableFromCSS} from "@utils/styles";
 
 import styles from "@history/History.module.css";
@@ -19,7 +20,7 @@ const History = () => {
   const w = parseInt(getVariableFromCSS("menu-width") ?? 0);
 
   return (
-    <div className={styles.root}>
+    <div className={cls("text", styles.root)}>
       {chatStore
         .getChats()
         .map((chat: Chat) => {
@@ -32,7 +33,7 @@ const History = () => {
                   styles[`${selected ? "" : "not-"}selected`],
                 )}>
                 <button
-                  className={cls("ascii", styles.text, {
+                  className={cls("ascii", "text", styles.text, {
                     opacity: selected ? 1 : 0.7,
                   })}
                   onClick={() => {
@@ -43,7 +44,7 @@ const History = () => {
               </div>
               <div className={styles.item}>
                 <div className={styles.line}>
-                  {String("-").repeat(selected ? w - 4 : w - 3)}
+                  {String(ASCII_HLINE).repeat(selected ? w - 4 : w - 3)}
                 </div>
                 {selected && (
                   <div className={styles["button-remove"]}>

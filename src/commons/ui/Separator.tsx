@@ -1,4 +1,4 @@
-import {ASCII_VBAR} from "@commons/constants";
+import {ASCII_VLINE} from "@commons/constants";
 
 const Separator = (props: {char?: string}) => (
   <div
@@ -8,7 +8,7 @@ const Separator = (props: {char?: string}) => (
       alignSelf: "center",
       justifySelf: "center",
       opacity: "var(--opacity-secondary)",
-    }}>{` ${String(props.char || "").trim() || ASCII_VBAR} `}</div>
+    }}>{` ${String(props.char || "").trim() || ASCII_VLINE} `}</div>
 );
 
 export default Separator;

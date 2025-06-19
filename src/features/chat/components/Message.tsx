@@ -1,13 +1,14 @@
 import {memo} from "react";
 import Markdown from "react-markdown";
 
-import {ASCII_VBAR} from "@commons/constants";
+import {ASCII_VLINE} from "@commons/constants";
 import Line from "@ui/Line";
 import {sanitizeHTML} from "@utils/strings";
 
 import styles from "@chat/components/Message.module.css";
 
 import {PromptDisplay} from "@chat/components/Prompt";
+import cls from "classnames";
 import type {ChatCompletionRole} from "openai/resources/index.mjs";
 
 const Message = (props: {
@@ -32,10 +33,10 @@ const Message = (props: {
         <div className={styles.bot}>
           <Line
             variant="vertical"
-            char={ASCII_VBAR}
+            char={ASCII_VLINE}
             className={styles["bot-line"]}
           />
-          <div className={styles["bot-text"]}>
+          <div className={cls("text", styles["bot-text"])}>
             <Markdown
               components={{
                 code(props) {

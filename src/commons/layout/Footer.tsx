@@ -11,6 +11,7 @@ import {RenderTime} from "@/App";
 
 import useChatCompletionStore from "@chat/hooks/useChatCompletionStore";
 import useDebug from "@hooks/useDebug";
+import cls from "classnames";
 
 const Footer = (props: {renderTime: RenderTime}) => {
   const debug = useDebug();
@@ -18,7 +19,7 @@ const Footer = (props: {renderTime: RenderTime}) => {
   const chatId = chatStore.getChatId();
 
   return (
-    <div className={styles.root}>
+    <div className={cls("text", styles.root)}>
       <div>
         <span className={styles.info}>{ASCII_COPYRIGHT}</span>
         <span className={styles.copyright}>
@@ -29,7 +30,7 @@ const Footer = (props: {renderTime: RenderTime}) => {
         </a>
       </div>
       <Separator />
-      {debug && chatId && <div className={styles.info}>{`id: ${chatId}`}</div>}
+      <div className={styles.info}></div>
       <Spacer />
       <Separator />
       <div>

@@ -13,7 +13,7 @@ export const PromptDisplay = (props: {prompt: string; caret?: boolean}) => {
   return lines.map((line: string, i: number) => (
     <span
       key={`prompt-line-${i}`}
-      className={styles["prompt-line"]}
+      className={cls("text", styles["prompt-line"])}
       style={{clear: i > 0 ? "both" : "none"}}>
       {line}
       {props.caret && i === lines.length - 1 && (
@@ -85,7 +85,7 @@ const Prompt = (props: {
     <form ref={formRef} onSubmit={props.submitHandler} className={styles.form}>
       <div>{">"}</div>
       <div className={cls("ascii", styles.prompt)}>
-        <div className={styles.placeholder}>
+        <div className={cls("text", styles.placeholder)}>
           <div className={styles[prompt ? "hide" : "show"]}>
             {placeholders[count]}
           </div>

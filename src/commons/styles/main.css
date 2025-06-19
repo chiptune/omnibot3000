@@ -18,7 +18,7 @@
   --menu-width: 20;
   --chat-width: 48;
   /* colors */
-  --hue: 90; /* amber:30 | yellow: 90 | green:135 | blue:180 */
+  --hue: 60; /* amber:30 | yellow: 90 | green:120 | blue:180 */
   --sat: 60;
   --lgt: 65;
   --color-primary: hsl(var(--hue) var(--sat) var(--lgt) / 0.7);
@@ -34,8 +34,9 @@
   --z-index-background: 1;
   --z-index-screen: 2;
   /* global settings */
-  /*user-select: none;*/
-  font-family: "tty-vt220", monospace;
+  user-select: none;
+  -webkit-user-drag: none;
+  font-family: "VT220", monospace;
   font-size: var(--font-size-px);
   line-height: var(--line-height);
   font-weight: var(--font-weight);
@@ -61,6 +62,7 @@
 
 html {
   font-feature-settings:
+    "kern" 1,
     "liga" 0,
     "calt" 0,
     "ss01" 0,
@@ -68,8 +70,6 @@ html {
 }
 
 body {
-  font-feature-settings: "kern" 1;
-  font-variant-ligatures: none;
   margin: 0;
   padding: 0;
   background-color: #000;

@@ -24,6 +24,7 @@ export const getSystemConfig = (): ChatCompletionMessageParam => {
 export const queryFormat = (max: number): string => `
   no more than ${max} characters (including spaces)! NO MORE!\
   do not add any comments or punctuations.\
+  do not add any bullet point or numbered list, just plain text.\
   it's not an answer to a query, make it compact and catchy!`;
 
 export const getChatTitle = async (
@@ -33,7 +34,7 @@ export const getChatTitle = async (
     getSystemConfig(),
     ...messages,
     {
-      role: "user",
+      role: "system",
       content: `\
       make a title for this chat, excluding this request.\
       keep it as simple, short and descriptive as possible.\
@@ -49,7 +50,7 @@ export const getSubtitle = async (): Promise<string> => {
   const messages: ChatCompletionMessageParam[] = [
     getSystemConfig(),
     {
-      role: "user",
+      role: "system",
       content: `\
       make a list of 5 catch phrase to present you to the user.\
       do not mention your name in the result, it's a motto.\
@@ -66,7 +67,7 @@ export const getPromptPlaceholder = async (): Promise<string> => {
   const messages: ChatCompletionMessageParam[] = [
     getSystemConfig(),
     {
-      role: "user",
+      role: "system",
       content: `\
       make a list of 10 imperatives input placeholder.\
       this input is where the user is asking you question.\

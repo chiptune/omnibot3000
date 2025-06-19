@@ -1,17 +1,18 @@
 /* original fonts: https://github.com/svofski/glasstty */
 
 @font-face {
-  font-family: "tty-vt220";
-  src: url("/fonts/tty-vt220.woff2") format("woff2");
-  font-display: swap;
-  font-weight: normal;
-  font-style: normal;
-  font-synthesis: none;
+  font-family: "VT220";
+  src: url("/fonts/vt220.woff2") format("woff2");
 }
 
 .ascii {
   color: var(--color-primary);
-  font-family: "tty-vt220", monospace;
+  font-family: "VT220", monospace;
+  font-display: swap;
+  font-style: normal;
+  font-variant: normal;
+  font-variant-ligatures: none;
+  font-synthesis: none;
   font-size: var(--font-height);
   font-weight: var(--font-weight);
   line-height: var(--line-height);
@@ -26,7 +27,14 @@
     0.2rem 0.02rem 0.1rem #000,
     0.2rem 0.1rem 0.3rem #000,
     0rem 0rem 0.5rem var(--color-secondary);
-  text-transform: uppercase;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.text {
+  text-decoration: none !important;
+  text-transform: uppercase !important;
+  user-select: text !important;
 }
 
 .blink {

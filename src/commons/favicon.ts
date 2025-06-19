@@ -26,7 +26,7 @@ const favIcon = () => {
   ctx.fill();
 
   ctx.translate(3 * dpr, 0);
-  ctx.font = `normal ${size}px tty-vt220`;
+  ctx.font = `normal ${size}px "VT220"`;
   ctx.textAlign = "center";
   ctx.textBaseline = "top";
 

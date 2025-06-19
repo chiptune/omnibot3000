@@ -6,6 +6,7 @@ import Line from "@ui/Line";
 
 import useChatCompletionStore from "@chat/hooks/useChatCompletionStore";
 import History from "@history/History";
+import cls from "classnames";
 
 const Menu = () => {
   const chatStore = useChatCompletionStore();
@@ -15,7 +16,7 @@ const Menu = () => {
   const size = String(localStorage[SESSION_KEY] || "").length + 64;
 
   return (
-    <div className={styles.root}>
+    <div className={cls("text", styles.root)}>
       <div>
         <span className={styles.title}>history</span>
         <span className={styles.subtitle}> | </span>
@@ -27,7 +28,7 @@ const Menu = () => {
         <span className={styles.count}>{(size / 1024).toFixed(1)}</span>
         <span className={styles.title}> kb wasted</span>
       </div>
-      <Line variant="horizontal" char="-" className={styles.line} />
+      <Line variant="horizontal" className={styles.line} />
       <History />
     </div>
   );

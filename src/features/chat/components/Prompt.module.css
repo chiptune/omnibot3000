@@ -26,6 +26,7 @@
 .prompt-line {
   clear: both;
   float: left;
+  text-transform: none !important;
 }
 
 .placeholder {
@@ -73,5 +74,4 @@
 .submit {
   flex-grow: 0;
   place-self: start;
-  user-select: none;
 }
