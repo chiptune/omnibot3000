@@ -1,6 +1,8 @@
+import {ASCII_BLOCK1} from "@commons/constants";
+
 export const getTextBoundingBox = (text: string): DOMRect => {
   const el = document.createElement("span");
-  el.className = "ascii";
+  el.className = "text ascii";
   el.textContent = text;
   el.style.visibility = "none";
   document.body.appendChild(el);
@@ -9,11 +11,21 @@ export const getTextBoundingBox = (text: string): DOMRect => {
   return box;
 };
 
-export const getCharWidth = (): number => getTextBoundingBox("%").width;
-export const getCharHeight = (): number => getTextBoundingBox("%").height;
+export const getCharWidth = (): number =>
+  getTextBoundingBox(ASCII_BLOCK1).width;
+export const getCharHeight = (): number =>
+  getTextBoundingBox(ASCII_BLOCK1).height;
 
-export const getLineHeight = (el: HTMLElement): number =>
-  parseFloat(getComputedStyle(el).lineHeight);
+export const getLineHeight = (): number => {
+  const el = document.createElement("span");
+  el.className = "text ascii";
+  el.textContent = ASCII_BLOCK1;
+  el.style.visibility = "none";
+  document.body.appendChild(el);
+  const lh = parseFloat(getComputedStyle(el).lineHeight);
+  document.body.removeChild(el);
+  return lh;
+};
 
 export const sanitizeHTML = (html: string): string => {
   const parser = new DOMParser();

@@ -5,7 +5,7 @@ const Separator = (props: {char?: string}) => (
     style={{
       flexShrink: 0,
       flexGrow: 0,
-      alignSelf: "center",
+      alignSelf: "start",
       justifySelf: "center",
       opacity: "var(--opacity-secondary)",
     }}>{` ${String(props.char || "").trim() || ASCII_VLINE} `}</div>

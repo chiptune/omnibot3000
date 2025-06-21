@@ -5,6 +5,7 @@ import styles from "@layout/Background.module.css";
 import {getVariableFromCSS} from "@utils/styles";
 
 import useDebug from "@hooks/useDebug";
+import cls from "classnames";
 
 const Background = (props: {w: number; h: number}) => {
   const debug = useDebug();
@@ -33,7 +34,7 @@ const Background = (props: {w: number; h: number}) => {
     if (debug) console.info(`%cresize grid: ${w} x ${h}`, "color:#999");
   }, [w, h]);
 
-  return <div className={styles.root}>{grid}</div>;
+  return <div className={cls("ascii", styles.root)}>{grid}</div>;
 };
 
 export default memo(Background);

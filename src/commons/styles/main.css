@@ -8,7 +8,7 @@
   --scrollbar-size: 0.5rem;
   --transition-duration: 300ms;
   --font-size-px: 15px;
-  --font-weight: 500;
+  --font-weight: 500; /* 400 normal, 700 bold */
   --line-height: calc(var(--font-height) * 1);
   --opacity-primary: 1;
   --opacity-secondary: 0.7;
@@ -18,7 +18,7 @@
   --menu-width: 20;
   --chat-width: 48;
   /* colors */
-  --hue: 60; /* amber:30 | yellow: 90 | green:120 | blue:180 */
+  --hue: 30; /* amber:30 | yellow: 90 | green:120 | blue:180 */
   --sat: 60;
   --lgt: 65;
   --color-primary: hsl(var(--hue) var(--sat) var(--lgt) / 0.7);
@@ -38,11 +38,10 @@
   -webkit-user-drag: none;
   font-family: "VT220", monospace;
   font-size: var(--font-size-px);
+  /*
   line-height: var(--line-height);
   font-weight: var(--font-weight);
-  text-rendering: optimizeLegibility;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+  */
   ::selection {
     background-color: var(--color-background);
     color: var(--color-highlight);
@@ -58,15 +57,6 @@
     height: var(--scrollbar-size);
     border-radius: calc(var(--scrollbar-size) / 2);
   }
-}
-
-html {
-  font-feature-settings:
-    "kern" 1,
-    "liga" 0,
-    "calt" 0,
-    "ss01" 0,
-    "ss02" 0;
 }
 
 body {

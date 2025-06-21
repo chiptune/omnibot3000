@@ -69,7 +69,7 @@ const Layout = () => {
     if (!root) return;
 
     setCharWidth(getCharWidth());
-    setLineHeight(getLineHeight(root));
+    setLineHeight(getLineHeight());
 
     const vw = window.innerWidth;
     const vh = window.innerHeight;

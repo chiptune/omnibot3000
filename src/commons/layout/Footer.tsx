@@ -32,14 +32,16 @@ const Footer = (props: {renderTime: RenderTime}) => {
       <Separator />
       <div>
         <span className={styles.info}>{`${props.renderTime.phase}: `}</span>
-        {props.renderTime.duration.toFixed(1)}
-        <span className={styles.info}> ms</span>
+        <span style={{whiteSpace: "nowrap"}}>
+          {props.renderTime.duration.toFixed(1)}
+          <span className={styles.info}> ms</span>
+        </span>
       </div>
       <Separator />
       <div>
         <span className={styles.info}>ver </span>
         <a href={`${AUTHOR.url}/${NAME}`} target="_blank">
-          {VERSION.map((n) => numberToRoman(n)).join(".")}
+          {VERSION.join(".")}
         </a>
       </div>
     </div>

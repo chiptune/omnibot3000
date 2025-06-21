@@ -10,8 +10,8 @@
   font-family: "VT220", monospace;
   font-display: swap;
   font-style: normal;
-  font-variant: normal;
-  font-variant-ligatures: none;
+  font-kerning: none;
+  font-variant: no-common-ligatures tabular-nums;
   font-synthesis: none;
   font-size: var(--font-height);
   font-weight: var(--font-weight);
@@ -24,6 +24,8 @@
     -0.01rem 0rem 0.2rem var(--color-secondary),
     0rem 0rem 0.1rem var(--color-primary),
     0.3rem -0.02rem 0.2rem var(--color-tertiary),
+    0rem 0rem 0.5rem var(--color-tertiary),
+    0rem 0rem 0.05rem #000,
     0.2rem 0.02rem 0.1rem #000,
     0.2rem 0.1rem 0.3rem #000,
     0rem 0rem 0.5rem var(--color-secondary);

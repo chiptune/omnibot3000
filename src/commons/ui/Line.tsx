@@ -23,7 +23,7 @@ const Line = (props: {
       if (!el) return;
 
       const cw = getCharWidth();
-      const lh = getLineHeight(el);
+      const lh = getLineHeight();
 
       if (isVertical) {
         el.style.width = "var(--margin)";
