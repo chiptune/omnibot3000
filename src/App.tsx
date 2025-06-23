@@ -104,6 +104,8 @@ const Layout = () => {
     baseDuration,
   ) => {
     renderTime.current = {phase, duration: actualDuration};
+    const favicon = document.getElementById("favicon");
+    if (favicon) favicon.style.display = debug ? "block" : "none";
     if (debug)
       console.info(
         `%c${id} ${phase}: ${Math.round(actualDuration)} ms / ${Math.round(baseDuration)} ms`,

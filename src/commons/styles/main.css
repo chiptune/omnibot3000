@@ -18,7 +18,7 @@
   --menu-width: 20;
   --chat-width: 48;
   /* colors */
-  --hue: 30; /* amber:30 | yellow: 90 | green:120 | blue:180 */
+  --hue: 160; /* amber:30 | yellow: 90 | green:120 | blue:180 */
   --sat: 60;
   --lgt: 65;
   --color-primary: hsl(var(--hue) var(--sat) var(--lgt) / 0.7);
@@ -33,6 +33,7 @@
   /* z-index */
   --z-index-background: 1;
   --z-index-screen: 2;
+  --z-index-debug: 3;
   /* global settings */
   user-select: none;
   -webkit-user-drag: none;

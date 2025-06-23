@@ -12,8 +12,9 @@ export const BUTTON_NEXT = ">";
 
 export const ASCII_SPACE = "\u00a0";
 export const ASCII_LOSANGE = "\u00ac";
-export const ASCII_BLOCK1 = "\u00b8";
+export const ASCII_BLOCK1 = "\u00fe";
 export const ASCII_BLOCK2 = "\u00ae";
+export const ASCII_BLOCK3 = "\u00b8";
 export const ASCII_RECTANGLE = "\u00ff";
 export const ASCII_VLINE = "\u00af";
 export const ASCII_HLINE = "-";

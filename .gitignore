@@ -1,7 +1,7 @@
 node_modules
 .vite
 .work
-.yarn
+.yarn*
 .env
 dist
 *.tsbuildinfo

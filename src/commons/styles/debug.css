@@ -49,3 +49,11 @@
 .debug * > * > * > * > * > * > * > * {
   outline-color: var(--color-rainbow-1) !important;
 }
+
+.debug * > * > * > * > * > * > * > * > * {
+  outline-color: var(--color-rainbow-2) !important;
+}
+
+.debug * > * > * > * > * > * > * > * > * > * {
+  outline-color: var(--color-rainbow-3) !important;
+}

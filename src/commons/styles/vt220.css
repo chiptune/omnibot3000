@@ -41,7 +41,7 @@
 
 .blink {
   display: inline-block;
-  animation: blinker 1.5s linear infinite;
+  animation: blinker 1000ms linear infinite;
 }
 
 @keyframes blinker {
@@ -49,7 +49,7 @@
     opacity: 0;
   }
 
-  45% {
+  30% {
     opacity: 0;
   }
 
@@ -57,7 +57,7 @@
     opacity: 1;
   }
 
-  95% {
+  80% {
     opacity: 1;
   }
 

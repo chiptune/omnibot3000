@@ -31,6 +31,10 @@
   p {
     display: inline-block;
     vertical-align: top;
+    em {
+      opacity: var(--opacity-primary);
+      color: var(--color-highlight);
+    }
   }
 }
 

@@ -1,7 +1,7 @@
 import {memo, useEffect, useRef, useState} from "react";
 
 import {getPromptPlaceholder} from "@api/api";
-import {BUTTON_SUBMIT} from "@commons/constants";
+import {ASCII_BLOCK3, BUTTON_SUBMIT} from "@commons/constants";
 
 import styles from "@chat/components/Prompt.module.css";
 
@@ -17,7 +17,9 @@ export const PromptDisplay = (props: {prompt: string; caret?: boolean}) => {
       style={{clear: i > 0 ? "both" : "none"}}>
       {line}
       {props.caret && i === lines.length - 1 && (
-        <span className={cls("ascii", "blink", styles.caret)}>{"_"}</span>
+        <span className={cls("ascii", "blink", styles.caret)}>
+          {ASCII_BLOCK3}
+        </span>
       )}
     </span>
   ));

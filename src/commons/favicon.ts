@@ -25,7 +25,7 @@ const favIcon = () => {
   ctx.fill();
   ctx.fill();
 
-  ctx.translate(3 * dpr, 0);
+  ctx.translate(3 * dpr, -2 * dpr);
   ctx.font = `normal ${size}px "VT220"`;
   ctx.textAlign = "center";
   ctx.textBaseline = "top";
@@ -51,17 +51,18 @@ const favIcon = () => {
   icon.href = canvas.toDataURL();
   document.head.appendChild(icon);
 
-  /*
   const preview = document.createElement("img");
+  preview.id = "favicon";
   preview.src = canvas.toDataURL();
   preview.style.position = "absolute";
-  preview.style.margin = "2rem";
+  preview.style.margin = "var(--padding)";
   preview.style.bottom = "0";
   preview.style.left = "0";
-  preview.style.zIndex = "3";
-  //preview.style.border = "1px dashed red";
+  preview.style.border = `${1 * dpr}px dashed var(--color-primary)`;
+  preview.style.borderRadius = `${r}px`;
+  preview.style.zIndex = "var(--z-index-debug)";
+  preview.style.display = "none";
   document.body.appendChild(preview);
-  */
 };
 
 export default favIcon;
