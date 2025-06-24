@@ -14,14 +14,19 @@ export const getSystemConfig = (): ChatCompletionMessageParam => {
     a list of random number: ${Array.from({length: 32}, () =>
       Math.round(Math.random() * 100),
     ).join(", ")}\
-    ${persona}\
-    use only the 256 first ASCII character in your answers.\
-    do not use any special characters outside the ASCII table.\
-    answer with the language used the most by the user.`;
+    ${formatting}\
+    ${persona}`;
   return {role: "system", content: systemConfig};
 };
 
-export const queryFormat = (max: number): string => `
+export const formatting = `
+  use only the 256 first ASCII character in your answers, no unicode!\
+  do not use any special characters or emojis or unicode > 0x00ff.\
+  make all links you provide clickable, give them a human readable name.\
+  very important: output only markdown text, no HTML please!
+  answer with the language used the most by the user in the chat.`;
+
+export const smallQueryFormatting = (max: number): string => `
   no more than ${max} characters (including spaces)! NO MORE!\
   do not add any comments or punctuations.\
   do not add any bullet point or numbered list, just plain text.\
@@ -36,10 +41,10 @@ export const getChatTitle = async (
     {
       role: "system",
       content: `\
-      make a title for this chat, excluding this request.\
-      keep it as simple, short and descriptive as possible.\
-      do not mention your name in the result.\`
-      ${queryFormat(28)}`,
+        make a title for this chat, excluding this request.\
+        keep it as simple, short and descriptive as possible.\
+        do not mention your name in the result.\`
+        ${smallQueryFormatting(28)}`,
     },
   ];
   const response = (await getStream(updatedMessages, false)) as ChatCompletion;
@@ -52,11 +57,11 @@ export const getSubtitle = async (): Promise<string> => {
     {
       role: "system",
       content: `\
-      make a list of 5 catch phrase to present you to the user.\
-      do not mention your name in the result, it's a motto.\
-      emphasize on your infinite source of knowledge.\
-      boast yourself to the maximum, demonstrate that your are the best.\
-      ${queryFormat(32)}`,
+        make a list of 5 catch phrase to present you to the user.\
+        do not mention your name in the result, it's a motto.\
+        emphasize on your infinite source of knowledge.\
+        boast yourself to the maximum, demonstrate that your are the best.\
+        ${smallQueryFormatting(32)}`,
     },
   ];
   const response = (await getStream(messages, false)) as ChatCompletion;
@@ -69,10 +74,10 @@ export const getPromptPlaceholder = async (): Promise<string> => {
     {
       role: "system",
       content: `\
-      make a list of 10 imperatives input placeholder.\
-      this input is where the user is asking you question.\
-      you are not asking, you are imposing, user must comply.\
-      ${queryFormat(25)}`,
+        make a list of 10 imperatives input placeholder.\
+        this input is where the user is asking you question.\
+        you are not asking, you are imposing, user must comply.\
+        ${smallQueryFormatting(25)}`,
     },
   ];
   const response = (await getStream(messages, false)) as ChatCompletion;

@@ -13,7 +13,7 @@
   --opacity-primary: 1;
   --opacity-secondary: 0.7;
   --opacity-tertiary: 0.5;
-  --opacity-ghosting: 0.2;
+  --opacity-ghosting: 0.25;
   /* layout variables */
   --menu-width: 20;
   --chat-width: 48;
@@ -26,7 +26,7 @@
   --color-tertiary: hsl(var(--hue) var(--sat) var(--lgt) / 0.3);
   --color-background: hsl(var(--hue) var(--sat) var(--lgt) / 0.1);
   --color-highlight: hsl(
-    var(--hue) calc(var(--sat) * 1.3) calc(var(--lgt) * 1.2)
+    var(--hue) calc(var(--sat) * 1.1) calc(var(--lgt) * 1.25)
   );
   /* duration */
   --duration-fade: 750ms;
@@ -151,6 +151,7 @@ button {
   outline: none;
   background-color: transparent;
   transition: color var(--transition-duration) ease-out;
+  user-select: none;
   cursor: pointer;
 }
 
@@ -160,7 +161,7 @@ button:hover {
 
 button[disabled] {
   opacity: var(--opacity-tertiary);
-  cursor: default;
+  cursor: not-allowed;
 }
 
 button:hover {

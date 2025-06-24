@@ -8,6 +8,9 @@ const Separator = (props: {char?: string}) => (
       alignSelf: "start",
       justifySelf: "center",
       opacity: "var(--opacity-secondary)",
+      textTransform: "none",
+      userSelect: "none",
+      cursor: "default",
     }}>{` ${String(props.char || "").trim() || ASCII_VLINE} `}</div>
 );
 

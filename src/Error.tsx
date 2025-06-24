@@ -33,15 +33,19 @@ export class ErrorBoundary extends React.Component<Props, State> {
     if (this.state.hasError) {
       return (
         <div className={styles.root}>
-          <div className={cls("ascii", styles.error)}>
+          <div className={cls("text", "ascii", styles.error)}>
             <div>
-              <span style={{opacity: "var(--opacity-tertiary)"}}># </span>
+              <span style={{opacity: "var(--opacity-tertiary)"}}>% </span>
               <span>error :(</span>
             </div>
             <Line className={styles["h-line"]} />
             <div>{this.state.error?.message}</div>
             <Line className={styles["h-line"]} />
-            <div style={{opacity: "var(--opacity-tertiary)"}}>
+            <div
+              style={{
+                opacity: "var(--opacity-tertiary)",
+                textTransform: "none",
+              }}>
               {this.state.error?.stack}
             </div>
             <Line className={styles["h-line"]} />

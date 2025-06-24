@@ -1,0 +1,27 @@
+.root {
+  display: flex;
+  flex-direction: column;
+  margin-left: var(--font-width);
+  margin-bottom: var(--line-height);
+}
+
+.container {
+  display: flex;
+  flex-direction: row;
+}
+
+.corner {
+  opacity: var(--opacity-tertiary);
+}
+
+.line {
+  width: calc(100% - var(--font-width));
+  opacity: var(--opacity-tertiary);
+}
+
+.toolbar {
+  display: flex;
+  flex-direction: row;
+  row-gap: var(--font-width);
+  justify-content: end;
+}

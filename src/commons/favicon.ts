@@ -32,7 +32,7 @@ const favIcon = () => {
 
   ctx.shadowColor = getColorFromCSS("primary");
   ctx.shadowBlur = 8 * dpr;
-  ctx.lineWidth = 3 * dpr;
+  ctx.lineWidth = 2 * dpr;
   ctx.strokeStyle = getColorFromCSS("secondary");
   ctx.strokeText(AVATAR_1, w / 2, 0);
   ctx.strokeText(AVATAR_2, w / 2, size * 0.9);

@@ -10,6 +10,7 @@ import styles from "@chat/Chat.module.css";
 import {formatText} from "@chat/commons/strings";
 import Message from "@chat/components/Message";
 import Prompt from "@chat/components/Prompt";
+import Toolbar from "@chat/components/Toolbar";
 import useChatCompletionStore, {
   ChatId,
   Completion,
@@ -192,12 +193,14 @@ const Chat: React.FC = () => {
             <Fragment key={`chat-completion-${completion.id}`}>
               <Message role="user" content={completion.prompt} />
               <Message role="assistant" content={completion.message} />
+              <Toolbar completion={completion} />
             </Fragment>
           ))}
           {loading && response && (
             <Fragment key="chat-completion">
               <Message role="user" content={query} />
               <Message role="assistant" content={response} hasCursor={true} />
+              <Toolbar completion={completion} />
             </Fragment>
           )}
         </div>

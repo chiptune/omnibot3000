@@ -2,21 +2,32 @@ import {memo, useEffect, useRef, useState} from "react";
 
 import {getSubtitle} from "@api/api";
 import {
+  ASCII_BLOCK1,
   ASCII_BLOCK2,
+  ASCII_BLOCK3,
   ASCII_LDAB,
   ASCII_LOSANGE,
   ASCII_RDAB,
+  BUTTON_NEW,
 } from "@commons/constants";
 import styles from "@layout/Header.module.css";
+import Button from "@ui/Button";
 import Spacer from "@ui/Spacer";
 
-import ButtonNew from "@chat/components/ButtonNew";
+import useChatCompletionStore from "@chat/hooks/useChatCompletionStore";
 import cls from "classnames";
 
 export const AVATAR_1 = `${ASCII_LDAB}${ASCII_LOSANGE}${ASCII_RDAB}`;
 export const AVATAR_2 = `/${ASCII_BLOCK2}\\`;
 
 const Header = (_props: {darkMode: boolean; onThemeToggle: () => void}) => {
+  const chatStore = useChatCompletionStore();
+
+  const resetChatHandler = () => {
+    chatStore.resetCompletions();
+    chatStore.resetChatId();
+  };
+
   const hasRunOnce = useRef(false);
   const [subtitle, setSubtitle] = useState<string>("");
 
@@ -39,6 +50,10 @@ const Header = (_props: {darkMode: boolean; onThemeToggle: () => void}) => {
       <div className={styles.container}>
         <div className={cls("text", styles.title)}>
           OMNIBOT 3000
+          <span
+            className={
+              styles.gradient
+            }>{`${ASCII_BLOCK3}${ASCII_BLOCK2}${ASCII_BLOCK1}`}</span>
           <br />
           <div className={styles.subtitle}>
             <div className={subtitle && styles.subtext}>{subtitle}</div>
@@ -54,7 +69,7 @@ const Header = (_props: {darkMode: boolean; onThemeToggle: () => void}) => {
       </div>
       <Spacer />
       <div className={styles.button}>
-        <ButtonNew />
+        <Button name={BUTTON_NEW} handler={resetChatHandler} />
       </div>
     </div>
   );

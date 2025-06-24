@@ -5,8 +5,9 @@
   flex-shrink: 1;
   column-gap: var(--font-width);
   align-items: end;
-  width: 100%;
-  max-width: calc(var(--chat-width) * var(--font-width));
+  margin-left: var(--font-width);
+  margin-right: var(--font-width);
+  max-width: calc((var(--chat-width) - 3) * var(--font-width));
 }
 
 .input {
@@ -15,11 +16,11 @@
 
 .prompt {
   flex-grow: 1;
+  width: 100%;
   min-height: var(--line-height);
   text-wrap: wrap;
   white-space: pre-wrap;
-  word-break: normal;
-  overflow-wrap: break-word;
+  word-break: break-all;
   cursor: text;
 }
 
@@ -27,12 +28,16 @@
   clear: both;
   float: left;
   text-transform: none !important;
+  user-select: text !important;
+  cursor: text !important;
 }
 
 .placeholder {
   position: absolute;
   height: var(--line-height);
   opacity: var(--opacity-tertiary);
+  user-select: none !important;
+  cursor: default !important;
 }
 
 .show {

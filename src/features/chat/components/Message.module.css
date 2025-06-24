@@ -1,8 +1,5 @@
 .root {
-  text-wrap: wrap;
-  p {
-    padding-bottom: var(--line-height);
-  }
+  margin-left: var(--font-width);
 }
 
 .user {
@@ -22,16 +19,28 @@
   flex-direction: row;
   column-gap: var(--font-width);
   align-items: stretch;
+  p {
+    padding-bottom: var(--line-height);
+  }
+}
+
+.bot > * > :last-child {
+  padding-bottom: 0 !important;
 }
 
 .bot-text {
   display: flex;
   flex-direction: column;
+  word-break: break-word;
   opacity: var(--opacity-secondary);
   p {
     display: inline-block;
     vertical-align: top;
     em {
+      opacity: var(--opacity-primary);
+      color: var(--color-highlight);
+    }
+    a {
       opacity: var(--opacity-primary);
       color: var(--color-highlight);
     }
@@ -42,6 +51,5 @@
   flex-grow: 0;
   flex-shrink: 0;
   vertical-align: top;
-  margin-bottom: var(--line-height);
   opacity: var(--opacity-tertiary);
 }

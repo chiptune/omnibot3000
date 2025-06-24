@@ -1,23 +1,35 @@
 import {memo} from "react";
 import {useNavigate} from "react-router-dom";
 
-import {ASCII_HLINE} from "@commons/constants";
+import {ASCII_HLINE, BUTTON_REMOVE} from "@commons/constants";
+import Button from "@ui/Button";
 import {getVariableFromCSS} from "@utils/styles";
 
 import styles from "@history/History.module.css";
 
-import ButtonRemove from "@chat/components/ButtonRemove";
-import type {Chat} from "@chat/hooks/useChatCompletionStore";
+import type {Chat, ChatId} from "@chat/hooks/useChatCompletionStore";
 import useChatCompletionStore from "@chat/hooks/useChatCompletionStore";
+import useStorage from "@hooks/useStorage";
 import cls from "classnames";
 
 const History = () => {
   const chatStore = useChatCompletionStore();
   const chatId = chatStore.getChatId();
+  const storage = useStorage();
 
   const navigate = useNavigate();
 
   const w = parseInt(getVariableFromCSS("menu-width") ?? 0);
+
+  const removeChat = (chatId: ChatId) => {
+    chatStore.removeChat(chatId);
+    /* if the removed chat is the current one, we reset to a blank chat */
+    if (chatId === chatStore.chatId) {
+      chatStore.resetCompletions();
+      chatStore.resetChatId();
+    }
+    storage.save();
+  };
 
   return (
     <div className={cls("text", styles.root)}>
@@ -48,7 +60,12 @@ const History = () => {
                 </div>
                 {selected && (
                   <div className={styles["button-remove"]}>
-                    <ButtonRemove id={chat.id} />
+                    <Button
+                      name={BUTTON_REMOVE}
+                      handler={() => {
+                        removeChat(chat.id);
+                      }}
+                    />
                   </div>
                 )}
               </div>

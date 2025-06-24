@@ -71,7 +71,6 @@
   flex-grow: 1;
   align-items: center;
   align-self: stretch;
-  padding-left: var(--font-width);
   overflow: hidden;
 }
 

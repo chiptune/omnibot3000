@@ -33,6 +33,12 @@
   animation: fadein var(--duration-fade) forwards;
 }
 
+.gradient {
+  text-transform: none !important;
+  margin-left: var(--font-width);
+  opacity: var(--opacity-tertiary);
+}
+
 .avatar {
   display: flex;
   flex: row;

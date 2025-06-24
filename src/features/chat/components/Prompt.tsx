@@ -88,7 +88,10 @@ const Prompt = (props: {
       <div>{">"}</div>
       <div className={cls("ascii", styles.prompt)}>
         <div className={cls("text", styles.placeholder)}>
-          <div className={styles[prompt ? "hide" : "show"]}>
+          <div
+            className={
+              styles[prompt || placeholders.length === 0 ? "hide" : "show"]
+            }>
             {placeholders[count]}
           </div>
         </div>
@@ -106,10 +109,7 @@ const Prompt = (props: {
         <button
           type="submit"
           disabled={isDisabled}
-          className={cls("ascii", styles.submit)}
-          style={{
-            cursor: isDisabled ? "not-allowed" : "pointer",
-          }}>
+          className={cls("ascii", styles.submit)}>
           {BUTTON_SUBMIT}
         </button>
       </div>
