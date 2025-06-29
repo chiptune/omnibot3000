@@ -1,13 +1,9 @@
 .root {
   display: flex;
-  flex-direction: column;
-  margin-left: var(--font-width);
-  margin-bottom: var(--line-height);
-}
-
-.container {
-  display: flex;
   flex-direction: row;
+  margin-top: var(--line-height);
+  margin-bottom: var(--line-height);
+  margin-left: var(--font-width);
 }
 
 .corner {
@@ -22,6 +18,4 @@
 .toolbar {
   display: flex;
   flex-direction: row;
-  row-gap: var(--font-width);
-  justify-content: end;
 }

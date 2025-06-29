@@ -34,9 +34,10 @@
 }
 
 .gradient {
-  text-transform: none !important;
   margin-left: var(--font-width);
   opacity: var(--opacity-tertiary);
+  text-transform: none;
+  user-select: none;
 }
 
 .avatar {

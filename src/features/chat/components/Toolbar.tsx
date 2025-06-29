@@ -1,6 +1,6 @@
 import {memo} from "react";
 
-import {BUTTON_CLEAR} from "@commons/constants";
+import {BUTTON_DELETE} from "@commons/constants";
 import Button from "@ui/Button";
 import Line from "@ui/Line";
 
@@ -14,11 +14,11 @@ import useStorage from "@hooks/useStorage";
 import cls from "classnames";
 
 const Toolbar = (props: {completion: Completion}) => {
-  //const chatStore = useChatCompletionStore();
+  const chatStore = useChatCompletionStore();
   const storage = useStorage();
 
-  const removeCompletion = (id: CompletionId) => {
-    //chatStore.removeCompletion(id);
+  const deleteCompletion = (id: CompletionId) => {
+    chatStore.deleteCompletion(id);
     storage.save();
   };
 
@@ -26,15 +26,13 @@ const Toolbar = (props: {completion: Completion}) => {
 
   return (
     <div className={styles.root}>
-      <div className={styles.container}>
-        <div className={styles.corner}>{"°"}</div>
-        <Line variant="horizontal" className={styles["line"]} />
-      </div>
+      <div className={styles.corner}>{"+"}</div>
+      <Line variant="horizontal" className={styles["line"]} />
       <div className={cls("text", styles.toolbar)}>
         <Button
-          name={BUTTON_CLEAR}
+          name={BUTTON_DELETE}
           handler={() => {
-            removeCompletion(completion.id);
+            deleteCompletion(completion.id);
           }}
         />
       </div>

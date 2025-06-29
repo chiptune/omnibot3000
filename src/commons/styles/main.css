@@ -95,8 +95,7 @@ p {
 }
 
 strong {
-  font-weight: inherit;
-  color: var(--color-primary) !important;
+  color: var(--color-highlight);
 }
 
 textarea {

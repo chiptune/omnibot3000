@@ -7,13 +7,14 @@ import {getCharWidth} from "@utils/strings";
 
 import styles from "@chat/Chat.module.css";
 
-import {formatText} from "@chat/commons/strings";
+import {formatCompletionId, formatText} from "@chat/commons/strings";
 import Message from "@chat/components/Message";
 import Prompt from "@chat/components/Prompt";
 import Toolbar from "@chat/components/Toolbar";
 import useChatCompletionStore, {
   ChatId,
   Completion,
+  CompletionId,
 } from "@chat/hooks/useChatCompletionStore";
 import useKeyPress from "@hooks/useKeyPress";
 import useStorage from "@hooks/useStorage";
@@ -30,6 +31,7 @@ const Chat: React.FC = () => {
 
   const [prompt, setPrompt] = useState<string>("");
   const [response, setResponse] = useState<string>("");
+  const [completionId, setCompletionId] = useState<CompletionId>();
   const [completion, setCompletion] = useState<Completion>();
   const [loading, setLoading] = useState<boolean>(false);
   const [query, setQuery] = useState<string>("");
@@ -60,12 +62,20 @@ const Chat: React.FC = () => {
   /* handle chat id url parameter */
   useEffect(() => {
     if (!chatStore.getChat(id)) {
-      chatStore.resetCompletions();
+      chatStore.setCompletions();
       navigate("/chat");
     } else {
       chatStore.setChatId(id);
       chatStore.setCompletions(id);
     }
+    console.log(chatStore.getChat(id));
+    console.log(chatStore.getCompletions(id));
+    console.info(
+      "chat:",
+      chatStore.getChatId(),
+      "\ncompletion:",
+      chatStore.getCompletionId(),
+    );
   }, [id]);
 
   /* update the chat is the chatId value in store changed */
@@ -90,7 +100,6 @@ const Chat: React.FC = () => {
       content: `\
         end all messages with a short, acid and fun commment about humankind weakness.\
         keep your message short, do not write more than 256 characters as comment.\
-        you can use italic to emphasise some words but not bold and not whole sentences.\
         you must separate each part of your answer with an empty line.`,
     });
 
@@ -114,13 +123,16 @@ const Chat: React.FC = () => {
           setResponse((prev) => `${prev}\n\n[max tokens length reached]\n`);
         }
         setCompletion({
-          id: chunk.id,
+          id: formatCompletionId(chunk.id),
           created: chunk.created,
           model: chunk.model,
           prompt,
           message: "",
-          previousCompletion: undefined,
+          index: 0,
+          children: [],
+          parentCompletion: completionId,
         });
+        setCompletionId(chunk.id);
       }
       if (!text) continue;
       setResponse((prev) => `${prev}${text}`);
@@ -169,9 +181,8 @@ const Chat: React.FC = () => {
         return prev;
       });
       if (!chatId) {
-        chatStore.resetCompletions();
+        chatStore.setCompletions();
         chatStore.createChat(completion);
-        chatStore.setChatId(completion.id);
         setTitle(chatStore.getChatId());
       }
       chatStore.addCompletion(completion);
@@ -200,7 +211,6 @@ const Chat: React.FC = () => {
             <Fragment key="chat-completion">
               <Message role="user" content={query} />
               <Message role="assistant" content={response} hasCursor={true} />
-              <Toolbar completion={completion} />
             </Fragment>
           )}
         </div>

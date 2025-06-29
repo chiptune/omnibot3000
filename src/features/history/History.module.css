@@ -10,8 +10,12 @@
   flex-direction: row;
 }
 
+.toolbar {
+  display: flex;
+  flex-direction: row;
+}
+
 .line {
-  display: inline-block;
   margin-left: calc(var(--font-width) * 2);
   opacity: var(--opacity-tertiary);
   user-select: none;
@@ -50,8 +54,5 @@
   opacity: var(--opacity-secondary);
 }
 
-.button-remove {
-  display: inline-block;
-  place-self: start;
-  align-self: right;
+.delete {
 }

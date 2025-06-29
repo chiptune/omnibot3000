@@ -56,6 +56,7 @@ const Line = (props: {
         userSelect: "none",
         wordWrap: "break-word",
         overflow: "hidden",
+        cursor: "default",
       }}></div>
   );
 };

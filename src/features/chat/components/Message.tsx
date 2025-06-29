@@ -1,6 +1,7 @@
 import {memo} from "react";
 import Markdown from "react-markdown";
 
+import {ASCII_BLOCK1} from "@commons/constants";
 import Line from "@ui/Line";
 import {sanitizeHTML} from "@utils/strings";
 
@@ -23,7 +24,7 @@ const Message = (props: {
     <div className={styles.root}>
       {isUser ? (
         <div className={styles.user}>
-          <div className={styles["user-pill"]}>{"%"}</div>
+          <div className={styles["user-pill"]}>{">"}</div>
           <div>
             <PromptDisplay prompt={content} />
           </div>
@@ -32,7 +33,7 @@ const Message = (props: {
         <div className={styles.bot}>
           <Line
             variant="vertical"
-            /*char={ASCII_BLOCK1}*/
+            char={ASCII_BLOCK1}
             className={styles["bot-line"]}
           />
           <div className={cls("text", styles["bot-text"])}>

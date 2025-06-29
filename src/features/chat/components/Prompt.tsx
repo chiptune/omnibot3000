@@ -85,7 +85,7 @@ const Prompt = (props: {
 
   return (
     <form ref={formRef} onSubmit={props.submitHandler} className={styles.form}>
-      <div>{">"}</div>
+      <div className={styles.pill}>{">"}</div>
       <div className={cls("ascii", styles.prompt)}>
         <div className={cls("text", styles.placeholder)}>
           <div

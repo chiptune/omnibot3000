@@ -8,7 +8,7 @@ import {
   ASCII_LDAB,
   ASCII_LOSANGE,
   ASCII_RDAB,
-  BUTTON_NEW,
+  BUTTON_CREATE,
 } from "@commons/constants";
 import styles from "@layout/Header.module.css";
 import Button from "@ui/Button";
@@ -24,8 +24,8 @@ const Header = (_props: {darkMode: boolean; onThemeToggle: () => void}) => {
   const chatStore = useChatCompletionStore();
 
   const resetChatHandler = () => {
-    chatStore.resetCompletions();
-    chatStore.resetChatId();
+    chatStore.setCompletions();
+    chatStore.setChatId();
   };
 
   const hasRunOnce = useRef(false);
@@ -69,7 +69,7 @@ const Header = (_props: {darkMode: boolean; onThemeToggle: () => void}) => {
       </div>
       <Spacer />
       <div className={styles.button}>
-        <Button name={BUTTON_NEW} handler={resetChatHandler} />
+        <Button name={BUTTON_CREATE} handler={resetChatHandler} />
       </div>
     </div>
   );

@@ -3,9 +3,8 @@ export const SESSION_KEY = "omnibot_3000_data";
 export const COMPLETION_MAX_TOKENS = 1000;
 export const COMPLETION_ID_WILDCARD = "chatcmpl-";
 
-export const BUTTON_NEW = "[+]";
-export const BUTTON_REMOVE = "X";
-export const BUTTON_CLEAR = "[X]";
+export const BUTTON_CREATE = "[+]";
+export const BUTTON_DELETE = "[-]";
 export const BUTTON_SUBMIT = "[ASK]";
 export const BUTTON_PREVIOUS = "<";
 export const BUTTON_NEXT = ">";
