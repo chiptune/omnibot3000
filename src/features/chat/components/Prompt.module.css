@@ -29,6 +29,7 @@
 }
 
 .prompt-line {
+  position: relative;
   clear: both;
   float: left;
   text-transform: none !important;
@@ -75,9 +76,14 @@
 }
 
 .caret {
-  bottom: 0;
+  position: absolute;
+  left: 0;
+  top: 0;
   width: var(--font-width);
   height: var(--line-height);
+  opacity: var(--opacity-primary);
+  user-select: none !important;
+  cursor: default !important;
 }
 
 .submit {

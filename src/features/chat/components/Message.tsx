@@ -26,7 +26,7 @@ const Message = (props: {
         <div className={styles.user}>
           <div className={styles["user-pill"]}>{">"}</div>
           <div>
-            <PromptDisplay prompt={content} />
+            <PromptDisplay prompt={content} caret={Infinity} />
           </div>
         </div>
       ) : (

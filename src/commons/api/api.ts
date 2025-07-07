@@ -1,6 +1,8 @@
 import getStream from "@api/openAI";
 import persona from "@commons/persona.txt?raw";
 
+import {getVariableFromCSS} from "../utils/styles";
+
 import {
   ChatCompletion,
   ChatCompletionMessageParam,
@@ -14,6 +16,9 @@ export const getSystemConfig = (): ChatCompletionMessageParam => {
     a list of random number: ${Array.from({length: 32}, () =>
       Math.round(Math.random() * 100),
     ).join(", ")}\
+    current color hue: ${getVariableFromCSS("hue")}°\
+    current color saturation: ${getVariableFromCSS("sat")}%\
+    current color lightness: ${getVariableFromCSS("lgt")}%\
     ${formatting}\
     ${persona}`;
   return {role: "system", content: systemConfig};

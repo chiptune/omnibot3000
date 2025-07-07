@@ -2,27 +2,50 @@ import {memo, useEffect, useRef, useState} from "react";
 
 import {getPromptPlaceholder} from "@api/api";
 import {ASCII_BLOCK3, BUTTON_SUBMIT} from "@commons/constants";
+import {clamp} from "@utils/math";
 
 import styles from "@chat/components/Prompt.module.css";
 
-import useKeyPress from "@hooks/useKeyPress";
 import cls from "classnames";
 
-export const PromptDisplay = (props: {prompt: string; caret?: boolean}) => {
-  const lines: string[] = String(props.prompt || "").split("\n");
-  return lines.map((line: string, i: number) => (
-    <span
-      key={`prompt-line-${i}`}
-      className={cls("text", styles["prompt-line"])}
-      style={{clear: i > 0 ? "both" : "none"}}>
-      {line}
-      {props.caret && i === lines.length - 1 && (
-        <span className={cls("ascii", "blink", styles.caret)}>
-          {ASCII_BLOCK3}
-        </span>
-      )}
-    </span>
-  ));
+export const KEYS: string[] = [
+  "Escape",
+  "Control",
+  "Meta",
+  "Shift",
+  "Alt",
+  "Dead",
+  "CapsLock",
+  "ArrowUp",
+  "ArrowDown",
+  "Insert",
+  "Delete",
+];
+
+export const PromptDisplay = (props: {prompt: string; caret: number}) => {
+  const {prompt, caret} = props;
+  const lines: string[] = String(prompt || "").split("\n");
+  let count = 0;
+  return lines.map((line: string, i: number) => {
+    let cp = 0;
+    if (caret >= count && caret < count + line.length) cp = caret - count;
+    count += line.length;
+    return (
+      <div
+        key={`prompt-line-${i}`}
+        className={cls("text", styles["prompt-line"])}
+        style={{clear: i > 0 ? "both" : "none"}}>
+        {line}
+        {cp >= 0 && cp <= line.length ? (
+          <div
+            className={cls("blink", styles.caret)}
+            style={{marginLeft: `calc(var(--font-width) * ${caret})`}}>
+            {ASCII_BLOCK3}
+          </div>
+        ) : null}
+      </div>
+    );
+  });
 };
 
 const Prompt = (props: {
@@ -31,19 +54,20 @@ const Prompt = (props: {
   setPrompt: React.Dispatch<React.SetStateAction<string>>;
   submitHandler: (e: React.FormEvent) => void;
 }) => {
-  const {loading, prompt} = props;
+  const {loading, prompt, setPrompt} = props;
 
-  const hasRunOnce = useRef(false);
+  const keyEvent = useRef<KeyboardEvent>();
+  const hasRunOnce = useRef<boolean>(false);
 
   const [placeholders, setPlaceholders] = useState<string[]>([]);
   const [count, setCount] = useState<number>(0);
+  const [caret, setCaret] = useState<number>(0);
+  const [forceUpdate, setForceUpdate] = useState<number>(0);
 
   const formRef = useRef<HTMLFormElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
 
   const isDisabled = loading || String(prompt).replace("\n", "").trim() === "";
-
-  const backSpace = useKeyPress("Backspace", {meta: false});
 
   const updatePlaceholder = async () => {
     const data = await getPromptPlaceholder();
@@ -55,28 +79,64 @@ const Prompt = (props: {
     );
   };
 
+  function handleInput(e: KeyboardEvent): void {
+    keyEvent.current = e;
+    setForceUpdate((n) => (n + 1) % 256);
+  }
+
+  useEffect(() => {
+    const {key, shiftKey} = keyEvent.current || {};
+
+    if (!key || KEYS.includes(key)) return;
+
+    let p = prompt;
+    let c = caret;
+
+    switch (key) {
+      case "Enter":
+        if (shiftKey) setPrompt((p) => p + "\n");
+        break;
+      case "Tab":
+        p += "\t";
+        break;
+      case "Backspace":
+        p = `${p.substring(0, c - 1)}${p.substring(c)}`;
+        c--;
+        break;
+      case "ArrowLeft":
+        c--;
+        break;
+      case "ArrowRight":
+        c++;
+        break;
+      case "PageUp":
+        c = 0;
+        break;
+      case "PageDown":
+        c = Infinity;
+        break;
+      case "Home":
+        c = 0;
+        break;
+      case "End":
+        c = Infinity;
+        break;
+      default:
+        p = `${p.substring(0, c)}${key}${p.substring(c)}`;
+        c++;
+    }
+    setPrompt(p);
+    setCaret(clamp(c, 0, p.length));
+  }, [forceUpdate]);
+
   useEffect(() => {
     if (hasRunOnce.current) return;
     hasRunOnce.current = true;
 
     updatePlaceholder();
-
-    const handleKeyPress = (e: KeyboardEvent): void => {
-      if (e.key === "Enter") {
-        if (e.shiftKey) props.setPrompt((prompt) => prompt + "\n");
-        return;
-      }
-      props.setPrompt((prompt) => prompt + e.key);
-    };
-
-    window.addEventListener("keypress", (e) => handleKeyPress(e));
-    return window.removeEventListener("keypress", (e) => handleKeyPress(e));
-  }, []);
-
-  useEffect(() => {
-    if (backSpace === 1)
-      props.setPrompt((prompt) => prompt.substring(0, prompt.length - 1));
-  }, [backSpace]);
+    window.addEventListener("keydown", (e) => handleInput(e));
+    return window.removeEventListener("keydown", (e) => handleInput(e));
+  });
 
   useEffect(() => {
     if (prompt.length === 0)
@@ -96,7 +156,7 @@ const Prompt = (props: {
           </div>
         </div>
         <div>
-          <PromptDisplay prompt={prompt} caret />
+          <PromptDisplay prompt={prompt} caret={caret} />
         </div>
       </div>
       <input
