@@ -2,6 +2,7 @@ node_modules
 .vite
 .work
 .yarn*
+yarn*
 .npm*
 .env
 dist
