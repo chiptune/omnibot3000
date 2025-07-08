@@ -156,11 +156,7 @@ const Layout = () => {
 };
 
 const App = () => (
-  <Router
-    future={{
-      v7_startTransition: true,
-      v7_relativeSplatPath: true,
-    }}>
+  <Router>
     <Routes>
       <Route path="/" element={<Layout />}>
         <Route path="/" element={<Navigate to="/chat" replace />} />

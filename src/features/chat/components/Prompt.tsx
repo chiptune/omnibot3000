@@ -59,7 +59,7 @@ const Prompt = (props: {
 }) => {
   const {loading, prompt, setPrompt} = props;
 
-  const keyEvent = useRef<KeyboardEvent>();
+  const keyEvent = useRef<KeyboardEvent>(undefined);
   const hasRunOnce = useRef<boolean>(false);
 
   const [placeholders, setPlaceholders] = useState<string[]>([]);
