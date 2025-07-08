@@ -29,7 +29,7 @@ const Chat: React.FC = () => {
 
   const storage = useStorage();
 
-  const [prompt, setPrompt] = useState<string>("");
+  const [prompt, setPrompt] = useState<string[]>([""]);
   const [response, setResponse] = useState<string>("");
   const [completionId, setCompletionId] = useState<CompletionId>();
   const [completion, setCompletion] = useState<Completion>();
@@ -54,8 +54,8 @@ const Chat: React.FC = () => {
   /* update the chat when the user submit the prompt using meta+enter */
   useEffect(() => {
     if (submitOnEnter === 1) {
-      getCompletion(prompt);
-      setPrompt("");
+      getCompletion(prompt.join("\n"));
+      setPrompt([""]);
     }
   }, [submitOnEnter]);
 
@@ -86,10 +86,10 @@ const Chat: React.FC = () => {
     return () => unsubscribe();
   });
 
-  const getCompletion = async (prompt: string) => {
-    setQuery(prompt); /* save the prompt before reset */
+  const getCompletion = async (query: string) => {
+    setQuery(query); /* save the query before reset */
 
-    if (String(prompt).replace("\n", "").trim() === "") return;
+    if (String(query).replace("\n", "").trim() === "") return;
 
     setLoading(true);
 
@@ -108,8 +108,8 @@ const Chat: React.FC = () => {
       messages.push(...chatStore.getMessages(chatId));
     }
 
-    /* append current prompt */
-    messages.push({role: "user", content: prompt});
+    /* append current query */
+    messages.push({role: "user", content: query});
 
     const response = (await getStream(messages)) as Stream<ChatCompletionChunk>;
 
@@ -126,7 +126,7 @@ const Chat: React.FC = () => {
           id: formatCompletionId(chunk.id),
           created: chunk.created,
           model: chunk.model,
-          prompt,
+          prompt: query,
           message: "",
           index: 0,
           children: [],
@@ -221,8 +221,8 @@ const Chat: React.FC = () => {
         setPrompt={setPrompt}
         submitHandler={async (e: React.FormEvent) => {
           e.preventDefault();
-          getCompletion(prompt);
-          setPrompt("");
+          getCompletion(prompt.join("\n"));
+          setPrompt([""]);
         }}
       />
     </div>

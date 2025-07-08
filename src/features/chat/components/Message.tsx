@@ -26,7 +26,7 @@ const Message = (props: {
         <div className={styles.user}>
           <div className={styles["user-pill"]}>{">"}</div>
           <div>
-            <PromptDisplay prompt={content} caret={Infinity} />
+            <PromptDisplay prompt={content.split("\n")} line={-1} caret={0} />
           </div>
         </div>
       ) : (

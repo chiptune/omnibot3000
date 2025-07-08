@@ -30,8 +30,11 @@
 
 .prompt-line {
   position: relative;
+  display: inline;
   clear: both;
   float: left;
+  width: 100%;
+  min-height: var(--line-height);
   text-transform: none !important;
   user-select: text !important;
   cursor: text !important;
@@ -77,10 +80,13 @@
 
 .caret {
   position: absolute;
+  display: inline;
   left: 0;
   top: 0;
-  width: var(--font-width);
-  height: var(--line-height);
+  width: 100%;
+  text-wrap: wrap;
+  white-space: pre-wrap;
+  word-break: break-all;
   opacity: var(--opacity-primary);
   user-select: none !important;
   cursor: default !important;

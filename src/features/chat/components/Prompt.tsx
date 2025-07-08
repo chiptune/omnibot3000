@@ -2,7 +2,8 @@ import {memo, useEffect, useRef, useState} from "react";
 
 import {getPromptPlaceholder} from "@api/api";
 import {ASCII_BLOCK3, BUTTON_SUBMIT} from "@commons/constants";
-import {clamp} from "@utils/math";
+
+import {getVariableFromCSS} from "@/commons/utils/styles";
 
 import styles from "@chat/components/Prompt.module.css";
 
@@ -16,42 +17,44 @@ export const KEYS: string[] = [
   "Alt",
   "Dead",
   "CapsLock",
-  "ArrowUp",
-  "ArrowDown",
   "Insert",
   "Delete",
 ];
 
-export const PromptDisplay = (props: {prompt: string; caret: number}) => {
-  const {prompt, caret} = props;
-  const lines: string[] = String(prompt || "").split("\n");
-  let count = 0;
-  return lines.map((line: string, i: number) => {
-    let cp = 0;
-    if (caret >= count && caret < count + line.length) cp = caret - count;
-    count += line.length;
-    return (
-      <div
-        key={`prompt-line-${i}`}
-        className={cls("text", styles["prompt-line"])}
-        style={{clear: i > 0 ? "both" : "none"}}>
-        {line}
-        {cp >= 0 && cp <= line.length ? (
+export const PromptDisplay = (props: {
+  prompt: string[];
+  line: number;
+  caret: number;
+}) => {
+  const {prompt, line, caret} = props;
+  return (
+    <div
+      style={{
+        height: `calc(${prompt.length} * var(--line-height)`,
+      }}>
+      {prompt.map((text: string, i: number) => {
+        return (
           <div
-            className={cls("blink", styles.caret)}
-            style={{marginLeft: `calc(var(--font-width) * ${caret})`}}>
-            {ASCII_BLOCK3}
+            key={`prompt-line-${i}`}
+            className={cls("text", styles["prompt-line"])}
+            style={{clear: i > 0 ? "both" : "none"}}>
+            {text}
+            {i === line ? (
+              <div className={cls("blink", styles.caret)}>
+                {`${" ".repeat(caret)}${ASCII_BLOCK3}`}
+              </div>
+            ) : null}
           </div>
-        ) : null}
-      </div>
-    );
-  });
+        );
+      })}
+    </div>
+  );
 };
 
 const Prompt = (props: {
   loading: boolean;
-  prompt: string;
-  setPrompt: React.Dispatch<React.SetStateAction<string>>;
+  prompt: string[];
+  setPrompt: React.Dispatch<React.SetStateAction<string[]>>;
   submitHandler: (e: React.FormEvent) => void;
 }) => {
   const {loading, prompt, setPrompt} = props;
@@ -61,6 +64,7 @@ const Prompt = (props: {
 
   const [placeholders, setPlaceholders] = useState<string[]>([]);
   const [count, setCount] = useState<number>(0);
+  const [line, setLine] = useState<number>(0);
   const [caret, setCaret] = useState<number>(0);
   const [forceUpdate, setForceUpdate] = useState<number>(0);
 
@@ -85,48 +89,125 @@ const Prompt = (props: {
   }
 
   useEffect(() => {
-    const {key, shiftKey} = keyEvent.current || {};
+    const {key, shiftKey, ctrlKey, metaKey} = keyEvent.current || {};
 
     if (!key || KEYS.includes(key)) return;
 
+    const tabSize = parseInt(getVariableFromCSS("tab-size")) || 2;
+
     let p = prompt;
+    let l = line;
     let c = caret;
 
     switch (key) {
       case "Enter":
-        if (shiftKey) setPrompt((p) => p + "\n");
+        if (shiftKey) {
+          l++;
+          p.splice(l, 0, p[l - 1].substring(c));
+          p[l - 1] = p[l - 1].substring(0, c);
+        } else {
+          p = [""];
+          l = 0;
+        }
+        c = 0;
         break;
       case "Tab":
-        p += "\t";
+        p[l] += " ".repeat(tabSize);
+        c += tabSize;
         break;
       case "Backspace":
-        p = `${p.substring(0, c - 1)}${p.substring(c)}`;
-        c--;
+        if (c > 0) {
+          p[l] = `${p[l].substring(0, c - 1)}${p[l].substring(c)}`;
+          c--;
+        } else if (l > 0) {
+          l--;
+          p[l] += p[l + 1];
+          c = p[l].length - p[l + 1].length;
+          p.splice(l + 1, 1);
+        }
         break;
       case "ArrowLeft":
         c--;
+        if (c < 0) {
+          if (l > 0) {
+            l--;
+            c = p[l].length;
+          } else {
+            c = 0;
+          }
+        }
         break;
       case "ArrowRight":
         c++;
+        if (c > p[l].length) {
+          if (l < prompt.length - 1) {
+            l++;
+            c = 0;
+          } else {
+            c = p[l].length;
+          }
+        }
+        break;
+      case "ArrowUp":
+        l--;
+        if (l < 0) {
+          l = 0;
+          c = 0;
+        } else {
+          c = Math.min(c, p[l].length);
+        }
+        break;
+      case "ArrowDown":
+        l++;
+        if (l > prompt.length - 1) {
+          l = prompt.length - 1;
+          c = p[l].length;
+        } else {
+          c = Math.min(c, p[l].length);
+        }
         break;
       case "PageUp":
         c = 0;
         break;
       case "PageDown":
-        c = Infinity;
+        c = p[l].length;
         break;
       case "Home":
+        l = 0;
         c = 0;
         break;
       case "End":
-        c = Infinity;
+        l = prompt.length - 1;
+        c = p[l].length;
         break;
       default:
-        p = `${p.substring(0, c)}${key}${p.substring(c)}`;
-        c++;
+        if (!ctrlKey && !metaKey) {
+          p[l] = `${p[l].substring(0, c)}${key}${p[l].substring(c)}`;
+          c++;
+        }
     }
+
+    if (ctrlKey) {
+      switch (key) {
+        case "a":
+          c = 0;
+          break;
+        case "e":
+          c = p[l].length;
+          break;
+        case "u":
+          p[l] = p[l].substring(c);
+          c = 0;
+          break;
+        case "k":
+          p[l] = p[l].substring(0, c);
+          break;
+      }
+    }
+
     setPrompt(p);
-    setCaret(clamp(c, 0, p.length));
+    setLine(l);
+    setCaret(c);
   }, [forceUpdate]);
 
   useEffect(() => {
@@ -150,14 +231,14 @@ const Prompt = (props: {
         <div className={cls("text", styles.placeholder)}>
           <div
             className={
-              styles[prompt || placeholders.length === 0 ? "hide" : "show"]
+              styles[
+                prompt.join() || placeholders.length === 0 ? "hide" : "show"
+              ]
             }>
             {placeholders[count]}
           </div>
         </div>
-        <div>
-          <PromptDisplay prompt={prompt} caret={caret} />
-        </div>
+        <PromptDisplay prompt={prompt} line={line} caret={caret} />
       </div>
       <input
         ref={inputRef}
