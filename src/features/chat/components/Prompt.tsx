@@ -1,4 +1,4 @@
-import {memo, useEffect, useRef, useState} from "react";
+import {FormEvent, memo, useEffect, useRef, useState} from "react";
 
 import {getPromptPlaceholder} from "@api/api";
 import {ASCII_BLOCK3, BUTTON_SUBMIT} from "@commons/constants";
@@ -7,6 +7,7 @@ import {getVariableFromCSS} from "@/commons/utils/styles";
 
 import styles from "@chat/components/Prompt.module.css";
 
+import cmd from "@console/cmd";
 import cls from "classnames";
 
 export const KEYS: string[] = [
@@ -55,9 +56,9 @@ const Prompt = (props: {
   loading: boolean;
   prompt: string[];
   setPrompt: React.Dispatch<React.SetStateAction<string[]>>;
-  submitHandler: (e: React.FormEvent) => void;
+  submitHandler: (query: string) => void;
 }) => {
-  const {loading, prompt, setPrompt} = props;
+  const {loading, prompt, setPrompt, submitHandler} = props;
 
   const keyEvent = useRef<KeyboardEvent>(undefined);
   const hasRunOnce = useRef<boolean>(false);
@@ -106,6 +107,11 @@ const Prompt = (props: {
           p.splice(l, 0, p[l - 1].substring(c));
           p[l - 1] = p[l - 1].substring(0, c);
         } else {
+          if (p[0].charAt(0) === "/") {
+            cmd(p[0].substring(1));
+          } else {
+            submitHandler(p.join("\n"));
+          }
           p = [""];
           l = 0;
         }
@@ -225,7 +231,16 @@ const Prompt = (props: {
   }, [prompt, placeholders]);
 
   return (
-    <form ref={formRef} onSubmit={props.submitHandler} className={styles.form}>
+    <form
+      ref={formRef}
+      onSubmit={(e: FormEvent) => {
+        e.preventDefault();
+        submitHandler(prompt.join("\n"));
+        setPrompt([""]);
+        setLine(0);
+        setCaret(0);
+      }}
+      className={styles.form}>
       <div className={styles.pill}>{">"}</div>
       <div className={cls("ascii", styles.prompt)}>
         <div className={cls("text", styles.placeholder)}>

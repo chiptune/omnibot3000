@@ -16,7 +16,6 @@ import useChatCompletionStore, {
   Completion,
   CompletionId,
 } from "@chat/hooks/useChatCompletionStore";
-import useKeyPress from "@hooks/useKeyPress";
 import useStorage from "@hooks/useStorage";
 import {
   ChatCompletionChunk,
@@ -40,8 +39,6 @@ const Chat: React.FC = () => {
 
   const navigate = useNavigate();
 
-  const submitOnEnter = useKeyPress("Enter", {meta: false}); // true to allow new line
-
   const {id} = useParams();
   const chatId = chatStore.getChatId();
 
@@ -50,14 +47,6 @@ const Chat: React.FC = () => {
     chatStore.updateChatTitle(id, title);
     storage.save();
   };
-
-  /* update the chat when the user submit the prompt using meta+enter */
-  useEffect(() => {
-    if (submitOnEnter === 1) {
-      getCompletion(prompt.join("\n"));
-      setPrompt([""]);
-    }
-  }, [submitOnEnter]);
 
   /* handle chat id url parameter */
   useEffect(() => {
@@ -219,11 +208,7 @@ const Chat: React.FC = () => {
         loading={loading}
         prompt={prompt}
         setPrompt={setPrompt}
-        submitHandler={async (e: React.FormEvent) => {
-          e.preventDefault();
-          getCompletion(prompt.join("\n"));
-          setPrompt([""]);
-        }}
+        submitHandler={getCompletion}
       />
     </div>
   );
