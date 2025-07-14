@@ -32,6 +32,7 @@
       "@hooks/*": ["commons/hooks/*"],
       "@styles/*": ["commons/styles/*"],
       "@features/*": ["features/*"],
+      "@home/*": ["features/home/*"],
       "@chat/*": ["features/chat/*"],
       "@history/*": ["features/history/*"],
       "@console/*": ["features/console/*"],

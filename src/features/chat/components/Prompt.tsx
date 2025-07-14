@@ -8,6 +8,7 @@ import {getVariableFromCSS} from "@/commons/utils/styles";
 import styles from "@chat/components/Prompt.module.css";
 
 import cmd from "@console/cmd";
+import useDebug from "@hooks/useDebug";
 import cls from "classnames";
 
 export const KEYS: string[] = [
@@ -58,6 +59,8 @@ const Prompt = (props: {
   setPrompt: React.Dispatch<React.SetStateAction<string[]>>;
   submitHandler: (query: string) => void;
 }) => {
+  const debug = useDebug();
+
   const {loading, prompt, setPrompt, submitHandler} = props;
 
   const keyEvent = useRef<KeyboardEvent>(undefined);
@@ -108,7 +111,7 @@ const Prompt = (props: {
           p[l - 1] = p[l - 1].substring(0, c);
         } else {
           if (p[0].charAt(0) === "/") {
-            cmd(p[0].substring(1));
+            cmd(p[0].substring(1), debug);
           } else {
             submitHandler(p.join("\n"));
           }
@@ -260,6 +263,7 @@ const Prompt = (props: {
         name="prompt"
         className={styles.input}
         defaultValue={!loading && prompt ? prompt : ""}
+        autoComplete="off"
       />
       <div>
         <button

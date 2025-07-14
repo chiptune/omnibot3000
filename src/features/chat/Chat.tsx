@@ -35,7 +35,7 @@ const Chat: React.FC = () => {
   const [loading, setLoading] = useState<boolean>(false);
   const [query, setQuery] = useState<string>("");
 
-  const chatRef = useRef<HTMLDivElement>(null);
+  const containerRef = useRef<HTMLDivElement>(null);
 
   const navigate = useNavigate();
 
@@ -129,7 +129,7 @@ const Chat: React.FC = () => {
   };
 
   const update = () => {
-    const chat = chatRef.current;
+    const chat = containerRef.current;
     if (!chat) return;
 
     const body = chat.parentElement?.parentElement;
@@ -146,17 +146,17 @@ const Chat: React.FC = () => {
 
   useEffect(() => {
     const resizeObserver = new ResizeObserver(update);
-    if (chatRef.current) resizeObserver.observe(chatRef.current);
+    if (containerRef.current) resizeObserver.observe(containerRef.current);
     return () => {
       resizeObserver.disconnect();
     };
   });
 
   useEffect(() => {
-    if (chatRef.current && chatRef.current.firstElementChild) {
-      chatRef.current.scrollTo({
+    if (containerRef.current && containerRef.current.firstElementChild) {
+      containerRef.current.scrollTo({
         left: 0,
-        top: chatRef.current.firstElementChild.clientHeight,
+        top: containerRef.current.firstElementChild.clientHeight,
         behavior: "smooth",
       });
     }
@@ -187,8 +187,8 @@ const Chat: React.FC = () => {
 
   return (
     <div className={styles.root}>
-      <div ref={chatRef} className={styles.container}>
-        <div className={styles.chat}>
+      <div ref={containerRef} className={styles.container}>
+        <div className={styles.content}>
           {chatStore.getCompletions(chatId).map((completion: Completion) => (
             <Fragment key={`chat-completion-${completion.id}`}>
               <Message role="user" content={completion.prompt} />

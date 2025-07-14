@@ -38,7 +38,9 @@ const History = () => {
         .map((chat: Chat) => {
           const selected = Boolean(chatId === chat.id);
           return (
-            <div key={`chat-history-${chat.id}`}>
+            <div
+              key={`chat-history-${chat.id}`}
+              className={styles[chat.title ? "show" : "hide"]}>
               <div
                 className={cls(
                   styles.content,

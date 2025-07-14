@@ -1,4 +1,5 @@
-export const SESSION_KEY = "omnibot_3000_data";
+export const NAME = "OMNIBOT 3000";
+export const SESSION_KEY = NAME.toLowerCase().replace(/\s/g, "_");
 
 export const COMPLETION_MAX_TOKENS = 1000;
 export const COMPLETION_ID_WILDCARD = "chatcmpl-";

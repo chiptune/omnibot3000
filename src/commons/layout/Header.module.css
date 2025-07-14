@@ -35,6 +35,7 @@
 
 .gradient {
   margin-left: var(--font-width);
+  margin-right: var(--font-width);
   opacity: var(--opacity-tertiary);
   text-transform: none;
   user-select: none;
@@ -49,9 +50,8 @@
   animation: fadein var(--duration-fade) forwards;
 }
 
-.avatar::after {
-  content: "?";
-  opacity: var(--opacity-tertiary);
+.help {
+  opacity: var(--opacity-tertiary) !important;
 }
 
 @keyframes fadein {

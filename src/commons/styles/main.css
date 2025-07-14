@@ -6,7 +6,6 @@
   --padding: 2rem;
   --border-radius: 0.1rem;
   --scrollbar-size: 0.5rem;
-  --transition-duration: 300ms;
   --font-size-px: 15px;
   --font-weight: 500; /* 400 normal, 700 bold */
   --line-height: calc(var(--font-height) * 1);
@@ -17,9 +16,9 @@
   --opacity-ghosting: 0.25;
   /* layout variables */
   --menu-width: 20;
-  --chat-width: 48;
+  --content-width: 48;
   /* colors */
-  --hue: 90; /* amber:30 | yellow: 90 | green:120 | blue:180 */
+  --hue: 30; /* amber:30 | yellow: 90 | green:120 | blue:180 */
   --sat: 60;
   --lgt: 65;
   --color-primary: hsl(var(--hue) var(--sat) var(--lgt) / 0.7);
@@ -30,6 +29,7 @@
     var(--hue) calc(var(--sat) * 1.2) calc(var(--lgt) * 1.2)
   );
   /* duration */
+  --duration-transition: 375ms;
   --duration-fade: 750ms;
   /* z-index */
   --z-index-background: 1;
@@ -150,13 +150,15 @@ button {
   border: none;
   outline: none;
   background-color: transparent;
-  transition: color var(--transition-duration) ease-out;
   user-select: none;
   cursor: pointer;
+  transition:
+    color var(--duration-transition) ease-out,
+    opacity var(--duration-transition) ease-out;
 }
 
 button:hover {
-  color: var(--color-highlight) !important;
+  color: var(--color-highlight);
 }
 
 button[disabled] {
@@ -164,23 +166,23 @@ button[disabled] {
   cursor: not-allowed;
 }
 
-button:hover {
-  color: var(--color-highlight);
-}
-
 a {
   display: inline-block;
-  color: inherit;
+  color: var(--color-primary);
   text-decoration: inherit;
-  transition: color var(--transition-duration) ease-out;
+  outline: none;
   cursor: pointer;
+  transition: color var(--duration-transition) ease-out;
 }
 
 a:hover {
   color: var(--color-highlight);
 }
 
+a:visited {
+  color: var(--color-primary);
+}
+
 a:focus {
   color: var(--color-highlight);
-  outline: none;
 }

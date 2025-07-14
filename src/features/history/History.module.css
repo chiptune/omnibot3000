@@ -13,6 +13,7 @@
 .toolbar {
   display: flex;
   flex-direction: row;
+  transition: opacity var(--duration-fade) ease-out;
 }
 
 .line {
@@ -28,31 +29,42 @@
   column-gap: var(--font-width);
 }
 
+.show {
+  opacity: 1;
+  transition: opacity var(--duration-fade) ease-out;
+}
+
+.hide {
+  opacity: 0;
+  transition: opacity var(--duration-fade) ease-out;
+}
+
 .text {
   text-align: left;
   flex-grow: 1;
   text-wrap: wrap;
 }
 
-.not-selected {
-  opacity: var(--opacity-secondary);
-}
-
-.not-selected::before {
-  content: ">";
-  vertical-align: top;
-  opacity: 0;
-}
-
 .selected {
   opacity: var(--opacity-primary);
+  transition: opacity var(--duration-transition) ease-out;
 }
 
 .selected::before {
   content: ">";
   vertical-align: top;
   opacity: var(--opacity-secondary);
+  transition: opacity var(--duration-transition) ease-out;
 }
 
-.delete {
+.not-selected {
+  opacity: var(--opacity-secondary);
+  transition: opacity var(--duration-transition) ease-out;
+}
+
+.not-selected::before {
+  content: ">";
+  vertical-align: top;
+  opacity: 0;
+  transition: opacity var(--duration-transition) ease-out;
 }

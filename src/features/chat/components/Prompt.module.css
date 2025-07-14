@@ -7,7 +7,7 @@
   align-items: end;
   margin-left: var(--font-width);
   margin-right: var(--font-width);
-  max-width: calc((var(--chat-width) - 3) * var(--font-width));
+  max-width: calc((var(--content-width) - 3) * var(--font-width));
 }
 
 .input {
@@ -43,39 +43,20 @@
 .placeholder {
   position: absolute;
   height: var(--line-height);
-  opacity: var(--opacity-tertiary);
   user-select: none !important;
   cursor: default !important;
 }
 
 .show {
   height: var(--line-height);
-  opacity: 0;
-  animation: fadein var(--duration-fade) forwards;
+  opacity: var(--opacity-tertiary);
+  transition: opacity var(--duration-fade) ease-out;
 }
 
 .hide {
   height: var(--line-height);
-  opacity: var(--opacity-tertiary);
-  animation: fadeout var(--duration-fade) forwards;
-}
-
-@keyframes fadein {
-  from {
-    opacity: 0;
-  }
-  to {
-    opacity: 1;
-  }
-}
-
-@keyframes fadeout {
-  from {
-    opacity: 1;
-  }
-  to {
-    opacity: 0;
-  }
+  opacity: 0;
+  transition: opacity var(--duration-fade) ease-out;
 }
 
 .caret {

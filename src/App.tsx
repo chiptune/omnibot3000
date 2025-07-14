@@ -23,6 +23,7 @@ import "@styles/main.css";
 import "@styles/vt220.css";
 
 import Chat from "@chat/Chat";
+import Home from "@home/Home";
 import useDebug from "@hooks/useDebug";
 import useStorage from "@hooks/useStorage";
 import cls from "classnames";
@@ -160,7 +161,9 @@ const App = () => (
     <Routes>
       <Route path="/" element={<Layout />}>
         <Route path="/" element={<Navigate to="/chat" replace />} />
+        <Route path="/home" element={<Home />} />
         <Route path="/chat/:id?" element={<Chat />} />
+        <Route path="/help" element={<>HELP</>} />
       </Route>
     </Routes>
   </Router>

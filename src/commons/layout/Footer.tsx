@@ -1,6 +1,7 @@
 import {memo} from "react";
 
 import {ASCII_COPYRIGHT} from "@commons/constants";
+import Breadcrumb from "@layout/Breadcrumb";
 import styles from "@layout/Footer.module.css";
 import Separator from "@ui/Separator";
 import Spacer from "@ui/Spacer";
@@ -27,6 +28,7 @@ const Footer = (props: {renderTime: RenderTime}) => {
         </a>
       </div>
       <Separator />
+      <Breadcrumb />
       {debug && <div className={styles.info}>debug mode</div>}
       <Spacer />
       <Separator />

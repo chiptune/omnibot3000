@@ -11,7 +11,7 @@ function useStorage() {
 
   const load = useCallback(() => {
     try {
-      const data = localStorage.getItem(SESSION_KEY);
+      const data = localStorage.getItem(`${SESSION_KEY}_data`);
       if (data) {
         chatStore.importData(JSON.parse(data));
         if (debug) console.info("%cdata loaded", "color:#999");
@@ -24,7 +24,7 @@ function useStorage() {
   const save = useCallback(() => {
     try {
       const data = chatStore.exportData();
-      localStorage.setItem(SESSION_KEY, JSON.stringify(data));
+      localStorage.setItem(`${SESSION_KEY}_data`, JSON.stringify(data));
       if (debug) console.info("%cdata saved", "color:#999");
     } catch (error) {
       console.error("failed to save:", error);

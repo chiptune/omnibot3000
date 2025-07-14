@@ -1,4 +1,5 @@
-import {memo, useEffect, useRef, useState} from "react";
+import {memo, MouseEvent, useEffect, useRef, useState} from "react";
+import {Link, useNavigate} from "react-router-dom";
 
 import {getSubtitle} from "@api/api";
 import {
@@ -9,6 +10,7 @@ import {
   ASCII_LOSANGE,
   ASCII_RDAB,
   BUTTON_CREATE,
+  NAME,
 } from "@commons/constants";
 import styles from "@layout/Header.module.css";
 import Button from "@ui/Button";
@@ -23,9 +25,18 @@ export const AVATAR_2 = `/${ASCII_BLOCK2}\\`;
 const Header = (_props: {darkMode: boolean; onThemeToggle: () => void}) => {
   const chatStore = useChatCompletionStore();
 
+  const navigate = useNavigate();
+
+  const homeHandler = (e: MouseEvent<HTMLButtonElement>) => {
+    e.currentTarget.blur();
+    navigate("/home");
+  };
+
   const resetChatHandler = () => {
-    chatStore.setCompletions();
     chatStore.setChatId();
+    chatStore.setCompletionId();
+    chatStore.setCompletions();
+    navigate("/chat");
   };
 
   const hasRunOnce = useRef(false);
@@ -49,7 +60,7 @@ const Header = (_props: {darkMode: boolean; onThemeToggle: () => void}) => {
     <div className={styles.root}>
       <div className={styles.container}>
         <div className={cls("text", styles.title)}>
-          OMNIBOT 3000
+          <Button name={NAME} handler={homeHandler} />
           <span
             className={
               styles.gradient
@@ -60,11 +71,16 @@ const Header = (_props: {darkMode: boolean; onThemeToggle: () => void}) => {
           </div>
         </div>
         {subtitle && (
-          <div className={styles.avatar}>
-            {AVATAR_1}
-            <br />
-            {AVATAR_2}
-          </div>
+          <>
+            <div className={styles.avatar}>
+              {AVATAR_1}
+              <br />
+              {AVATAR_2}
+            </div>
+            <Link to={"/help"} replace className={styles.help}>
+              ?
+            </Link>
+          </>
         )}
       </div>
       <Spacer />

@@ -1,5 +1,6 @@
 import React, {ReactNode} from "react";
 
+import {NAME} from "@commons/constants";
 import Line from "@ui/Line";
 
 import styles from "@/App.module.css";
@@ -26,7 +27,7 @@ export class ErrorBoundary extends React.Component<Props, State> {
   }
 
   componentDidCatch(error: Error, errorInfo: React.ErrorInfo) {
-    console.error("YOU DECEIVED OMNIBOT 3000", error, errorInfo);
+    console.error(`YOU DECEIVED ${NAME}`, error, errorInfo);
   }
 
   render() {
