@@ -2,4 +2,4 @@
 
 YOUR OMNISCIENT SOURCE OF TRUTH
 
-![image](https://github.com/user-attachments/assets/133ef05f-35ca-4b58-9d37-3de0d71e2cde)
+![image](https://github.com/user-attachments/assets/f8954b78-290e-469f-b85f-99a4fef8281a)
