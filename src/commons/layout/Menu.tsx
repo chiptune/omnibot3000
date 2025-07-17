@@ -13,7 +13,7 @@ const Menu = () => {
 
   const count = chatStore.getChats().length;
 
-  const size = String(localStorage[SESSION_KEY] || "").length + 64;
+  const size = String(localStorage[`${SESSION_KEY}_data`] || "").length + 64;
 
   return (
     <div className={cls("text", styles.root)}>

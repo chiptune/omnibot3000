@@ -51,6 +51,7 @@
 }
 
 .help {
+  height: var(--line-height);
   opacity: var(--opacity-tertiary) !important;
 }
 

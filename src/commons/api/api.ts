@@ -16,9 +16,9 @@ export const getSystemConfig = (): ChatCompletionMessageParam => {
     a list of random number: ${Array.from({length: 32}, () =>
       Math.round(Math.random() * 100),
     ).join(", ")}\
-    current color hue: ${getVariableFromCSS("hue")}°\
-    current color saturation: ${getVariableFromCSS("sat")}%\
-    current color lightness: ${getVariableFromCSS("lgt")}%\
+    current color hue: ${getVariableFromCSS("h")}°\
+    current color saturation: ${getVariableFromCSS("s")}%\
+    current color lightness: ${getVariableFromCSS("l")}%\
     ${formatting}\
     ${persona}`;
   return {role: "system", content: systemConfig};

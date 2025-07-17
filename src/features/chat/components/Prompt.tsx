@@ -2,11 +2,11 @@ import {FormEvent, memo, useEffect, useRef, useState} from "react";
 
 import {getPromptPlaceholder} from "@api/api";
 import {ASCII_BLOCK3, BUTTON_SUBMIT} from "@commons/constants";
-
-import {getVariableFromCSS} from "@/commons/utils/styles";
+import {getVariableFromCSS} from "@utils/styles";
 
 import styles from "@chat/components/Prompt.module.css";
 
+import {formatText} from "@chat/commons/strings";
 import cmd from "@console/cmd";
 import useDebug from "@hooks/useDebug";
 import cls from "classnames";
@@ -59,8 +59,6 @@ const Prompt = (props: {
   setPrompt: React.Dispatch<React.SetStateAction<string[]>>;
   submitHandler: (query: string) => void;
 }) => {
-  const debug = useDebug();
-
   const {loading, prompt, setPrompt, submitHandler} = props;
 
   const keyEvent = useRef<KeyboardEvent>(undefined);
@@ -77,13 +75,15 @@ const Prompt = (props: {
 
   const isDisabled = loading || String(prompt).replace("\n", "").trim() === "";
 
+  const debug = useDebug();
+
   const updatePlaceholder = async () => {
     const data = await getPromptPlaceholder();
     setPlaceholders(
       data
         .split("\n")
         .filter((v) => v.trim() !== "")
-        .map((v) => v.trim()),
+        .map((v) => formatText(v.trim())),
     );
   };
 
@@ -226,7 +226,7 @@ const Prompt = (props: {
     updatePlaceholder();
     window.addEventListener("keydown", (e) => handleInput(e));
     return window.removeEventListener("keydown", (e) => handleInput(e));
-  });
+  }, []);
 
   useEffect(() => {
     if (prompt.length === 0)

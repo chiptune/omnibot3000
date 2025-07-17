@@ -18,16 +18,14 @@
   --menu-width: 20;
   --content-width: 48;
   /* colors */
-  --hue: 30; /* amber:30 | yellow: 90 | green:120 | blue:180 */
-  --sat: 60;
-  --lgt: 65;
-  --color-primary: hsl(var(--hue) var(--sat) var(--lgt) / 0.7);
-  --color-secondary: hsl(var(--hue) var(--sat) var(--lgt) / 0.5);
-  --color-tertiary: hsl(var(--hue) var(--sat) var(--lgt) / 0.3);
-  --color-background: hsl(var(--hue) var(--sat) var(--lgt) / 0.1);
-  --color-highlight: hsl(
-    var(--hue) calc(var(--sat) * 1.2) calc(var(--lgt) * 1.2)
-  );
+  --h: 30; /* amber:30 | yellow: 90 | green:120 | blue:180 */
+  --s: 60;
+  --l: 65;
+  --color-primary: hsla(var(--h) var(--s) var(--l) / 0.7);
+  --color-secondary: hsla(var(--h) var(--s) var(--l) / 0.5);
+  --color-tertiary: hsla(var(--h) var(--s) var(--l) / 0.3);
+  --color-background: hsla(var(--h) var(--s) var(--l) / 0.1);
+  --color-highlight: hsla(var(--h) calc(var(--s) * 1.2) calc(var(--l) * 1.2));
   /* duration */
   --duration-transition: 375ms;
   --duration-fade: 750ms;

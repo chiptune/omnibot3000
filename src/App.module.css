@@ -27,16 +27,16 @@
     ),
     linear-gradient(
       20deg,
-      hsla(calc(var(--hue) - 120) 30% 30% / 0.1) 0%,
-      hsla(calc(var(--hue) - 60) 50% 20% / 0.1) 25%,
-      hsla(calc(var(--hue) + 0) 70% 10% / 0.1) 50%,
-      hsla(calc(var(--hue) + 60) 50% 20% / 0.1) 75%,
-      hsla(calc(var(--hue) + 120) 30% 30% / 0.1) 100%
+      hsla(calc(var(--h) - 120) 30% 30% / 0.1) 0%,
+      hsla(calc(var(--h) - 60) 50% 20% / 0.1) 25%,
+      hsla(calc(var(--h) + 0) 70% 10% / 0.1) 50%,
+      hsla(calc(var(--h) + 60) 50% 20% / 0.1) 75%,
+      hsla(calc(var(--h) + 120) 30% 30% / 0.1) 100%
     ),
     radial-gradient(
       circle,
-      hsla(calc(var(--hue) - 210) 50% 30% / 0.1) 0%,
-      hsla(calc(var(--hue) - 180) 50% 30% / 0.1) 100%
+      hsla(calc(var(--h) - 210) 50% 30% / 0.1) 0%,
+      hsla(calc(var(--h) - 180) 50% 30% / 0.1) 100%
     ),
     radial-gradient(
       circle,
@@ -95,8 +95,5 @@
 .error {
   display: flex;
   flex-direction: column;
-  padding: var(--padding);
-  border-radius: var(--margin);
-  width: calc(100% - var(--margin) * 6);
-  background-color: var(--color-background);
+  padding: var(--margin);
 }

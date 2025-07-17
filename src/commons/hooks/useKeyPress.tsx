@@ -68,7 +68,7 @@ function useKeyPress(
           onKeyUpHandler(e.key, getModifiers(e)),
         );
     };
-  }); // create this event only on first run
+  }, []); // create this event only on first run
 
   return keyCount;
 }

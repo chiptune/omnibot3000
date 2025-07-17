@@ -1,4 +1,4 @@
-import React, {Fragment, useEffect, useRef, useState} from "react";
+import {Fragment, useEffect, useRef, useState} from "react";
 import {useNavigate, useParams} from "react-router-dom";
 
 import {getChatTitle, getSystemConfig} from "@api/api";
@@ -23,7 +23,7 @@ import {
 } from "openai/resources/index.mjs";
 import {Stream} from "openai/streaming.mjs";
 
-const Chat: React.FC = () => {
+const Chat = () => {
   const chatStore = useChatCompletionStore();
 
   const storage = useStorage();
@@ -73,7 +73,7 @@ const Chat: React.FC = () => {
       navigate(`/chat${state.chatId ? `/${state.chatId}` : ""}`);
     });
     return () => unsubscribe();
-  });
+  }, []);
 
   const getCompletion = async (query: string) => {
     setQuery(query); /* save the query before reset */
@@ -150,7 +150,7 @@ const Chat: React.FC = () => {
     return () => {
       resizeObserver.disconnect();
     };
-  });
+  }, []);
 
   useEffect(() => {
     if (containerRef.current && containerRef.current.firstElementChild) {

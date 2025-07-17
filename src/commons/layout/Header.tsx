@@ -1,5 +1,5 @@
-import {memo, MouseEvent, useEffect, useRef, useState} from "react";
-import {Link, useNavigate} from "react-router-dom";
+import {memo, useEffect, useRef, useState} from "react";
+import {useNavigate} from "react-router-dom";
 
 import {getSubtitle} from "@api/api";
 import {
@@ -16,6 +16,7 @@ import styles from "@layout/Header.module.css";
 import Button from "@ui/Button";
 import Spacer from "@ui/Spacer";
 
+import {formatText} from "@chat/commons/strings";
 import useChatCompletionStore from "@chat/hooks/useChatCompletionStore";
 import cls from "classnames";
 
@@ -27,9 +28,12 @@ const Header = (_props: {darkMode: boolean; onThemeToggle: () => void}) => {
 
   const navigate = useNavigate();
 
-  const homeHandler = (e: MouseEvent<HTMLButtonElement>) => {
-    e.currentTarget.blur();
+  const homeHandler = () => {
     navigate("/home");
+  };
+
+  const helpHandler = () => {
+    navigate("/help");
   };
 
   const resetChatHandler = () => {
@@ -46,7 +50,7 @@ const Header = (_props: {darkMode: boolean; onThemeToggle: () => void}) => {
     const data = await getSubtitle();
     const subtitles = data.split("\n").filter((v) => v.trim() !== "");
     const count = Math.round(Math.random() * (subtitles.length - 1));
-    setSubtitle(subtitles[count].trim());
+    setSubtitle(formatText(subtitles[count].trim()));
   };
 
   useEffect(() => {
@@ -77,9 +81,7 @@ const Header = (_props: {darkMode: boolean; onThemeToggle: () => void}) => {
               <br />
               {AVATAR_2}
             </div>
-            <Link to={"/help"} replace className={styles.help}>
-              ?
-            </Link>
+            <Button name="?" handler={helpHandler} className={styles.help} />
           </>
         )}
       </div>

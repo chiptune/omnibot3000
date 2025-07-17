@@ -1,12 +1,12 @@
-import React, {useEffect} from "react";
+import {useEffect, useRef} from "react";
 
 import {getCharWidth} from "@utils/strings";
 import {displayPackageVersion} from "@utils/version";
 
 import styles from "@home/Home.module.css";
 
-const Home: React.FC = () => {
-  const containerRef = React.useRef<HTMLDivElement>(null);
+const Home = () => {
+  const containerRef = useRef<HTMLDivElement>(null);
 
   const update = () => {
     const content = containerRef.current;
@@ -31,7 +31,7 @@ const Home: React.FC = () => {
     return () => {
       resizeObserver.disconnect();
     };
-  });
+  }, []);
 
   return (
     <div className={styles.root}>
