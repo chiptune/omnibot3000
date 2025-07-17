@@ -12,7 +12,6 @@ import {DebugProvider} from "@hooks/useDebug";
 
 const config = new Config();
 config.apply();
-console.info("main.tsx: config applied", config.config.debug);
 
 const root = createRoot(document.getElementById("root")!);
 
