@@ -1,9 +1,9 @@
-import {Fragment, useEffect, useRef, useState} from "react";
+import {Fragment, useEffect, useState} from "react";
 import {useNavigate, useParams} from "react-router-dom";
 
 import {getChatTitle, getSystemConfig} from "@api/api";
 import getStream from "@api/openAI";
-import {getCharWidth} from "@utils/strings";
+import Container from "@layout/Container";
 
 import styles from "@chat/Chat.module.css";
 
@@ -34,8 +34,6 @@ const Chat = () => {
   const [completion, setCompletion] = useState<Completion>();
   const [loading, setLoading] = useState<boolean>(false);
   const [query, setQuery] = useState<string>("");
-
-  const containerRef = useRef<HTMLDivElement>(null);
 
   const navigate = useNavigate();
 
@@ -128,40 +126,6 @@ const Chat = () => {
     }
   };
 
-  const update = () => {
-    const chat = containerRef.current;
-    if (!chat) return;
-
-    const body = chat.parentElement?.parentElement;
-    if (!body) return;
-
-    const cw = getCharWidth();
-
-    const bodyWidth = body.offsetWidth ?? 0;
-    const chatWidth = chat.firstElementChild?.clientWidth ?? 0;
-
-    const n = Math.floor((bodyWidth - chatWidth) / 2 / cw);
-    body.style.paddingLeft = `calc(${n} * var(--font-width))`;
-  };
-
-  useEffect(() => {
-    const resizeObserver = new ResizeObserver(update);
-    if (containerRef.current) resizeObserver.observe(containerRef.current);
-    return () => {
-      resizeObserver.disconnect();
-    };
-  }, []);
-
-  useEffect(() => {
-    if (containerRef.current && containerRef.current.firstElementChild) {
-      containerRef.current.scrollTo({
-        left: 0,
-        top: containerRef.current.firstElementChild.clientHeight,
-        behavior: "smooth",
-      });
-    }
-  }, [response]);
-
   useEffect(() => {
     if (completion) {
       setCompletion((prev) => {
@@ -187,23 +151,21 @@ const Chat = () => {
 
   return (
     <div className={styles.root}>
-      <div ref={containerRef} className={styles.container}>
-        <div className={styles.content}>
-          {chatStore.getCompletions(chatId).map((completion: Completion) => (
-            <Fragment key={`chat-completion-${completion.id}`}>
-              <Message role="user" content={completion.prompt} />
-              <Message role="assistant" content={completion.message} />
-              <Toolbar completion={completion} />
-            </Fragment>
-          ))}
-          {loading && response && (
-            <Fragment key="chat-completion">
-              <Message role="user" content={query} />
-              <Message role="assistant" content={response} hasCursor={true} />
-            </Fragment>
-          )}
-        </div>
-      </div>
+      <Container>
+        {chatStore.getCompletions(chatId).map((completion: Completion) => (
+          <Fragment key={`chat-completion-${completion.id}`}>
+            <Message role="user" content={completion.prompt} />
+            <Message role="assistant" content={completion.message} />
+            <Toolbar completion={completion} />
+          </Fragment>
+        ))}
+        {loading && response && (
+          <Fragment key="chat-completion">
+            <Message role="user" content={query} />
+            <Message role="assistant" content={response} hasCaret={loading} />
+          </Fragment>
+        )}
+      </Container>
       <Prompt
         loading={loading}
         prompt={prompt}

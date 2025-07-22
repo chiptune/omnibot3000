@@ -56,7 +56,6 @@ const Header = (_props: {darkMode: boolean; onThemeToggle: () => void}) => {
   useEffect(() => {
     if (hasRunOnce.current) return;
     hasRunOnce.current = true;
-
     updateSubtitle();
   }, []);
 

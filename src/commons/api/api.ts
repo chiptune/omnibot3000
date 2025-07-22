@@ -10,30 +10,31 @@ import {
 
 export const getSystemConfig = (): ChatCompletionMessageParam => {
   const systemConfig = `\
-    current date: ${new Date().toLocaleDateString()}\
-    current time: ${new Date().toLocaleDateString()}\
-    current unix EPOCH time: ${Math.floor(Date.now() / 1000)}\
+    current date: ${new Date().toLocaleDateString()}.\
+    current time: ${new Date().toLocaleDateString()}.\
+    current unix EPOCH time: ${Math.floor(Date.now() / 1000)}.\
     a list of random number: ${Array.from({length: 32}, () =>
       Math.round(Math.random() * 100),
-    ).join(", ")}\
-    current user agent: ${navigator.userAgent}\
-    current color hue: ${getVariableFromCSS("h")}°\
-    current color saturation: ${getVariableFromCSS("s")}%\
-    current color lightness: ${getVariableFromCSS("l")}%\
-    user can change the color with the "/color <h|s|l> <value>" command\
+    ).join(", ")}.\
+    current user agent: ${navigator.userAgent}.\
+    current color hue: ${getVariableFromCSS("h")}°.\
+    current color saturation: ${getVariableFromCSS("s")}%.\
+    current color lightness: ${getVariableFromCSS("l")}%.\
+    user can change the color with the "/color <h|s|l> <value>" command.\
     ${formatting}\
     ${persona}`;
   return {role: "system", content: systemConfig};
 };
 
-export const formatting = `
+export const formatting = `\
+  generate markdown text only, no HTML please! never!\
   use only the 256 first ASCII character in your answers, no unicode!\
   do not use any special characters or emojis or unicode > 0x00ff.\
   make all links you provide clickable, give them a human readable name.\
   very important: output only markdown text, no HTML please!
   answer with the language used the most by the user in the chat.`;
 
-export const smallQueryFormatting = (max: number): string => `
+export const smallQueryFormatting = (max: number): string => `\
   no more than ${max} characters (including spaces)! NO MORE!\
   do not add any comments or punctuations.\
   do not add any bullet point or numbered list, just plain text.\

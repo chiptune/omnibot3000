@@ -8,7 +8,7 @@ const cmd = (query: string, debug: boolean) => {
 
   const config = new Config();
 
-  const [cmd, arg1, arg2] = query.split(" ");
+  const [cmd, arg1, arg2] = query.toLowerCase().split(" ");
 
   let value: ConfigValue = "";
 

@@ -1,7 +1,8 @@
 import {FormEvent, memo, useEffect, useRef, useState} from "react";
 
 import {getPromptPlaceholder} from "@api/api";
-import {ASCII_BLOCK3, BUTTON_SUBMIT} from "@commons/constants";
+import {BUTTON_SUBMIT} from "@commons/constants";
+import Caret from "@ui/Caret";
 import {getVariableFromCSS} from "@utils/styles";
 
 import styles from "@chat/components/Prompt.module.css";
@@ -43,7 +44,8 @@ export const PromptDisplay = (props: {
             {text}
             {i === line ? (
               <div className={cls("blink", styles.caret)}>
-                {`${" ".repeat(caret)}${ASCII_BLOCK3}`}
+                {`${" ".repeat(caret)}`}
+                <Caret />
               </div>
             ) : null}
           </div>

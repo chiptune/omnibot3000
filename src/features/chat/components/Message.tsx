@@ -11,12 +11,31 @@ import {PromptDisplay} from "@chat/components/Prompt";
 import cls from "classnames";
 import type {ChatCompletionRole} from "openai/resources/index.mjs";
 
+export const OmnibotIsSpeaking = (props: {
+  truth: string;
+  hasCaret?: boolean;
+}) => (
+  <div className={styles.bot}>
+    <div className={cls("text", styles["bot-text"])}>
+      <Markdown
+        components={{
+          code(props) {
+            const {children, className} = props;
+            return <code className={className}>{children}</code>;
+          },
+        }}>
+        {sanitizeHTML(props.truth)}
+      </Markdown>
+    </div>
+  </div>
+);
+
 const Message = (props: {
   role: ChatCompletionRole;
   content: string;
-  hasCursor?: boolean;
+  hasCaret?: boolean;
 }) => {
-  const {role, content} = props;
+  const {role, content, hasCaret} = props;
 
   const isUser = Boolean(role === "user");
 
@@ -36,17 +55,7 @@ const Message = (props: {
             char={ASCII_BLOCK1}
             className={styles["bot-line"]}
           />
-          <div className={cls("text", styles["bot-text"])}>
-            <Markdown
-              components={{
-                code(props) {
-                  const {children, className} = props;
-                  return <code className={className}>{children}</code>;
-                },
-              }}>
-              {sanitizeHTML(content)}
-            </Markdown>
-          </div>
+          <OmnibotIsSpeaking truth={content} hasCaret={hasCaret} />
         </div>
       )}
     </div>

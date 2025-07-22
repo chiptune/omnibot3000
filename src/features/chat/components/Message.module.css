@@ -1,5 +1,5 @@
 .root {
-  margin-left: var(--font-width);
+  margin-right: var(--font-width);
 }
 
 .user {
@@ -19,9 +19,6 @@
   flex-direction: row;
   column-gap: var(--font-width);
   align-items: stretch;
-  p {
-    padding-bottom: var(--line-height);
-  }
 }
 
 .bot > * > :last-child {
@@ -36,6 +33,7 @@
   p {
     display: inline-block;
     vertical-align: top;
+    padding-bottom: var(--line-height);
     em {
       opacity: var(--opacity-primary);
       color: var(--color-highlight);

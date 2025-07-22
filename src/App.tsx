@@ -9,9 +9,11 @@ import {
 } from "react-router-dom";
 
 import Background from "@layout/Background";
+import Container from "@layout/Container";
 import Footer from "@layout/Footer";
 import Header from "@layout/Header";
 import Menu from "@layout/Menu";
+import Caret from "@ui/Caret";
 import Line from "@ui/Line";
 import {getCharHeight, getCharWidth, getLineHeight} from "@utils/strings";
 import {isSystemDarkModeOn} from "@utils/system";
@@ -163,7 +165,19 @@ const App = () => (
         <Route path="/" element={<Navigate to="/chat" replace />} />
         <Route path="/home" element={<Home />} />
         <Route path="/chat/:id?" element={<Chat />} />
-        <Route path="/help" element={<>HELP</>} />
+        <Route
+          path="/help"
+          element={
+            <div>
+              <Container>
+                <div className={cls("text", "ascii")} style={{width: "100%"}}>
+                  {"> help "}
+                  <Caret />
+                </div>
+              </Container>
+            </div>
+          }
+        />
       </Route>
     </Routes>
   </Router>

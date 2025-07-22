@@ -6,24 +6,3 @@
   height: 100%;
   overflow: hidden;
 }
-
-.container {
-  width: 100%;
-  overflow: hidden auto;
-  outline: none;
-}
-
-.content {
-  display: flex;
-  flex-direction: column;
-  flex-grow: 1;
-  flex-shrink: 1;
-  justify-content: end;
-  width: 100%;
-  max-width: calc((var(--content-width) - 2) * var(--font-width));
-}
-
-.body {
-  margin-left: var(--margin);
-  width: 100%;
-}

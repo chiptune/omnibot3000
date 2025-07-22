@@ -1,45 +1,66 @@
-import {useEffect, useRef} from "react";
+import {useEffect, useRef, useState} from "react";
 
-import {getCharWidth} from "@utils/strings";
+import {getSystemConfig} from "@api/api";
+import {getStream} from "@api/openAI";
+import Container from "@layout/Container";
+import Caret from "@ui/Caret";
 import {displayPackageVersion} from "@utils/version";
 
 import styles from "@home/Home.module.css";
 
+import {OmnibotIsSpeaking} from "@chat/components/Message";
+import cls from "classnames";
+import {ChatCompletionMessageParam} from "openai/resources";
+import {ChatCompletionChunk} from "openai/resources/index.mjs";
+import {Stream} from "openai/streaming.mjs";
+
 const Home = () => {
-  const containerRef = useRef<HTMLDivElement>(null);
+  const hasRunOnce = useRef(false);
+  const [response, setResponse] = useState<string>("");
 
-  const update = () => {
-    const content = containerRef.current;
-    if (!content) return;
+  const getResponse = async () => {
+    const messages: ChatCompletionMessageParam[] = [getSystemConfig()];
 
-    const body = content.parentElement?.parentElement;
-    if (!body) return;
+    messages.push({
+      role: "system",
+      content: `\
+      as welcoming message to the user, explain who you are and your purpose.\
+      keep your message short and seperate each element by an empty line.\
+      add a link to "/chat" to help users to start a conversation.`,
+    });
 
-    const cw = getCharWidth();
+    const response = (await getStream(messages)) as Stream<ChatCompletionChunk>;
 
-    const bodyWidth = body.offsetWidth ?? 0;
-    const chatWidth = content.firstElementChild?.clientWidth ?? 0;
-
-    const n = Math.floor((bodyWidth - chatWidth) / 2 / cw);
-    body.style.paddingLeft = `calc(${n} * var(--font-width))`;
+    for await (const chunk of response) {
+      const choice = chunk.choices[0] || {};
+      const finish_reason = choice.finish_reason;
+      const text = choice.delta?.content || "";
+      if (finish_reason) {
+        if (finish_reason === "length")
+          setResponse((prev) => `${prev}\n\n[max tokens length reached]\n`);
+        break;
+      }
+      if (!text) continue;
+      setResponse((prev) => `${prev}${text}`);
+    }
   };
 
   useEffect(() => {
+    if (hasRunOnce.current) return;
+    hasRunOnce.current = true;
+
     displayPackageVersion();
-    const resizeObserver = new ResizeObserver(update);
-    if (containerRef.current) resizeObserver.observe(containerRef.current);
-    return () => {
-      resizeObserver.disconnect();
-    };
+    getResponse();
   }, []);
 
   return (
     <div className={styles.root}>
-      <div ref={containerRef} className={styles.container}>
-        <div className={styles.content}>
-          <div className={styles.body}>{"> hello"}</div>
+      <Container>
+        <div className={cls("text", styles.body)}>
+          <OmnibotIsSpeaking truth={response} />
+          <Caret />
         </div>
-      </div>
+      </Container>
     </div>
   );
 };

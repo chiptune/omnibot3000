@@ -68,9 +68,6 @@
   text-wrap: wrap;
   white-space: pre-wrap;
   word-break: break-all;
-  opacity: var(--opacity-primary);
-  user-select: none !important;
-  cursor: default !important;
 }
 
 .submit {
