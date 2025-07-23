@@ -1,6 +1,6 @@
 import {memo} from "react";
 
-import {ASCII_COPYRIGHT} from "@commons/constants";
+import {ASCII_COPYRIGHT, ASCII_CURRENCY} from "@commons/constants";
 import Breadcrumb from "@layout/Breadcrumb";
 import styles from "@layout/Footer.module.css";
 import Separator from "@ui/Separator";
@@ -29,7 +29,7 @@ const Footer = (props: {renderTime: RenderTime}) => {
       </div>
       <Separator />
       <Breadcrumb />
-      {debug && <div className={styles.info}>debug mode</div>}
+      {debug && <div className={styles.info}>{ASCII_CURRENCY}</div>}
       <Spacer />
       <Separator />
       <div>

@@ -51,3 +51,13 @@
   vertical-align: top;
   opacity: var(--opacity-tertiary);
 }
+
+.hr {
+  margin: 0;
+  padding: 0;
+  opacity: var(--opacity-tertiary);
+}
+
+.has-caret > * > :last-child {
+  padding-bottom: 0 !important;
+}

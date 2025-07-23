@@ -3,11 +3,11 @@ import {FormEvent, memo, useEffect, useRef, useState} from "react";
 import {getPromptPlaceholder} from "@api/api";
 import {BUTTON_SUBMIT} from "@commons/constants";
 import Caret from "@ui/Caret";
+import {formatText} from "@utils/strings";
 import {getVariableFromCSS} from "@utils/styles";
 
 import styles from "@chat/components/Prompt.module.css";
 
-import {formatText} from "@chat/commons/strings";
 import cmd from "@console/cmd";
 import useDebug from "@hooks/useDebug";
 import cls from "classnames";

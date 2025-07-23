@@ -6,3 +6,21 @@
   height: 100%;
   overflow: hidden;
 }
+
+.button {
+  margin-top: var(--line-height);
+}
+
+.button::before {
+  content: ">";
+  display: inline-block;
+  padding-right: var(--margin);
+  opacity: var(--opacity-tertiary);
+}
+
+.button::after {
+  content: "<";
+  display: inline-block;
+  padding-left: var(--margin);
+  opacity: var(--opacity-tertiary);
+}

@@ -36,6 +36,7 @@
       "@chat/*": ["features/chat/*"],
       "@history/*": ["features/history/*"],
       "@console/*": ["features/console/*"],
+      "@help/*": ["features/help/*"],
       "@images/*": ["/images/*"]
     }
   },

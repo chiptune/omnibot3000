@@ -1,9 +1,10 @@
-import {useEffect, useRef, useState} from "react";
+import {memo, useEffect, useRef, useState} from "react";
+import {Link} from "react-router-dom";
 
-import {getSystemConfig} from "@api/api";
+import {getStartButton, getSystemConfig} from "@api/api";
 import {getStream} from "@api/openAI";
 import Container from "@layout/Container";
-import Caret from "@ui/Caret";
+import {formatText} from "@utils/strings";
 import {displayPackageVersion} from "@utils/version";
 
 import styles from "@home/Home.module.css";
@@ -17,6 +18,13 @@ import {Stream} from "openai/streaming.mjs";
 const Home = () => {
   const hasRunOnce = useRef(false);
   const [response, setResponse] = useState<string>("");
+  const [loading, setLoading] = useState<boolean>(false);
+  const [startButton, setStartButton] = useState<string>("");
+
+  const updateStartButton = async () => {
+    const data = await getStartButton();
+    setStartButton(formatText(data));
+  };
 
   const getResponse = async () => {
     const messages: ChatCompletionMessageParam[] = [getSystemConfig()];
@@ -24,9 +32,9 @@ const Home = () => {
     messages.push({
       role: "system",
       content: `\
-      as welcoming message to the user, explain who you are and your purpose.\
-      keep your message short and seperate each element by an empty line.\
-      add a link to "/chat" to help users to start a conversation.`,
+        write an intro message for the user. keep it short and to the point.\
+        explain who are you, why you are here and why the user is miserable.\
+        separate each element with an empty line.`,
     });
 
     const response = (await getStream(messages)) as Stream<ChatCompletionChunk>;
@@ -36,12 +44,13 @@ const Home = () => {
       const finish_reason = choice.finish_reason;
       const text = choice.delta?.content || "";
       if (finish_reason) {
+        setLoading(false);
         if (finish_reason === "length")
           setResponse((prev) => `${prev}\n\n[max tokens length reached]\n`);
         break;
       }
       if (!text) continue;
-      setResponse((prev) => `${prev}${text}`);
+      setResponse((prev) => `${prev}${formatText(text)}`);
     }
   };
 
@@ -50,19 +59,27 @@ const Home = () => {
     hasRunOnce.current = true;
 
     displayPackageVersion();
+    setLoading(true);
     getResponse();
+    updateStartButton();
   }, []);
 
   return (
     <div className={styles.root}>
       <Container>
         <div className={cls("text", styles.body)}>
-          <OmnibotIsSpeaking truth={response} />
-          <Caret />
+          <OmnibotIsSpeaking truth={response} hasCaret={loading} />
+          {!loading && startButton && (
+            <div className={styles.button}>
+              <Link to="/chat" replace>
+                {startButton}
+              </Link>
+            </div>
+          )}
         </div>
       </Container>
     </div>
   );
 };
 
-export default Home;
+export default memo(Home);

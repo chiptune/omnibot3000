@@ -27,6 +27,9 @@ export const getLineHeight = (): number => {
   return lh;
 };
 
+export const formatText = (text: string): string =>
+  text.replaceAll("—", "-").replaceAll("’", "'");
+
 export const sanitizeHTML = (html: string): string => {
   const parser = new DOMParser();
   const doc = parser.parseFromString(html, "text/html");

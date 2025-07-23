@@ -4,10 +4,11 @@ import {useNavigate, useParams} from "react-router-dom";
 import {getChatTitle, getSystemConfig} from "@api/api";
 import getStream from "@api/openAI";
 import Container from "@layout/Container";
+import {formatText} from "@utils/strings";
 
 import styles from "@chat/Chat.module.css";
 
-import {formatCompletionId, formatText} from "@chat/commons/strings";
+import {formatCompletionId} from "@chat/commons/strings";
 import Message from "@chat/components/Message";
 import Prompt from "@chat/components/Prompt";
 import Toolbar from "@chat/components/Toolbar";

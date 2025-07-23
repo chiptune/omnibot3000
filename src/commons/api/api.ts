@@ -84,7 +84,23 @@ export const getPromptPlaceholder = async (): Promise<string> => {
       content: `\
         make a list of 10 imperatives input placeholder.\
         this input is where the user is asking you question.\
-        you are not asking, you are imposing, user must comply.\
+        you are not inviting, you are imposing, user must comply.\
+        ${smallQueryFormatting(25)}`,
+    },
+  ];
+  const response = (await getStream(messages, false)) as ChatCompletion;
+  return response.choices[0].message.content || "?";
+};
+
+export const getStartButton = async (): Promise<string> => {
+  const messages: ChatCompletionMessageParam[] = [
+    getSystemConfig(),
+    {
+      role: "system",
+      content: `\
+        make a name for a button that start a chat in few words.\
+        this button bring users to the page where they can make a query.\
+        you are not inviting, you are imposing, user must comply.\
         ${smallQueryFormatting(25)}`,
     },
   ];

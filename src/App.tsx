@@ -9,11 +9,9 @@ import {
 } from "react-router-dom";
 
 import Background from "@layout/Background";
-import Container from "@layout/Container";
 import Footer from "@layout/Footer";
 import Header from "@layout/Header";
 import Menu from "@layout/Menu";
-import Caret from "@ui/Caret";
 import Line from "@ui/Line";
 import {getCharHeight, getCharWidth, getLineHeight} from "@utils/strings";
 import {isSystemDarkModeOn} from "@utils/system";
@@ -25,6 +23,7 @@ import "@styles/main.css";
 import "@styles/vt220.css";
 
 import Chat from "@chat/Chat";
+import Help from "@help/Help";
 import Home from "@home/Home";
 import useDebug from "@hooks/useDebug";
 import useStorage from "@hooks/useStorage";
@@ -165,19 +164,7 @@ const App = () => (
         <Route path="/" element={<Navigate to="/chat" replace />} />
         <Route path="/home" element={<Home />} />
         <Route path="/chat/:id?" element={<Chat />} />
-        <Route
-          path="/help"
-          element={
-            <div>
-              <Container>
-                <div className={cls("text", "ascii")} style={{width: "100%"}}>
-                  {"> help "}
-                  <Caret />
-                </div>
-              </Container>
-            </div>
-          }
-        />
+        <Route path="/help" element={<Help />} />
       </Route>
     </Routes>
   </Router>

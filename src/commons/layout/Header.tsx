@@ -15,8 +15,8 @@ import {
 import styles from "@layout/Header.module.css";
 import Button from "@ui/Button";
 import Spacer from "@ui/Spacer";
+import {formatText} from "@utils/strings";
 
-import {formatText} from "@chat/commons/strings";
 import useChatCompletionStore from "@chat/hooks/useChatCompletionStore";
 import cls from "classnames";
 
@@ -56,6 +56,7 @@ const Header = (_props: {darkMode: boolean; onThemeToggle: () => void}) => {
   useEffect(() => {
     if (hasRunOnce.current) return;
     hasRunOnce.current = true;
+
     updateSubtitle();
   }, []);
 
