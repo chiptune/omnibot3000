@@ -161,7 +161,7 @@ const App = () => (
   <Router>
     <Routes>
       <Route path="/" element={<Layout />}>
-        <Route path="/" element={<Navigate to="/chat" replace />} />
+        <Route path="/" element={<Navigate to="/home" replace />} />
         <Route path="/home" element={<Home />} />
         <Route path="/chat/:id?" element={<Chat />} />
         <Route path="/help" element={<Help />} />

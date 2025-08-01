@@ -32,13 +32,13 @@ const History = () => {
   };
 
   return (
-    <div className={cls("text", styles.root)}>
+    <ul className={cls("text", styles.root)}>
       {chatStore
         .getChats()
         .map((chat: Chat) => {
           const selected = Boolean(chatId === chat.id);
           return (
-            <div
+            <li
               key={`chat-history-${chat.id}`}
               className={styles[chat.title ? "show" : "hide"]}>
               <div
@@ -69,11 +69,11 @@ const History = () => {
                   />
                 </div>
               </div>
-            </div>
+            </li>
           );
         })
         .reverse()}
-    </div>
+    </ul>
   );
 };
 

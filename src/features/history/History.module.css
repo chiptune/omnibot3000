@@ -1,8 +1,15 @@
 .root {
-  width: 100%;
+  padding: 0;
+  margin: 0;
   margin-right: calc(var(--font-width) - var(--scrollbar-size));
+  width: 100%;
   overflow-x: hidden;
   overflow-y: scroll;
+  scroll-snap-type: both mandatory;
+  li {
+    list-style-type: none;
+    scroll-snap-align: start;
+  }
 }
 
 .header {

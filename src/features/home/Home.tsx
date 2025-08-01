@@ -1,5 +1,5 @@
 import {memo, useEffect, useRef, useState} from "react";
-import {Link} from "react-router-dom";
+import {useNavigate} from "react-router-dom";
 
 import {getStartButton, getSystemConfig} from "@api/api";
 import {getStream} from "@api/openAI";
@@ -7,15 +7,22 @@ import Container from "@layout/Container";
 import {formatText} from "@utils/strings";
 import {displayPackageVersion} from "@utils/version";
 
+import Button from "@/commons/ui/Button";
+
 import styles from "@home/Home.module.css";
 
 import {OmnibotIsSpeaking} from "@chat/components/Message";
+import useChatCompletionStore from "@chat/hooks/useChatCompletionStore";
 import cls from "classnames";
 import {ChatCompletionMessageParam} from "openai/resources";
 import {ChatCompletionChunk} from "openai/resources/index.mjs";
 import {Stream} from "openai/streaming.mjs";
 
 const Home = () => {
+  const chatStore = useChatCompletionStore();
+
+  const navigate = useNavigate();
+
   const hasRunOnce = useRef(false);
   const [response, setResponse] = useState<string>("");
   const [loading, setLoading] = useState<boolean>(false);
@@ -33,7 +40,7 @@ const Home = () => {
       role: "system",
       content: `\
         write an intro message for the user. keep it short and to the point.\
-        explain who are you, why you are here and why the user is miserable.\
+        explain who are you, why you are here and how you can help the user.\
         separate each element with an empty line.`,
     });
 
@@ -54,6 +61,13 @@ const Home = () => {
     }
   };
 
+  const newChat = () => {
+    chatStore.setChatId();
+    chatStore.setCompletionId();
+    chatStore.setCompletions();
+    navigate("/chat");
+  };
+
   useEffect(() => {
     if (hasRunOnce.current) return;
     hasRunOnce.current = true;
@@ -71,9 +85,7 @@ const Home = () => {
           <OmnibotIsSpeaking truth={response} hasCaret={loading} />
           {!loading && startButton && (
             <div className={styles.button}>
-              <Link to="/chat" replace>
-                {startButton}
-              </Link>
+              <Button name={startButton} handler={newChat} className="text" />
             </div>
           )}
         </div>

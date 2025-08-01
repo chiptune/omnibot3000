@@ -6,7 +6,7 @@
   --padding: 2rem;
   --border-radius: 0.1rem;
   --scrollbar-size: 0.5rem;
-  --font-size-px: 15px;
+  --font-size: 15px;
   --font-weight: 500; /* 400 normal, 700 bold */
   --line-height: calc(var(--font-height) * 1);
   --tab-size: 2;
@@ -37,7 +37,7 @@
   user-select: none;
   -webkit-user-drag: none;
   font-family: "VT220", monospace;
-  font-size: var(--font-size-px);
+  font-size: var(--font-size);
   /*
   line-height: var(--line-height);
   font-weight: var(--font-weight);

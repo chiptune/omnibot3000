@@ -54,6 +54,12 @@ const cmd = (query: string, debug: boolean) => {
       setVariableToCSS(arg1, value);
       config.update(cmd, arg1, value);
       break;
+    case "size":
+      value = clamp(parseInt(arg1) || 0, 4, 32);
+      setVariableToCSS("font-size", `${value}px`);
+      config.update(cmd, "", value);
+      window.location.reload();
+      break;
     default:
       console.warn(`unknown command "${cmd}"`);
       return;

@@ -73,7 +73,6 @@ const Prompt = (props: {
   const [forceUpdate, setForceUpdate] = useState<number>(0);
 
   const formRef = useRef<HTMLFormElement>(null);
-  const inputRef = useRef<HTMLInputElement>(null);
 
   const isDisabled = loading || String(prompt).replace("\n", "").trim() === "";
 
@@ -115,7 +114,7 @@ const Prompt = (props: {
           if (p[0].charAt(0) === "/") {
             cmd(p[0].substring(1), debug);
           } else {
-            submitHandler(p.join("\n"));
+            submitHandler(p.join("\n").trim());
           }
           p = [""];
           l = 0;
@@ -226,8 +225,13 @@ const Prompt = (props: {
     hasRunOnce.current = true;
 
     updatePlaceholder();
+
+    window.addEventListener("paste", (e) => pasteQuery(e));
     window.addEventListener("keydown", (e) => handleInput(e));
-    return window.removeEventListener("keydown", (e) => handleInput(e));
+    return () => {
+      window.removeEventListener("keydown", (e) => handleInput(e));
+      window.removeEventListener("paste", (e) => pasteQuery(e));
+    };
   }, []);
 
   useEffect(() => {
@@ -235,15 +239,30 @@ const Prompt = (props: {
       setCount(Math.round(Math.random() * (placeholders.length - 1)));
   }, [prompt, placeholders]);
 
+  const pasteQuery = (e: ClipboardEvent) => {
+    const data = e.clipboardData;
+    if (!data) return;
+    const text = data.getData("text/plain");
+    if (text.trim() === "") return;
+    const query = text.split("\n");
+    setPrompt(query);
+    setLine(query.length - 1);
+    setCaret(query[query.length - 1].length);
+  };
+
   return (
     <form
       ref={formRef}
       onSubmit={(e: FormEvent) => {
         e.preventDefault();
-        submitHandler(prompt.join("\n"));
+        submitHandler(prompt.join("\n").trim());
         setPrompt([""]);
         setLine(0);
         setCaret(0);
+      }}
+      onPaste={(e: React.ClipboardEvent) => {
+        e.preventDefault();
+        pasteQuery(e.nativeEvent);
       }}
       className={styles.form}>
       <div className={styles.pill}>{">"}</div>
@@ -261,7 +280,6 @@ const Prompt = (props: {
         <PromptDisplay prompt={prompt} line={line} caret={caret} />
       </div>
       <input
-        ref={inputRef}
         name="prompt"
         className={styles.input}
         defaultValue={!loading && prompt ? prompt : ""}

@@ -9,12 +9,13 @@ export interface ConfigType {
     s: string;
     l: string;
   };
+  size: number;
 }
-export type ConfigParam = "debug" | "color";
-export type ConfigValue = boolean | string;
+export type ConfigParam = "debug" | "color" | "size";
+export type ConfigValue = boolean | string | number;
 
 class Config {
-  config: ConfigType;
+  declare config: ConfigType;
 
   static readonly KEY: string = `${SESSION_KEY}_config`;
 
@@ -25,6 +26,7 @@ class Config {
       s: getVariableFromCSS("s"),
       l: getVariableFromCSS("l"),
     },
+    size: parseInt(getVariableFromCSS("font-size")),
   };
 
   constructor() {
@@ -64,6 +66,11 @@ class Config {
             break;
         }
         break;
+      case "size":
+        if (!key && typeof value === "number")
+          this.config.size = value as number;
+        console.log(`config updated: ${param} = ${value}`, this.config);
+        break;
     }
     this.save();
   }
@@ -80,10 +87,11 @@ class Config {
   }
 
   apply(): void {
-    const {color} = this.config;
+    const {color, size} = this.config;
     setVariableToCSS("h", color.h);
     setVariableToCSS("s", color.s);
     setVariableToCSS("l", color.l);
+    setVariableToCSS("font-size", `${size}px`);
     if (this.config.debug) console.info("%cconfig applied", "color:#999");
   }
 }
