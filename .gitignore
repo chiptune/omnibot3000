@@ -1,9 +1,7 @@
 node_modules
+pnpm*
 .vite
 .work
-.yarn*
-yarn*
-.npm*
 .env
 dist
 *.tsbuildinfo
