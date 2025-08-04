@@ -1,7 +1,14 @@
-.container {
+.root {
   width: 100%;
+  height: fit-content;
   overflow: hidden auto;
   outline: none;
+  scroll-snap-type: both mandatory;
+}
+
+.container {
+  display: flex;
+  flex-direction: row;
 }
 
 .content {
@@ -10,7 +17,25 @@
   flex-grow: 1;
   flex-shrink: 1;
   justify-content: end;
-  margin-left: var(--font-width);
   width: 100%;
+  height: fit-content;
   max-width: calc((var(--content-width) - 2) * var(--font-width));
+}
+
+.content > :first-child {
+  div {
+    margin-top: 0 !important;
+  }
+}
+.snap {
+  flex-grow: 0;
+  flex-shrink: 0;
+  justify-content: end;
+  width: var(--font-width);
+  opacity: var(--opacity-secondary);
+  visibility: hidden;
+  list-style-type: none;
+  li {
+    scroll-snap-align: start;
+  }
 }

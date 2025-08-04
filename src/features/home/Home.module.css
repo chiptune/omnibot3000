@@ -8,7 +8,7 @@
 }
 
 .button {
-  margin-top: var(--line-height);
+  padding-top: var(--line-height);
 }
 
 .button::before {

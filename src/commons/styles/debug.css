@@ -16,6 +16,7 @@
   outline-width: 0.125rem !important;
   outline-color: var(--color-rainbow-1) !important;
   outline-offset: 0.25rem;
+  visibility: visible !important;
 }
 
 .debug * > * {

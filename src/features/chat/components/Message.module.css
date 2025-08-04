@@ -7,6 +7,7 @@
   flex-direction: row;
   column-gap: var(--font-width);
   margin-bottom: var(--line-height);
+  margin-top: var(--line-height);
 }
 
 .user-pill {
@@ -19,10 +20,6 @@
   flex-direction: row;
   column-gap: var(--font-width);
   align-items: stretch;
-}
-
-.bot > * > :last-child {
-  padding-bottom: 0 !important;
 }
 
 .bot-text {

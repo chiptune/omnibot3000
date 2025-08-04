@@ -18,9 +18,9 @@
   --menu-width: 20;
   --content-width: 48;
   /* colors */
-  --h: 30; /* amber:30 | yellow: 90 | green:120 | blue:180 */
-  --s: 60;
-  --l: 65;
+  --h: 120; /* amber:30 | yellow: 90 | green:120 | blue:180 */
+  --s: 30;
+  --l: 70;
   --color-primary: hsla(var(--h) var(--s) var(--l) / 0.7);
   --color-secondary: hsla(var(--h) var(--s) var(--l) / 0.5);
   --color-tertiary: hsla(var(--h) var(--s) var(--l) / 0.3);
@@ -139,6 +139,17 @@ code {
   font-weight: inherit;
   white-space: pre-wrap;
   color: var(--color-highlight);
+}
+
+blockquote {
+  margin: 0;
+  padding: 0;
+  padding-left: var(--padding);
+  color: var(--color-highlight);
+  p {
+    margin: 0 !important;
+    padding: 0 !important;
+  }
 }
 
 button {

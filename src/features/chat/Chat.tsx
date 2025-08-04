@@ -56,14 +56,14 @@ const Chat = () => {
       chatStore.setChatId(id);
       chatStore.setCompletions(id);
     }
-    console.log(chatStore.getChat(id));
+    /*console.log(chatStore.getChat(id));
     console.log(chatStore.getCompletions(id));
     console.info(
       "chat:",
       chatStore.getChatId(),
       "\ncompletion:",
       chatStore.getCompletionId(),
-    );
+    );*/
   }, [id]);
 
   /* update the chat is the chatId value in store changed */

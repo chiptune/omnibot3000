@@ -3,7 +3,6 @@
   flex-direction: row;
   margin-top: var(--line-height);
   margin-right: var(--font-width);
-  margin-bottom: var(--line-height);
 }
 
 .corner {

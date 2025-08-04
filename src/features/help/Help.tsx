@@ -1,3 +1,5 @@
+import {memo} from "react";
+
 import Container from "@layout/Container";
 
 import styles from "@help/Help.module.css";
@@ -10,11 +12,14 @@ const Help = () => {
     <div className={styles.root}>
       <Container>
         <div className={cls("text", styles.body)}>
-          <OmnibotIsSpeaking truth="> help " hasCaret={true} />
+          <OmnibotIsSpeaking
+            truth={`help${"\n"}> you will not find any here`}
+            hasCaret={true}
+          />
         </div>
       </Container>
     </div>
   );
 };
 
-export default Help;
+export default memo(Help);
