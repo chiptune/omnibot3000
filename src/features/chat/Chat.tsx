@@ -1,13 +1,20 @@
 import {Fragment, useEffect, useState} from "react";
 import {useNavigate, useParams} from "react-router-dom";
 
+import {
+  ChatCompletionChunk,
+  ChatCompletionMessageParam,
+} from "openai/resources/index.mjs";
+import {Stream} from "openai/streaming.mjs";
+
 import {getChatTitle, getSystemConfig} from "@api/api";
 import getStream from "@api/openAI";
 import Container from "@layout/Container";
 import {formatText} from "@utils/strings";
 
-import styles from "@chat/Chat.module.css";
+import useStorage from "@hooks/useStorage";
 
+import styles from "@chat/Chat.module.css";
 import {formatCompletionId} from "@chat/commons/strings";
 import Message from "@chat/components/Message";
 import Prompt from "@chat/components/Prompt";
@@ -17,12 +24,6 @@ import useChatCompletionStore, {
   Completion,
   CompletionId,
 } from "@chat/hooks/useChatCompletionStore";
-import useStorage from "@hooks/useStorage";
-import {
-  ChatCompletionChunk,
-  ChatCompletionMessageParam,
-} from "openai/resources/index.mjs";
-import {Stream} from "openai/streaming.mjs";
 
 const Chat = () => {
   const chatStore = useChatCompletionStore();

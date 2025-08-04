@@ -1,6 +1,6 @@
-import {getColorFromCSS} from "@utils/color";
-
 import packageJson from "@root/package.json";
+
+import {getColorFromCSS} from "@utils/color";
 
 const VERSION = String(packageJson.version)
   .split(".")

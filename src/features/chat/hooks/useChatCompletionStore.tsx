@@ -1,9 +1,10 @@
 import {create} from "zustand";
 
+import {ChatCompletionMessageParam} from "openai/resources/index.mjs";
+
 import {COMPLETION_MAX_TOKENS} from "@commons/constants";
 
 import {formatCompletionId} from "@chat/commons/strings";
-import {ChatCompletionMessageParam} from "openai/resources/index.mjs";
 
 export interface ChatSettings {
   maxTokens: number;

@@ -8,9 +8,10 @@ import Spacer from "@ui/Spacer";
 import {numberToRoman} from "@utils/math";
 import VERSION, {AUTHOR, NAME} from "@utils/version";
 
+import useDebug from "@hooks/useDebug";
+
 import {RenderTime} from "@/App";
 
-import useDebug from "@hooks/useDebug";
 import cls from "classnames";
 
 const Footer = (props: {renderTime: RenderTime}) => {

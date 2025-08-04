@@ -43,8 +43,13 @@ export default tseslint.config(
           groups: [
             ["^(vite.*)(/.*|$)"],
             ["^(react.*|zustand)(/.*|$)"],
+            ["^(openai)(/.*|$)"],
             ["^(@mui.*)(/.*|$)"],
-            ["^(@api|@commons|@layout|@ui|@utils|@styles)(/.*|$)"],
+            ["^(@root)(/.*|$)"],
+            ["^(@api|@commons|@layout|@ui|@utils)(/.*|$)"],
+            ["^(@hooks)(/.*|$)"],
+            ["^(@styles)(/.*|$)"],
+            ["^(@home|@chat|@history|@console|@help)(/.*|$)"],
             ["^(@)(/.*|$)"],
             ["^\\u0000"],
             // parent imports. put ".." last

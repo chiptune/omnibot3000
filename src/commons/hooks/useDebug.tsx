@@ -1,7 +1,8 @@
 import {createContext, ReactNode, useContext, useEffect, useState} from "react";
 
-import Config from "@console/config";
 import useKeyPress from "@hooks/useKeyPress";
+
+import Config from "@console/config";
 
 const DebugContext = createContext<boolean>(false);
 

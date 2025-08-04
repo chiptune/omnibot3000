@@ -2,8 +2,9 @@ import {useCallback} from "react";
 
 import {SESSION_KEY} from "@commons/constants";
 
-import useChatCompletionStore from "@chat/hooks/useChatCompletionStore";
 import useDebug from "@hooks/useDebug";
+
+import useChatCompletionStore from "@chat/hooks/useChatCompletionStore";
 
 function useStorage() {
   const debug = useDebug();

@@ -10,6 +10,7 @@ import styles from "@layout/Background.module.css";
 import {getVariableFromCSS} from "@utils/styles";
 
 import useDebug from "@hooks/useDebug";
+
 import cls from "classnames";
 
 const Background = (props: {w: number; h: number}) => {

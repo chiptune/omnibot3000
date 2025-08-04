@@ -6,6 +6,7 @@ import Line from "@ui/Line";
 
 import useChatCompletionStore from "@chat/hooks/useChatCompletionStore";
 import History from "@history/History";
+
 import cls from "classnames";
 
 const Menu = () => {

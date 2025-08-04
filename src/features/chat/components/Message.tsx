@@ -1,16 +1,17 @@
 import {memo} from "react";
 import Markdown from "react-markdown";
 
+import type {ChatCompletionRole} from "openai/resources/index.mjs";
+
 import {ASCII_BLOCK1} from "@commons/constants";
 import Caret from "@ui/Caret";
 import Line from "@ui/Line";
 import {sanitizeHTML} from "@utils/strings";
 
 import styles from "@chat/components/Message.module.css";
-
 import {PromptDisplay} from "@chat/components/Prompt";
+
 import cls from "classnames";
-import type {ChatCompletionRole} from "openai/resources/index.mjs";
 
 export const OmnibotIsSpeaking = (props: {
   truth: string;

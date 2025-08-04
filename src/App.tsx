@@ -16,17 +16,19 @@ import Line from "@ui/Line";
 import {getCharHeight, getCharWidth, getLineHeight} from "@utils/strings";
 import {isSystemDarkModeOn} from "@utils/system";
 
+import useDebug from "@hooks/useDebug";
+import useStorage from "@hooks/useStorage";
+
+import Chat from "@chat/Chat";
+import Help from "@help/Help";
+import Home from "@home/Home";
+
 import styles from "@/App.module.css";
 
 import "@styles/debug.css";
 import "@styles/main.css";
 import "@styles/vt220.css";
 
-import Chat from "@chat/Chat";
-import Help from "@help/Help";
-import Home from "@home/Home";
-import useDebug from "@hooks/useDebug";
-import useStorage from "@hooks/useStorage";
 import cls from "classnames";
 
 export interface RenderTime {

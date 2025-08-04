@@ -5,11 +5,12 @@ import {ASCII_HLINE, BUTTON_DELETE} from "@commons/constants";
 import Button from "@ui/Button";
 import {getVariableFromCSS} from "@utils/styles";
 
-import styles from "@history/History.module.css";
+import useStorage from "@hooks/useStorage";
 
 import type {Chat, ChatId} from "@chat/hooks/useChatCompletionStore";
 import useChatCompletionStore from "@chat/hooks/useChatCompletionStore";
-import useStorage from "@hooks/useStorage";
+import styles from "@history/History.module.css";
+
 import cls from "classnames";
 
 const History = () => {

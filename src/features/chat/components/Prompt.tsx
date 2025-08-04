@@ -6,10 +6,11 @@ import Caret from "@ui/Caret";
 import {formatText} from "@utils/strings";
 import {getVariableFromCSS} from "@utils/styles";
 
-import styles from "@chat/components/Prompt.module.css";
-
-import cmd from "@console/cmd";
 import useDebug from "@hooks/useDebug";
+
+import styles from "@chat/components/Prompt.module.css";
+import cmd from "@console/cmd";
+
 import cls from "classnames";
 
 export const KEYS: string[] = [

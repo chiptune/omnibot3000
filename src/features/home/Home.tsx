@@ -1,22 +1,22 @@
 import {memo, useEffect, useRef, useState} from "react";
 import {useNavigate} from "react-router-dom";
 
-import {getStartButton, getSystemConfig} from "@api/api";
-import {getStream} from "@api/openAI";
-import Container from "@layout/Container";
-import {formatText} from "@utils/strings";
-import {displayPackageVersion} from "@utils/version";
-
-import Button from "@/commons/ui/Button";
-
-import styles from "@home/Home.module.css";
-
-import {OmnibotIsSpeaking} from "@chat/components/Message";
-import useChatCompletionStore from "@chat/hooks/useChatCompletionStore";
-import cls from "classnames";
 import {ChatCompletionMessageParam} from "openai/resources";
 import {ChatCompletionChunk} from "openai/resources/index.mjs";
 import {Stream} from "openai/streaming.mjs";
+
+import {getStartButton, getSystemConfig} from "@api/api";
+import {getStream} from "@api/openAI";
+import Container from "@layout/Container";
+import Button from "@ui/Button";
+import {formatText} from "@utils/strings";
+import {displayPackageVersion} from "@utils/version";
+
+import {OmnibotIsSpeaking} from "@chat/components/Message";
+import useChatCompletionStore from "@chat/hooks/useChatCompletionStore";
+import styles from "@home/Home.module.css";
+
+import cls from "classnames";
 
 const Home = () => {
   const chatStore = useChatCompletionStore();

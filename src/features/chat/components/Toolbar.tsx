@@ -4,13 +4,14 @@ import {BUTTON_DELETE} from "@commons/constants";
 import Button from "@ui/Button";
 import Line from "@ui/Line";
 
-import styles from "@chat/components/Toolbar.module.css";
+import useStorage from "@hooks/useStorage";
 
+import styles from "@chat/components/Toolbar.module.css";
 import useChatCompletionStore, {
   Completion,
   CompletionId,
 } from "@chat/hooks/useChatCompletionStore";
-import useStorage from "@hooks/useStorage";
+
 import cls from "classnames";
 
 const Toolbar = (props: {completion: Completion}) => {

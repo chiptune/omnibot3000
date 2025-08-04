@@ -18,6 +18,7 @@ import Spacer from "@ui/Spacer";
 import {formatText} from "@utils/strings";
 
 import useChatCompletionStore from "@chat/hooks/useChatCompletionStore";
+
 import cls from "classnames";
 
 export const AVATAR_1 = `${ASCII_LDAB}${ASCII_LOSANGE}${ASCII_RDAB}`;

@@ -2,9 +2,9 @@ import {memo} from "react";
 
 import Container from "@layout/Container";
 
+import {OmnibotIsSpeaking} from "@chat/components/Message";
 import styles from "@help/Help.module.css";
 
-import {OmnibotIsSpeaking} from "@chat/components/Message";
 import cls from "classnames";
 
 const Help = () => {

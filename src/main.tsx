@@ -4,11 +4,12 @@ import {createRoot} from "react-dom/client";
 import favIcon from "@commons/favicon";
 import {displayPackageVersion} from "@utils/version";
 
-import App from "@/App";
-import {ErrorBoundary} from "@/Error";
+import {DebugProvider} from "@hooks/useDebug";
 
 import Config from "@console/config";
-import {DebugProvider} from "@hooks/useDebug";
+
+import App from "@/App";
+import {ErrorBoundary} from "@/Error";
 
 const config = new Config();
 config.apply();

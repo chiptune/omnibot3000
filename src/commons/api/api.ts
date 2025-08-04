@@ -1,12 +1,12 @@
-import getStream from "@api/openAI";
-import persona from "@commons/persona.txt?raw";
-
-import {getVariableFromCSS} from "../utils/styles";
-
 import {
   ChatCompletion,
   ChatCompletionMessageParam,
 } from "openai/resources/index.mjs";
+
+import getStream from "@api/openAI";
+import persona from "@commons/persona.txt?raw";
+
+import {getVariableFromCSS} from "../utils/styles";
 
 export const getSystemConfig = (): ChatCompletionMessageParam => {
   const systemConfig = `\
