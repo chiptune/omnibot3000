@@ -7,12 +7,12 @@ import {Stream} from "openai/streaming.mjs";
 
 import {getStartButton, getSystemConfig} from "@api/api";
 import {getStream} from "@api/openAI";
+import OmnibotSpeak from "@commons/OmnibotSpeak";
 import Container from "@layout/Container";
 import Button from "@ui/Button";
 import {formatText} from "@utils/strings";
 import {displayPackageVersion} from "@utils/version";
 
-import {OmnibotIsSpeaking} from "@chat/components/Message";
 import useChatCompletionStore from "@chat/hooks/useChatCompletionStore";
 import styles from "@home/Home.module.css";
 
@@ -57,7 +57,7 @@ const Home = () => {
         break;
       }
       if (!text) continue;
-      setResponse((prev) => `${prev}${formatText(text)}`);
+      setResponse((prev) => `${prev}${text}`);
     }
   };
 
@@ -82,7 +82,7 @@ const Home = () => {
     <div className={styles.root}>
       <Container>
         <div className={cls("text", styles.body)}>
-          <OmnibotIsSpeaking truth={response} hasCaret={loading} />
+          <OmnibotSpeak truth={response} hasCaret={loading} />
           {!loading && startButton && (
             <div className={styles.button}>
               <Button name={startButton} handler={newChat} className="text" />

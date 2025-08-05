@@ -40,7 +40,7 @@ export const PromptDisplay = (props: {
         return (
           <div
             key={`prompt-line-${i}`}
-            className={cls("text", styles["prompt-line"])}
+            className={styles["prompt-line"]}
             style={{clear: i > 0 ? "both" : "none"}}>
             {text}
             {i === line ? (

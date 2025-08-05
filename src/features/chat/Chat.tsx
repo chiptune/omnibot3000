@@ -10,7 +10,6 @@ import {Stream} from "openai/streaming.mjs";
 import {getChatTitle, getSystemConfig} from "@api/api";
 import getStream from "@api/openAI";
 import Container from "@layout/Container";
-import {formatText} from "@utils/strings";
 
 import useStorage from "@hooks/useStorage";
 
@@ -132,7 +131,7 @@ const Chat = () => {
     if (completion) {
       setCompletion((prev) => {
         if (!prev) return;
-        prev.message = formatText(response);
+        prev.message = response;
         return prev;
       });
       if (!chatId) {

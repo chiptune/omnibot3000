@@ -28,7 +28,13 @@ export const getLineHeight = (): number => {
 };
 
 export const formatText = (text: string): string =>
-  text.replaceAll("—", "-").replaceAll("’", "'");
+  text
+    .replaceAll("—", "-")
+    .replaceAll("–", "-")
+    .replaceAll("’", "'")
+    .replaceAll("“", '"')
+    .replaceAll("”", '"')
+    .replaceAll("→", "->");
 
 export const sanitizeHTML = (html: string): string => {
   const parser = new DOMParser();

@@ -5,10 +5,10 @@ import {
 
 import getStream from "@api/openAI";
 import persona from "@commons/persona.txt?raw";
-
-import {getVariableFromCSS} from "../utils/styles";
+import {getVariableFromCSS} from "@utils/styles";
 
 export const getSystemConfig = (): ChatCompletionMessageParam => {
+  const size = getVariableFromCSS("base-size");
   const systemConfig = `\
     current date: ${new Date().toLocaleDateString()}.\
     current time: ${new Date().toLocaleDateString()}.\
@@ -20,7 +20,11 @@ export const getSystemConfig = (): ChatCompletionMessageParam => {
     current color hue: ${getVariableFromCSS("h")}°.\
     current color saturation: ${getVariableFromCSS("s")}%.\
     current color lightness: ${getVariableFromCSS("l")}%.\
-    user can change the color with the "/color <h|s|l> <value>" command.\
+    current font base size: ${getVariableFromCSS("font-size")}.\
+    user can change the color with the "/color [h|s|l] number" command.\
+    user can change the font size with the "/size number" command.\
+    the "/size" command without parameter will reset the value to ${size}.\
+    user can reset the settings with the "/reset" command.\
     ${formatting}\
     ${persona}`;
   return {role: "system", content: systemConfig};

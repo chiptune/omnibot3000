@@ -1,5 +1,5 @@
 import {clamp} from "@utils/math";
-import {setVariableToCSS} from "@utils/styles";
+import {getVariableFromCSS, setVariableToCSS} from "@utils/styles";
 
 import Config, {ConfigValue} from "@console/config";
 
@@ -17,6 +17,9 @@ const cmd = (query: string, debug: boolean) => {
       config.delete();
       window.location.reload();
       return;
+    case "help":
+      window.location.pathname = "/help";
+      return;
     case "debug":
       switch (arg1) {
         case "on":
@@ -33,7 +36,6 @@ const cmd = (query: string, debug: boolean) => {
           return;
       }
       config.update(cmd, "", value);
-      window.location.reload();
       break;
     case "color":
       if (!arg1 || !arg2) {
@@ -55,7 +57,7 @@ const cmd = (query: string, debug: boolean) => {
       config.update(cmd, arg1, value);
       break;
     case "size":
-      value = clamp(parseInt(arg1) || 0, 4, 32);
+      value = clamp(parseInt(arg1) ?? getVariableFromCSS("BASE-SIZE"), 4, 32);
       setVariableToCSS("font-size", `${value}px`);
       config.update(cmd, "", value);
       window.location.reload();
