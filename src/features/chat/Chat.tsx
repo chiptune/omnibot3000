@@ -1,4 +1,4 @@
-import {Fragment, useEffect, useState} from "react";
+import {Fragment, memo, useEffect, useState} from "react";
 import {useNavigate, useParams} from "react-router-dom";
 
 import {
@@ -177,4 +177,4 @@ const Chat = () => {
   );
 };
 
-export default Chat;
+export default memo(Chat);

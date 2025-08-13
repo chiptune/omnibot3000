@@ -1,3 +1,5 @@
+import {memo} from "react";
+
 const Spacer = () => (
   <div
     style={{
@@ -7,4 +9,4 @@ const Spacer = () => (
     }}></div>
 );
 
-export default Spacer;
+export default memo(Spacer);

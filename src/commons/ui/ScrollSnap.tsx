@@ -1,4 +1,4 @@
-import {memo, useEffect, useRef} from "react";
+import React, {memo, useEffect, useRef} from "react";
 
 import {ASCII_SPACE} from "@commons/constants";
 import {getLineHeight} from "@utils/strings";

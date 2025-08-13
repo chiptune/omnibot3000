@@ -1,4 +1,4 @@
-import {MouseEvent, MouseEventHandler} from "react";
+import {memo, MouseEvent, MouseEventHandler} from "react";
 
 import cls from "classnames";
 
@@ -19,4 +19,4 @@ const Button = (props: {
   </button>
 );
 
-export default Button;
+export default memo(Button);

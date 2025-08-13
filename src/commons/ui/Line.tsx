@@ -1,4 +1,4 @@
-import {useEffect, useRef} from "react";
+import {memo, useEffect, useRef} from "react";
 
 import {ASCII_HLINE, ASCII_VLINE} from "@commons/constants";
 import {getCharWidth, getLineHeight} from "@utils/strings";
@@ -61,4 +61,4 @@ const Line = (props: {
   );
 };
 
-export default Line;
+export default memo(Line);

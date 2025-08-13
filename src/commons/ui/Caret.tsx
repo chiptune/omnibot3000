@@ -1,3 +1,5 @@
+import {memo} from "react";
+
 import {ASCII_BLOCK3} from "@commons/constants";
 
 const Caret = () => (
@@ -15,4 +17,4 @@ const Caret = () => (
   </div>
 );
 
-export default Caret;
+export default memo(Caret);

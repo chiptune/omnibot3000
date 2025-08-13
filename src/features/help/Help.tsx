@@ -5,7 +5,7 @@ import {ChatCompletionChunk} from "openai/resources/index.mjs";
 import {Stream} from "openai/streaming.mjs";
 
 import {getSystemConfig} from "@api/api";
-import {getStream} from "@api/openAI";
+import getStream from "@api/openAI";
 import OmnibotSpeak from "@commons/OmnibotSpeak";
 import Container from "@layout/Container";
 

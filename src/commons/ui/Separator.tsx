@@ -1,3 +1,5 @@
+import {memo} from "react";
+
 import {ASCII_VLINE} from "@commons/constants";
 
 const Separator = (props: {char?: string}) => (
@@ -14,4 +16,4 @@ const Separator = (props: {char?: string}) => (
     }}>{` ${String(props.char || "").trim() || ASCII_VLINE} `}</div>
 );
 
-export default Separator;
+export default memo(Separator);
