@@ -34,11 +34,12 @@ export const Container = ({children}: {children: ReactNode}) => {
   }, []);
 
   useEffect(() => {
-    if (rootRef.current) {
-      rootRef.current.scrollTo({
-        left: 0,
-        top: rootRef.current.scrollHeight,
+    const eol = document.getElementById("end-of-line");
+    if (eol) {
+      eol.scrollIntoView({
         behavior: "smooth",
+        block: "nearest",
+        inline: "nearest",
       });
     }
   }, [children]);
@@ -51,6 +52,7 @@ export const Container = ({children}: {children: ReactNode}) => {
           {children}
         </div>
       </div>
+      <a id="end-of-line" />
     </div>
   );
 };

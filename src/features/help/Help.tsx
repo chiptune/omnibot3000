@@ -9,11 +9,14 @@ import getStream from "@api/openAI";
 import OmnibotSpeak from "@commons/OmnibotSpeak";
 import Container from "@layout/Container";
 
+import useChatCompletionStore from "@chat/hooks/useChatCompletionStore";
 import styles from "@help/Help.module.css";
 
 import cls from "classnames";
 
 const Help = () => {
+  const chatStore = useChatCompletionStore();
+
   const hasRunOnce = useRef(false);
   const [response, setResponse] = useState<string>("");
   const [loading, setLoading] = useState<boolean>(false);
@@ -51,6 +54,7 @@ const Help = () => {
     if (hasRunOnce.current) return;
     hasRunOnce.current = true;
 
+    chatStore.resetChat();
     setLoading(true);
     getResponse();
   }, []);

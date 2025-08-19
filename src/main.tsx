@@ -31,3 +31,7 @@ window.addEventListener("DOMContentLoaded", () => {
   displayPackageVersion();
   document.body.style.visibility = "visible";
 });
+
+window.onscroll = () => {
+  window.scrollTo(0, 0);
+};

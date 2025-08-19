@@ -1,7 +1,8 @@
 .root {
   width: 100%;
   height: fit-content;
-  overflow: hidden auto;
+  overflow-x: hidden;
+  overflow-y: auto;
   outline: none;
   scroll-snap-type: both mandatory;
 }
@@ -9,6 +10,9 @@
 .container {
   display: flex;
   flex-direction: row;
+  ul {
+    margin-bottom: 0 !important;
+  }
 }
 
 .content {
@@ -18,8 +22,8 @@
   flex-shrink: 1;
   justify-content: end;
   width: 100%;
+  max-width: calc((var(--content-width) - 3) * var(--font-width));
   height: fit-content;
-  max-width: calc((var(--content-width) - 2) * var(--font-width));
 }
 
 .content > :first-child {
@@ -27,6 +31,7 @@
     margin-top: 0 !important;
   }
 }
+
 .snap {
   flex-grow: 0;
   flex-shrink: 0;
@@ -38,4 +43,9 @@
   li {
     scroll-snap-align: start;
   }
+}
+
+#end-of-line {
+  width: 100%;
+  max-width: calc((var(--content-width) - 3) * var(--font-width));
 }

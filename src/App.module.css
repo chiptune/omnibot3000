@@ -1,7 +1,6 @@
 .root {
-  translate: none;
-  transform: none;
-  transform-origin: 50% 50% 0;
+  position: relative;
+  margin: 0;
   padding: 0;
   border-radius: var(--margin);
   width: 100vw;
@@ -12,9 +11,6 @@
 }
 
 .screen {
-  translate: none;
-  transform: none;
-  transform-origin: 50% 50% 0;
   position: relative;
   border-radius: var(--margin);
   width: 100%;

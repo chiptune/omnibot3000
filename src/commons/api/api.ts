@@ -35,12 +35,13 @@ export const formatting = `\
   use only the 256 first ASCII character in your answers, no unicode!\
   do not use any special characters or emojis or unicode > 0x00ff.\
   make all links you provide clickable, give them a human readable name.\
-  very important: output only markdown text, no HTML please!
+  very important: output only markdown text, no HTML please!\
   answer with the language used the most by the user in the chat.`;
 
 export const smallQueryFormatting = (max: number): string => `\
   no more than ${max} characters (including spaces)! NO MORE!\
   do not add any comments or punctuations.\
+  there is no need to capitalize the first letter of every words.\
   do not add any bullet point or numbered list, just plain text.\
   it's not an answer to a query, make it compact and catchy!`;
 

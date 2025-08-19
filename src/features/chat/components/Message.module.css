@@ -1,5 +1,5 @@
 .root {
-  margin-right: var(--font-width);
+  width: 100%;
 }
 
 .user {

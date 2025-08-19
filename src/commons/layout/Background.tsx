@@ -38,6 +38,7 @@ const Background = (props: {w: number; h: number}) => {
     setGrid((g) => setPixel(g, w - 1, 1, ASCII_BLOCK3));
     setGrid((g) => setPixel(g, mw - 1, 0, ASCII_BLOCK1));
     setGrid((g) => setPixel(g, mw + 2, h - 3, ASCII_BLOCK2));
+    setGrid((g) => setPixel(g, w - 1, h - 3, ASCII_BLOCK1));
     setGrid((g) => setPixel(g, 0, h - 1, ASCII_BLOCK1));
     if (debug) console.info(`%cresize grid: ${w} x ${h}`, "color:#999");
   }, [w, h]);

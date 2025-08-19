@@ -72,6 +72,7 @@ const Home = () => {
     if (hasRunOnce.current) return;
     hasRunOnce.current = true;
 
+    chatStore.resetChat();
     displayPackageVersion();
     setLoading(true);
     getResponse();

@@ -38,9 +38,7 @@ const Header = (_props: {darkMode: boolean; onThemeToggle: () => void}) => {
   };
 
   const resetChatHandler = () => {
-    chatStore.setChatId();
-    chatStore.setCompletionId();
-    chatStore.setCompletions();
+    chatStore.resetChat();
     navigate("/chat");
   };
 

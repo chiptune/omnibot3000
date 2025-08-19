@@ -55,7 +55,6 @@ const favIcon = () => {
   preview.id = "favicon";
   preview.src = canvas.toDataURL();
   preview.style.position = "absolute";
-  preview.style.margin = "var(--padding)";
   preview.style.bottom = "0";
   preview.style.left = "0";
   preview.style.border = `${1 * dpr}px dashed var(--color-primary)`;

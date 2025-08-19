@@ -50,6 +50,7 @@ export interface ChatCompletionStoreState {
   getChat: (id?: ChatId) => Chat | undefined;
   updateChatTitle: (id: ChatId, title: string) => void;
   deleteChat: (id?: ChatId) => void;
+  resetChat: () => void;
   completionId: CompletionId;
   setCompletionId: (id?: CompletionId) => void;
   getCompletionId: () => CompletionId;
@@ -109,8 +110,16 @@ const useChatCompletionStore = create<ChatCompletionStoreState>()(
       if (index !== -1) {
         const updatedChats = [...get().chats];
         updatedChats.splice(index, 1);
-        set(() => ({chats: updatedChats}));
+        set({chats: updatedChats});
       }
+    },
+    resetChat: () => {
+      set({
+        chatId: undefined,
+        completionId: undefined,
+        completions: [],
+        messages: [],
+      });
     },
     completionId: undefined,
     setCompletionId: (id?: CompletionId) => set({completionId: id}),
@@ -118,9 +127,9 @@ const useChatCompletionStore = create<ChatCompletionStoreState>()(
     completions: [],
     getCompletions: (id: ChatId) => get().getChat(id)?.completions || [],
     setCompletions: (id?: ChatId) =>
-      set(() => ({
+      set({
         completions: id ? [...get().getCompletions(id)] : [],
-      })),
+      }),
     getCompletion: (id: CompletionId) =>
       get().completions.find((completion: Completion) => completion.id === id),
     addCompletion: (completion: Completion) =>
@@ -158,9 +167,7 @@ const useChatCompletionStore = create<ChatCompletionStoreState>()(
       };
     },
     importData: (data: Data) => {
-      set(() => ({
-        chats: [...data.chats],
-      }));
+      set({chats: [...data.chats]});
     },
   }),
 );

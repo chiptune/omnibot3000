@@ -1,4 +1,4 @@
-import {memo} from "react";
+import {memo, useEffect} from "react";
 import {useNavigate} from "react-router-dom";
 
 import {ASCII_HLINE, BUTTON_DELETE} from "@commons/constants";
@@ -32,15 +32,28 @@ const History = () => {
     storage.save();
   };
 
+  useEffect(() => {
+    const target = document.getElementById(`chat-history-${chatId}`);
+    if (target) {
+      target.scrollIntoView({
+        behavior: "smooth",
+        block: "nearest",
+      });
+      window.scrollTo(0, 0);
+    }
+  }, [chatId]);
+
   return (
     <ul className={cls("text", styles.root)}>
       {chatStore
         .getChats()
         .map((chat: Chat) => {
           const selected = Boolean(chatId === chat.id);
+          const id = `chat-history-${chat.id}`;
           return (
             <li
-              key={`chat-history-${chat.id}`}
+              key={id}
+              id={id}
               className={styles[chat.title ? "show" : "hide"]}>
               <div
                 className={cls(

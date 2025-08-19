@@ -2,7 +2,6 @@
   display: flex;
   flex-direction: row;
   margin-top: var(--line-height);
-  margin-right: var(--font-width);
 }
 
 .corner {
@@ -10,7 +9,7 @@
 }
 
 .line {
-  width: calc(100% - var(--font-width));
+  width: 100%;
   opacity: var(--opacity-tertiary);
 }
 

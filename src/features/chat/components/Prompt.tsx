@@ -25,34 +25,36 @@ export const KEYS: string[] = [
   "Delete",
 ];
 
-export const PromptDisplay = memo(
-  (props: {prompt: string[]; line: number; caret: number}) => {
-    const {prompt, line, caret} = props;
-    return (
-      <div
-        style={{
-          height: `calc(${prompt.length} * var(--line-height))`,
-        }}>
-        {prompt.map((text: string, i: number) => {
-          return (
-            <div
-              key={`prompt-line-${i}`}
-              className={styles["prompt-line"]}
-              style={{clear: i > 0 ? "both" : "none"}}>
-              {text}
-              {i === line ? (
-                <div className={cls("blink", styles.caret)}>
-                  {`${" ".repeat(caret)}`}
-                  <Caret />
-                </div>
-              ) : null}
-            </div>
-          );
-        })}
-      </div>
-    );
-  },
-);
+export const PromptDisplay = (props: {
+  prompt: string[];
+  line: number;
+  caret: number;
+}) => {
+  const {prompt, line, caret} = props;
+  return (
+    <div
+      style={{
+        height: `calc(${prompt.length} * var(--line-height))`,
+      }}>
+      {prompt.map((text: string, i: number) => {
+        return (
+          <div
+            key={`prompt-line-${i}`}
+            className={styles["prompt-line"]}
+            style={{clear: i > 0 ? "both" : "none"}}>
+            {text}
+            {i === line ? (
+              <div className={cls("blink", styles.caret)}>
+                <span style={{visibility: "hidden"}}>{"%".repeat(caret)}</span>
+                <Caret />
+              </div>
+            ) : null}
+          </div>
+        );
+      })}
+    </div>
+  );
+};
 
 const Prompt = (props: {
   loading: boolean;
