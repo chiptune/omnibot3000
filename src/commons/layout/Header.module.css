@@ -55,6 +55,14 @@
   opacity: var(--opacity-tertiary) !important;
 }
 
+.button {
+  flex-grow: 0;
+  flex-shrink: 0;
+  align-self: start;
+  width: fit-content;
+  height: fit-content;
+}
+
 @keyframes fadein {
   from {
     opacity: 0;
@@ -62,12 +70,4 @@
   to {
     opacity: 1;
   }
-}
-
-.button {
-  flex-grow: 0;
-  flex-shrink: 0;
-  align-self: start;
-  width: fit-content;
-  height: fit-content;
 }

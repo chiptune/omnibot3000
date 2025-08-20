@@ -6,12 +6,12 @@ import Config from "@console/config";
 
 const DebugContext = createContext<boolean>(false);
 
-const config = new Config();
-
 export const DebugProvider = (props: {debug: boolean; children: ReactNode}) => {
   const [debug, toggleDebug] = useState(props.debug);
 
   const debugHotKey = useKeyPress("Escape", {shft: true}, "keydown");
+
+  const config = new Config();
 
   useEffect(() => {
     if (debugHotKey === 1) toggleDebug((prv) => !prv);

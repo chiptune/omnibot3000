@@ -1,6 +1,6 @@
 :root {
   /* constants */
-  --BASE-SIZE: 15; /* default font size */
+  --base-size: 15; /* default font size */
   /* global variables */
   --font-width: 1rem;
   --font-height: 2rem;
@@ -8,7 +8,7 @@
   --padding: 2rem;
   --border-radius: 0.1rem;
   --scrollbar-size: 0.5rem;
-  --font-size: calc(var(--BASE-SIZE) + "px");
+  --font-size: calc(var(--base-size) * 1px);
   --font-weight: 500; /* 400 normal, 700 bold */
   --line-height: calc(var(--font-height) * 1);
   --tab-size: 2;
@@ -21,8 +21,8 @@
   --content-width: 48;
   /* colors */
   --h: 150; /* amber:30 | yellow: 90 | green:120 | blue:180 */
-  --s: 40; /* saturation */
-  --l: 70; /* lightness */
+  --s: 35; /* saturation */
+  --l: 65; /* lightness */
   --color-primary: hsla(var(--h) var(--s) var(--l) / 0.7);
   --color-secondary: hsla(var(--h) var(--s) var(--l) / 0.5);
   --color-tertiary: hsla(var(--h) var(--s) var(--l) / 0.3);
@@ -168,6 +168,7 @@ button {
   outline: none;
   background-color: transparent;
   user-select: none;
+  word-break: keep-all;
   cursor: pointer;
   transition:
     color var(--duration-transition) ease-out,

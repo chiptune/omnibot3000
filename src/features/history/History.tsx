@@ -34,13 +34,11 @@ const History = () => {
 
   useEffect(() => {
     const target = document.getElementById(`chat-history-${chatId}`);
-    if (target) {
+    if (target)
       target.scrollIntoView({
         behavior: "smooth",
         block: "nearest",
       });
-      window.scrollTo(0, 0);
-    }
   }, [chatId]);
 
   return (

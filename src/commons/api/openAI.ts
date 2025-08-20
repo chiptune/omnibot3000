@@ -28,12 +28,13 @@ export const getStream = async (
   try {
     const response = await openai.chat.completions.create({
       /* https://openai.com/api/pricing/ */
-      model: "gpt-4.1-mini-2025-04-14",
-      //model: "gpt-4.1-nano-2025-04-14",
+      //model: "gpt-5-mini", /* VERY BAD AND SLOW */
+      model: "gpt-4.1-mini",
       //model: "deepseek/deepseek-chat-v3-0324:free",
       messages,
-      max_tokens: COMPLETION_MAX_TOKENS,
+      max_completion_tokens: COMPLETION_MAX_TOKENS,
       temperature: 0.0, // lower temperature to get stricter completion (good for code)
+      //reasoning: {effort: "high"},
       stream,
     });
     return response;

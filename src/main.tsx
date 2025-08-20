@@ -9,7 +9,7 @@ import {DebugProvider} from "@hooks/useDebug";
 import Config from "@console/config";
 
 import App from "@/App";
-import {ErrorBoundary} from "@/Error";
+import ErrorBoundary from "@/Error";
 
 const config = new Config();
 config.apply();

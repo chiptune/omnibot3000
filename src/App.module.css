@@ -41,6 +41,7 @@
       hsla(0 0% 0% / 0.25) 80%,
       hsla(0 0% 0% / 0.5) 100%
     );
+  animation: fade-tty var(--duration-fade) linear;
 }
 
 .tty {
@@ -51,6 +52,7 @@
   margin: 0;
   padding: 0;
   z-index: var(--z-index-screen);
+  animation: fade-tty var(--duration-fade) linear;
 }
 
 .content {
@@ -93,4 +95,16 @@
   display: flex;
   flex-direction: column;
   padding: var(--margin);
+}
+
+@keyframes fade-tty {
+  0% {
+    opacity: 0;
+  }
+  20% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
 }

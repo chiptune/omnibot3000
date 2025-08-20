@@ -8,6 +8,7 @@
   align-self: stretch;
   padding-left: var(--font-width);
   height: fit-content;
+  animation: fadein var(--duration-fade) forwards;
 }
 
 .copyright {
@@ -21,4 +22,13 @@
 
 .version {
   opacity: var(--opacity-secondary);
+}
+
+@keyframes fadein {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
 }

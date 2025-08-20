@@ -57,7 +57,11 @@ const cmd = (query: string, debug: boolean) => {
       config.update(cmd, arg1, value);
       break;
     case "size":
-      value = clamp(parseInt(arg1) ?? getVariableFromCSS("BASE-SIZE"), 4, 32);
+      value = clamp(
+        parseInt(arg1) ?? parseInt(getVariableFromCSS("base-size")),
+        4,
+        32,
+      );
       setVariableToCSS("font-size", `${value}px`);
       config.update(cmd, "", value);
       window.location.reload();

@@ -4,9 +4,21 @@
   flex-grow: 1;
   flex-shrink: 1;
   align-items: center;
-  transition: opacity var(--duration-fade) ease-in-out;
 }
 
 .separator {
   opacity: var(--opacity-tertiary);
+}
+
+.path {
+  animation: fadein var(--duration-fade) forwards;
+}
+
+@keyframes fadein {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
 }

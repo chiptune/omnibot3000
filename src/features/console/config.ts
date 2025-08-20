@@ -15,21 +15,21 @@ export type ConfigParam = "debug" | "color" | "size";
 export type ConfigValue = boolean | string | number;
 
 class Config {
+  declare readonly DEFAULT: ConfigType;
   declare config: ConfigType;
 
   static readonly KEY: string = `${SESSION_KEY}_config`;
 
-  static readonly DEFAULT: ConfigType = {
-    debug: false,
-    color: {
-      h: getVariableFromCSS("h"),
-      s: getVariableFromCSS("s"),
-      l: getVariableFromCSS("l"),
-    },
-    size: parseInt(getVariableFromCSS("font-size")),
-  };
-
   constructor() {
+    this.DEFAULT = {
+      debug: false,
+      color: {
+        h: getVariableFromCSS("h"),
+        s: getVariableFromCSS("s"),
+        l: getVariableFromCSS("l"),
+      },
+      size: parseInt(getVariableFromCSS("base-size")),
+    };
     this.config = this.read();
   }
 
@@ -43,7 +43,7 @@ class Config {
 
   read(): ConfigType {
     let config = JSON.parse(localStorage.getItem(Config.KEY) || "{}");
-    if (Object.keys(config).length === 0) config = Config.DEFAULT;
+    if (Object.keys(config).length === 0) config = this.DEFAULT;
     return config;
   }
 
@@ -77,7 +77,7 @@ class Config {
 
   delete(): void {
     localStorage.removeItem(Config.KEY);
-    this.config = Config.DEFAULT;
+    this.config = this.DEFAULT;
     if (this.config.debug) console.info("%cconfig deleted", "color:#999");
   }
 
