@@ -236,9 +236,9 @@ const Prompt = (props: {
   }, []);
 
   useEffect(() => {
-    if (prompt.length === 0)
+    if (prompt[prompt.length - 1].length === 0)
       setCount(Math.round(Math.random() * (placeholders.length - 1)));
-  }, [prompt, placeholders]);
+  }, [prompt[prompt.length - 1], placeholders]);
 
   const pasteQuery = (e: ClipboardEvent) => {
     const data = e.clipboardData;

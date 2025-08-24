@@ -13,33 +13,30 @@ import useDebug from "@hooks/useDebug";
 
 import cls from "classnames";
 
+const getPos = (x: number, y: number, w: number, h: number): number =>
+  (y % h) * w + (x % w);
+
 const Background = (props: {w: number; h: number}) => {
   const debug = useDebug();
   const {w, h} = props;
-
-  const setPixel = (
-    grid: string,
-    x: number,
-    y: number,
-    char: string,
-  ): string => {
-    const n = (y % h) * w + (x % w);
-    return grid.slice(0, n) + char + grid.slice(n + 1);
-  };
 
   const [grid, setGrid] = useState<string>("");
 
   const mw = parseInt(getVariableFromCSS("menu-width"));
 
   useEffect(() => {
-    setGrid(ASCII_SPACE.repeat(w * h));
-    setGrid((g) => setPixel(g, w - 3, 1, ASCII_BLOCK1));
-    setGrid((g) => setPixel(g, w - 2, 1, ASCII_BLOCK2));
-    setGrid((g) => setPixel(g, w - 1, 1, ASCII_BLOCK3));
-    setGrid((g) => setPixel(g, mw - 1, 0, ASCII_BLOCK1));
-    setGrid((g) => setPixel(g, mw + 2, h - 3, ASCII_BLOCK2));
-    setGrid((g) => setPixel(g, w - 1, h - 3, ASCII_BLOCK1));
-    setGrid((g) => setPixel(g, 0, h - 1, ASCII_BLOCK1));
+    setGrid(() => {
+      const g = ASCII_SPACE.repeat(w * h).split("");
+      g[getPos(w - 3, 1, w, h)] = ASCII_BLOCK1;
+      g[getPos(w - 2, 1, w, h)] = ASCII_BLOCK2;
+      g[getPos(w - 1, 1, w, h)] = ASCII_BLOCK3;
+      g[getPos(mw - 1, 0, w, h)] = ASCII_BLOCK1;
+      //g[getPos(mw - 1, 3, w, h)] = ASCII_BLOCK3; /* scrollbar test */
+      g[getPos(mw + 2, h - 3, w, h)] = ASCII_BLOCK2;
+      g[getPos(w - 1, h - 3, w, h)] = ASCII_BLOCK1;
+      g[getPos(0, h - 1, w, h)] = ASCII_BLOCK1;
+      return g.join("");
+    });
     if (debug) console.info(`%cresize grid: ${w} x ${h}`, "color:#999");
   }, [w, h]);
 

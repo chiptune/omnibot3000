@@ -38,25 +38,35 @@ export class ErrorBoundary extends React.Component<Props, State> {
             className={styles.screen}
             style={{
               margin: "var(--margin)",
+              padding: 0,
               width: "calc(100% - var(--margin) * 2)",
               height: "calc(100% - var(--margin) * 2)",
             }}>
-            <div className={cls("text", "ascii", styles.error)}>
-              <div>
-                <span style={{opacity: "var(--opacity-tertiary)"}}>% </span>
-                <span>error :(</span>
+            <div
+              className={styles.tty}
+              style={{
+                padding: "var(--margin)",
+                width: "calc(100% - var(--margin) * 2)",
+                height: "calc(100% - var(--margin) * 2)",
+                overflow: "hidden auto",
+              }}>
+              <div className={cls("text", "ascii", styles.error)}>
+                <div>
+                  <span style={{opacity: "var(--opacity-tertiary)"}}>% </span>
+                  <span>error :(</span>
+                </div>
+                <Line className={styles["h-line"]} />
+                <div>{this.state.error?.message}</div>
+                <Line className={styles["h-line"]} />
+                <div
+                  style={{
+                    opacity: "var(--opacity-tertiary)",
+                    textTransform: "none",
+                  }}>
+                  {this.state.error?.stack}
+                </div>
+                <Line className={styles["h-line"]} />
               </div>
-              <Line className={styles["h-line"]} />
-              <div>{this.state.error?.message}</div>
-              <Line className={styles["h-line"]} />
-              <div
-                style={{
-                  opacity: "var(--opacity-tertiary)",
-                  textTransform: "none",
-                }}>
-                {this.state.error?.stack}
-              </div>
-              <Line className={styles["h-line"]} />
             </div>
           </div>
         </div>

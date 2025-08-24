@@ -129,7 +129,6 @@ const Layout = () => {
         <div
           className={cls("ascii", styles.screen)}
           style={{
-            padding: `${cw}px`,
             width: `${w - cw * 4}px`,
             height: `${h - cw * 4}px`,
           }}>
@@ -137,7 +136,6 @@ const Layout = () => {
           <div
             className={styles.tty}
             style={{
-              top: `${cw}px`,
               width: `${w - cw * 4}px`,
               height: `${h - cw * 4}px`,
             }}>
