@@ -1,6 +1,6 @@
 import {memo, useEffect, useRef} from "react";
 
-import styles from "@life/life.module.css";
+import styles from "@life/Life.module.css";
 
 const Life = () => {
   const hasRunOnce = useRef(false);
