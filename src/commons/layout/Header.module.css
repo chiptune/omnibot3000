@@ -58,7 +58,7 @@
 .button {
   flex-grow: 0;
   flex-shrink: 0;
-  align-self: start;
+  text-align: right;
   width: fit-content;
   height: fit-content;
 }

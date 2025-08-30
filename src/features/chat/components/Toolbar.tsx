@@ -1,6 +1,6 @@
 import {memo} from "react";
 
-import {ASCII_CURRENCY, BUTTON_DELETE} from "@commons/constants";
+import {BUTTON_DELETE} from "@commons/constants";
 import Button from "@ui/Button";
 import Line from "@ui/Line";
 
@@ -27,7 +27,7 @@ const Toolbar = (props: {completion: Completion}) => {
 
   return (
     <div className={styles.root}>
-      <div className={styles.corner}>{ASCII_CURRENCY}</div>
+      <div className={styles.corner}>+</div>
       <Line variant="horizontal" className={styles["line"]} />
       <div className={cls("text", styles.toolbar)}>
         <Button

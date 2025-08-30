@@ -10,6 +10,7 @@ import {
   ASCII_LOSANGE,
   ASCII_RDAB,
   BUTTON_CREATE,
+  BUTTON_LIFE,
   NAME,
 } from "@commons/constants";
 import styles from "@layout/Header.module.css";
@@ -37,9 +38,13 @@ const Header = (_props: {darkMode: boolean; onThemeToggle: () => void}) => {
     navigate("/help");
   };
 
-  const resetChatHandler = () => {
+  const newChatHandler = () => {
     chatStore.resetChat();
     navigate("/chat");
+  };
+
+  const lifeHandler = () => {
+    navigate("/life");
   };
 
   const hasRunOnce = useRef(false);
@@ -86,7 +91,9 @@ const Header = (_props: {darkMode: boolean; onThemeToggle: () => void}) => {
       </div>
       <Spacer />
       <div className={styles.button}>
-        <Button name={BUTTON_CREATE} handler={resetChatHandler} />
+        <Button name={BUTTON_CREATE} handler={newChatHandler} />
+        <br />
+        <Button name={BUTTON_LIFE} handler={lifeHandler} />
       </div>
     </div>
   );

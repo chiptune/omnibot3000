@@ -29,6 +29,7 @@ import "@styles/debug.css";
 import "@styles/main.css";
 import "@styles/vt220.css";
 
+import Life from "@life/Life";
 import cls from "classnames";
 
 export interface RenderTime {
@@ -165,6 +166,7 @@ const App = () => (
         <Route path="/home" element={<Home />} />
         <Route path="/chat/:id?" element={<Chat />} />
         <Route path="/help" element={<Help />} />
+        <Route path="/life" element={<Life />} />
       </Route>
     </Routes>
   </Router>

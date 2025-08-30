@@ -4,12 +4,6 @@ export const SESSION_KEY = NAME.toLowerCase().replace(/\s/g, "_");
 export const COMPLETION_MAX_TOKENS = 1000;
 export const COMPLETION_ID_WILDCARD = "chatcmpl-";
 
-export const BUTTON_CREATE = "[+]";
-export const BUTTON_DELETE = "[-]";
-export const BUTTON_SUBMIT = "[ASK]";
-export const BUTTON_PREVIOUS = "<";
-export const BUTTON_NEXT = ">";
-
 export const ASCII_SPACE = "\u00a0";
 export const ASCII_LOSANGE = "\u00ac";
 export const ASCII_BLOCK1 = "\u00fe";
@@ -26,3 +20,10 @@ export const ASCII_LDAB = "«";
 export const ASCII_RDAB = "»";
 export const ASCII_DOT = "·";
 export const ASCII_PARAGRAPH = "¶";
+
+export const BUTTON_CREATE = "[+]";
+export const BUTTON_DELETE = "[-]";
+export const BUTTON_SUBMIT = "[ASK]";
+export const BUTTON_PREVIOUS = "<";
+export const BUTTON_NEXT = ">";
+export const BUTTON_LIFE = `[${ASCII_CURRENCY}]`;

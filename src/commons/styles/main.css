@@ -21,9 +21,9 @@
   --menu-width: 20;
   --content-width: 48;
   /* colors */
-  --h: 180; /* amber:30 | yellow: 90 | green:120 | blue:180 */
+  --h: 160; /* amber:30 | yellow: 90 | green:120 | blue:180 */
   --s: 30; /* saturation */
-  --l: 60; /* lightness */
+  --l: 70; /* lightness */
   --color-primary: hsla(var(--h) var(--s) var(--l) / 0.7);
   --color-secondary: hsla(var(--h) var(--s) var(--l) / 0.5);
   --color-tertiary: hsla(var(--h) var(--s) var(--l) / 0.3);

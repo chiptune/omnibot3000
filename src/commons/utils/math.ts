@@ -4,6 +4,8 @@ export const TWO_PI = Math.PI * 2; /* 360° in radians */
 export const PHI = (Math.sqrt(5) + 1) / 2; /* golden ratio */
 export const EULER = Math.E;
 
+export type vec2 = [number, number];
+
 export const clamp = (n: number, min: number, max: number): number =>
   Math.max(min, Math.min(n, max));
 
