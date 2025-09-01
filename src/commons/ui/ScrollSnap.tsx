@@ -1,6 +1,6 @@
 import React, {memo, useEffect, useRef} from "react";
 
-import {ASCII_SPACE} from "@commons/constants";
+import {ASCII_DOT} from "@commons/constants";
 import {getLineHeight} from "@utils/strings";
 
 const ScrollSnap = (props: {
@@ -22,7 +22,7 @@ const ScrollSnap = (props: {
 
       for (let i = 0; i < Math.round(h / lh); i++) {
         const li = document.createElement("li");
-        li.innerHTML = ASCII_SPACE;
+        li.innerHTML = ASCII_DOT;
         ul.appendChild(li);
       }
     };

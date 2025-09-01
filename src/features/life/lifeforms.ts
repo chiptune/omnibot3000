@@ -121,9 +121,9 @@ const LIFEFORMS: Lifeform[] = [
   LWSS,
   MWSS,
   HWSS,
-  BLINKER,
-  TOAD,
-  BEACON,
+  //BLINKER,
+  //TOAD,
+  //BEACON,
 ];
 
 export default LIFEFORMS;

@@ -1,8 +1,10 @@
 import {SESSION_KEY} from "@commons/constants";
+import VERSION from "@utils/version";
 
 import {getVariableFromCSS, setVariableToCSS} from "@/commons/utils/styles";
 
 export interface ConfigType {
+  version: string;
   debug: boolean;
   color: {
     h: string;
@@ -22,6 +24,7 @@ class Config {
 
   constructor() {
     this.DEFAULT = {
+      version: VERSION.join("."),
       debug: false,
       color: {
         h: getVariableFromCSS("h"),
@@ -44,6 +47,7 @@ class Config {
   read(): ConfigType {
     let config = JSON.parse(localStorage.getItem(Config.KEY) || "{}");
     if (Object.keys(config).length === 0) config = this.DEFAULT;
+    if (config.version !== this.DEFAULT.version) config = this.DEFAULT;
     return config;
   }
 

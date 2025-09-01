@@ -10,7 +10,7 @@
   --scrollbar-size: 1rem;
   --font-size: calc(var(--base-size) * 1px);
   --font-weight: 500; /* 400 normal, 700 bold */
-  --line-height: calc(var(--font-height) * 1);
+  --line-height: calc(var(--font-height) * 0.9);
   --tab-size: 2;
   --opacity-primary: 1;
   --opacity-secondary: 0.7;
@@ -21,7 +21,7 @@
   --menu-width: 20;
   --content-width: 48;
   /* colors */
-  --h: 160; /* amber:30 | yellow: 90 | green:120 | blue:180 */
+  --h: 150; /* amber:30 | yellow: 90 | green:120 | blue:180 */
   --s: 30; /* saturation */
   --l: 70; /* lightness */
   --color-primary: hsla(var(--h) var(--s) var(--l) / 0.7);
@@ -33,6 +33,7 @@
   /* duration */
   --duration-transition: 375ms;
   --duration-fade: 750ms;
+  --duration-generation: 2000ms;
   /* z-index */
   --z-index-background: 1;
   --z-index-screen: 2;

@@ -13,7 +13,7 @@ import Footer from "@layout/Footer";
 import Header from "@layout/Header";
 import Menu from "@layout/Menu";
 import Line from "@ui/Line";
-import {getCharHeight, getCharWidth, getLineHeight} from "@utils/strings";
+import {getCharWidth, getLineHeight} from "@utils/strings";
 import {isSystemDarkModeOn} from "@utils/system";
 
 import useDebug from "@hooks/useDebug";
@@ -65,7 +65,7 @@ const Layout = () => {
   const bodyRef = useRef<HTMLDivElement | null>(null);
 
   const [cw, setCharWidth] = useState<number>(getCharWidth());
-  const [lh, setLineHeight] = useState<number>(getCharHeight());
+  const [lh, setLineHeight] = useState<number>(getLineHeight());
   const [w, setWidth] = useState<number>(window.innerWidth);
   const [h, setHeight] = useState<number>(window.innerHeight);
 

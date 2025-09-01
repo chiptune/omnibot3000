@@ -1,10 +1,45 @@
 .root {
-  display: absolute;
+  display: relative;
   width: 100%;
   height: 100%;
-  word-wrap: break-word;
-  white-space: pre-wrap;
   opacity: var(--opacity-ghosting);
   z-index: var(--z-index-background);
-  cursor: default;
+}
+
+.board {
+  position: absolute;
+  word-wrap: break-word;
+  white-space: pre-wrap;
+}
+
+.life1 {
+  animation: life2 var(--duration-generation) linear infinite;
+}
+
+.life2 {
+  animation: life1 var(--duration-generation) linear infinite;
+}
+
+@keyframes life1 {
+  0% {
+    opacity: 0;
+  }
+  50% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+
+@keyframes life2 {
+  0% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
 }

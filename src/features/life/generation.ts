@@ -4,6 +4,8 @@ import {vec2} from "@utils/math";
 import LIFEFORMS from "@life/lifeforms";
 import {Cell, Grid, Lifeform} from "@life/types";
 
+export const GENERATION_TIME = 1000;
+
 export const init = (w: number, h: number): Grid =>
   Array.from({length: h}, () => Array.from({length: w}, () => 0));
 
@@ -83,12 +85,16 @@ export const tick = (grid: Grid, w: number, h: number): Grid => {
       if (g[y][x] === 1) population++;
     }
   }
-  if (population === 0) randomize(g, 16, w, h);
+  if (population === 0) randomize(g, (w * h) / 256, w, h);
   return g;
 };
 
-export const render = (grid: Grid): string =>
+export const render = (grid: Grid, w: number): string =>
   grid
     .flat()
-    .map((v) => (v === 1 ? ASCII_CURRENCY : ASCII_SPACE))
+    .map(
+      (v, i) =>
+        (v === 1 ? ASCII_CURRENCY : ASCII_SPACE) +
+        ((i + 1) % w === 0 ? "\n" : ""),
+    )
     .join("");
