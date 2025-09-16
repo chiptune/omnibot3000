@@ -111,6 +111,14 @@ export const BEACON: Lifeform = [
   [2, 3],
 ];
 
+export const R_PENTOMINO: Lifeform = [
+  [1, 0] /* . O O */,
+  [2, 0] /* O O . */,
+  [0, 1] /* . O . */,
+  [1, 1],
+  [1, 2],
+];
+
 const LIFEFORMS: Lifeform[] = [
   //BLOCK,
   //TUB,
@@ -124,6 +132,7 @@ const LIFEFORMS: Lifeform[] = [
   //BLINKER,
   //TOAD,
   //BEACON,
+  R_PENTOMINO,
 ];
 
 export default LIFEFORMS;

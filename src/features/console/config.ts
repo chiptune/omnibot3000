@@ -12,8 +12,9 @@ export interface ConfigType {
     l: string;
   };
   size: number;
+  height: number;
 }
-export type ConfigParam = "debug" | "color" | "size";
+export type ConfigParam = "debug" | "color" | "size" | "height";
 export type ConfigValue = boolean | string | number;
 
 class Config {
@@ -32,6 +33,7 @@ class Config {
         l: getVariableFromCSS("l"),
       },
       size: parseInt(getVariableFromCSS("base-size")),
+      height: parseFloat(getVariableFromCSS("base-height")),
     };
     this.config = this.read();
   }
@@ -60,22 +62,24 @@ class Config {
       case "color":
         switch (key) {
           case "h":
-            this.config.color.h = value as string;
-            break;
           case "s":
-            this.config.color.s = value as string;
-            break;
           case "l":
-            this.config.color.l = value as string;
+            this.config.color[key] = value as string;
             break;
         }
         break;
       case "size":
+      case "height":
         if (!key && typeof value === "number")
-          this.config.size = value as number;
-        console.log(`config updated: ${param} = ${value}`, this.config);
+          this.config[param] = value as number;
         break;
     }
+    if (this.config.debug)
+      console.info(
+        `%cconfig updated: ${param} = ${value}`,
+        "color:#999",
+        this.config,
+      );
     this.save();
   }
 
@@ -91,11 +95,12 @@ class Config {
   }
 
   apply(): void {
-    const {color, size} = this.config;
+    const {color, size, height} = this.config;
     setVariableToCSS("h", color.h);
     setVariableToCSS("s", color.s);
     setVariableToCSS("l", color.l);
-    setVariableToCSS("font-size", `${size}px`);
+    if (size) setVariableToCSS("font-size", `${size}px`);
+    if (height) setVariableToCSS("line-height", `${height}rem`);
     if (this.config.debug) console.info("%cconfig applied", "color:#999");
   }
 }

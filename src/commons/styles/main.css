@@ -1,6 +1,7 @@
 :root {
   /* constants */
   --base-size: 15; /* default font size */
+  --base-height: 1.8; /* default line height */
   /* global variables */
   --font-width: 1rem;
   --font-height: 2rem;
@@ -10,7 +11,7 @@
   --scrollbar-size: 1rem;
   --font-size: calc(var(--base-size) * 1px);
   --font-weight: 500; /* 400 normal, 700 bold */
-  --line-height: calc(var(--font-height) * 0.9);
+  --line-height: calc(var(--base-height) * 1rem);
   --tab-size: 2;
   --opacity-primary: 1;
   --opacity-secondary: 0.7;
@@ -33,7 +34,7 @@
   /* duration */
   --duration-transition: 375ms;
   --duration-fade: 750ms;
-  --duration-generation: 2000ms;
+  --duration-lifespan: 625ms;
   /* z-index */
   --z-index-background: 1;
   --z-index-screen: 2;
@@ -111,6 +112,10 @@ p {
 
 strong {
   color: var(--color-highlight);
+}
+
+span {
+  display: inline-block;
 }
 
 textarea {

@@ -11,12 +11,18 @@
   animation: fadein var(--duration-fade) forwards;
 }
 
+.spacing {
+  display: flex;
+  flex-direction: row;
+  column-gap: var(--font-width);
+}
+
 .copyright {
-  opacity: var(--opacity-secondary);
+  opacity: var(--opacity-tertiary);
 }
 
 .info {
-  opacity: var(--opacity-tertiary);
+  opacity: var(--opacity-secondary);
   word-break: break-all;
 }
 

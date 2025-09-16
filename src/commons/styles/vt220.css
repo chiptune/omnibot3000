@@ -16,6 +16,7 @@
   font-size: var(--font-height);
   font-weight: var(--font-weight);
   line-height: var(--line-height);
+  vertical-align: top;
   tab-size: var(--tab-size);
   text-shadow:
     -0.75rem -0.01rem 0.4rem var(--color-background),

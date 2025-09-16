@@ -10,36 +10,31 @@
   position: absolute;
   word-wrap: break-word;
   white-space: pre-wrap;
+  opacity: 0;
 }
 
-.life1 {
-  animation: life2 var(--duration-generation) linear infinite;
+.life {
+  animation: life var(--duration-lifespan) ease-out;
 }
 
-.life2 {
-  animation: life1 var(--duration-generation) linear infinite;
-}
-
-@keyframes life1 {
-  0% {
+@keyframes life {
+  from {
     opacity: 0;
   }
-  50% {
+  to {
     opacity: 1;
-  }
-  100% {
-    opacity: 0;
   }
 }
 
-@keyframes life2 {
-  0% {
+.death {
+  animation: death var(--duration-lifespan) ease-in;
+}
+
+@keyframes death {
+  from {
     opacity: 1;
   }
-  50% {
+  to {
     opacity: 0;
-  }
-  100% {
-    opacity: 1;
   }
 }

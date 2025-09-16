@@ -79,14 +79,18 @@ const Layout = () => {
     const vw = window.innerWidth;
     const vh = window.innerHeight;
 
-    setWidth(vw - (vw % cw));
-    setHeight(vh - (vh % lh));
+    setWidth(Math.floor((vw - cw * 2) / cw) * cw);
+    setHeight(Math.floor((vh - cw * 4) / lh) * lh + cw * 2);
 
-    if (debug)
-      console.info(
-        `%cresize screen: ${w.toFixed(0)} x ${h.toFixed(0)}`,
-        "color:#999",
-      );
+    let el = document.getElementById("debug-screen-size");
+    if (!el) {
+      el = document.createElement("div");
+      el.id = "debug-screen-size";
+      el.className = "debug-info";
+      document.body.appendChild(el);
+    }
+    el.innerHTML = `screen: ${vw}x${vh} | char: ${cw}x${lh} | w: ${w} | h: ${h}`;
+    el.style.visibility = debug ? "visible" : "hidden";
   };
 
   useEffect(() => {
@@ -124,21 +128,24 @@ const Layout = () => {
         ref={rootRef}
         className={cls(styles.root, !darkMode || "dark", !debug || "debug")}
         style={{
-          marginTop: `calc((100vh - (${h - cw * 2}px)) / 2)`,
-          marginLeft: `calc((100vw - (${w - cw * 2}px)) / 2)`,
+          marginTop: `${(window.innerHeight - h) / 2}px`,
+          marginLeft: `${(window.innerWidth - w) / 2}px`,
         }}>
         <div
           className={cls("ascii", styles.screen)}
           style={{
-            width: `${w - cw * 4}px`,
-            height: `${h - cw * 4}px`,
+            width: `${w - cw * 2}px`,
+            height: `${h - cw * 2}px`,
           }}>
-          <Background w={Math.floor(w / cw) - 4} h={Math.floor(h / lh) - 2} />
+          <Background
+            w={Math.floor((w - cw * 2) / cw)}
+            h={Math.floor((h - cw * 2) / lh)}
+          />
           <div
             className={styles.tty}
             style={{
-              width: `${w - cw * 4}px`,
-              height: `${h - cw * 4}px`,
+              width: `${w - cw * 2}px`,
+              height: `${h - cw * 2}px`,
             }}>
             <Menu />
             <Line variant="vertical" className={styles["v-line"]} />

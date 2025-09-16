@@ -5,7 +5,6 @@
   opacity: var(--opacity-secondary);
   p {
     display: inline-block;
-    vertical-align: top;
     padding-bottom: var(--line-height);
     em {
       opacity: var(--opacity-primary);

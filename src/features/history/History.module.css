@@ -61,7 +61,6 @@
 
 .selected::before {
   content: ">";
-  vertical-align: top;
   opacity: var(--opacity-secondary);
   transition: opacity var(--duration-transition) ease-out;
 }
@@ -73,7 +72,6 @@
 
 .not-selected::before {
   content: ">";
-  vertical-align: top;
   opacity: 0;
   transition: opacity var(--duration-transition) ease-out;
 }

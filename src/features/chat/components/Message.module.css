@@ -11,7 +11,6 @@
 }
 
 .user-pill {
-  vertical-align: top;
   opacity: var(--opacity-tertiary);
 }
 
@@ -25,6 +24,5 @@
 .bot-line {
   flex-grow: 0;
   flex-shrink: 0;
-  vertical-align: top;
   opacity: var(--opacity-tertiary);
 }

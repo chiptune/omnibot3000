@@ -9,6 +9,7 @@ import {getVariableFromCSS} from "@utils/styles";
 
 export const getSystemConfig = (): ChatCompletionMessageParam => {
   const size = getVariableFromCSS("base-size");
+  const height = getVariableFromCSS("base-height");
   const systemConfig = `\
  current date: ${new Date().toLocaleDateString()}.\
  current time: ${new Date().toLocaleDateString()}.\
@@ -24,6 +25,8 @@ export const getSystemConfig = (): ChatCompletionMessageParam => {
  user can change the color with the "/color [h|s|l] number" command.\
  user can change the font size with the "/size number" command.\
  the "/size" command without parameter will reset the value to ${size}.\
+ user can change the line height with the "/height number" command.\
+ the "/height" command without parameter will reset the value to ${height}.\
  user can reset the settings with the "/reset" command.\
  ${formatting}\
  ${persona}`;

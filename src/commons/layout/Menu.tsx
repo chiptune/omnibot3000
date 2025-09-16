@@ -18,16 +18,15 @@ const Menu = () => {
 
   return (
     <div className={cls("text", styles.root)}>
-      <div>
+      <div className={styles.header}>
         <span className={styles.title}>history</span>
-        <span className={styles.subtitle}> | </span>
+        <span className={styles.subtitle}>|</span>
         <span className={styles.count}>{count}</span>
         <span className={styles.title}>{` talk${count > 1 ? "s" : ""}`}</span>
       </div>
       <div>
-        <span className={styles.subtitle}></span>
         <span className={styles.count}>{(size / 1024).toFixed(1)}</span>
-        <span className={styles.title}> kb wasted</span>
+        <span className={styles.title}>kb wasted</span>
       </div>
       <Line variant="horizontal" className={styles.line} />
       <History />

@@ -66,6 +66,16 @@ const cmd = (query: string, debug: boolean) => {
       config.update(cmd, "", value);
       window.location.reload();
       break;
+    case "height":
+      value = clamp(
+        parseFloat(arg1) ?? parseInt(getVariableFromCSS("base-height")),
+        0.6,
+        4,
+      );
+      setVariableToCSS("line-height", `${value.toFixed(1)}rem`);
+      config.update(cmd, "", value);
+      window.location.reload();
+      break;
     default:
       console.warn(`unknown command "${cmd}"`);
       return;

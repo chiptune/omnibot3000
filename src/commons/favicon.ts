@@ -57,8 +57,10 @@ const favIcon = () => {
   preview.style.position = "absolute";
   preview.style.bottom = "0";
   preview.style.left = "0";
-  preview.style.border = `${1 * dpr}px dashed var(--color-primary)`;
-  preview.style.borderRadius = `${r}px`;
+  preview.style.width = `8rem`;
+  preview.style.height = `8rem`;
+  preview.style.border = `0.125rem dashed var(--color-primary)`;
+  preview.style.borderRadius = `0.75rem`;
   preview.style.zIndex = "var(--z-index-debug)";
   preview.style.display = "none";
   document.body.appendChild(preview);

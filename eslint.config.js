@@ -37,6 +37,7 @@ export default tseslint.config(
       "import/no-unresolved": "off",
       "import/newline-after-import": "error",
       "import/no-duplicates": "error",
+      "no-console": ["error", {allow: ["info", "warn", "error"]}],
       "simple-import-sort/imports": [
         "error",
         {
