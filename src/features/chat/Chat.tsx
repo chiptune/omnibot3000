@@ -16,13 +16,14 @@ import useStorage from "@hooks/useStorage";
 import styles from "@chat/Chat.module.css";
 import {formatCompletionId} from "@chat/commons/strings";
 import Message from "@chat/components/Message";
-import Prompt from "@chat/components/Prompt";
 import Toolbar from "@chat/components/Toolbar";
 import useChatCompletionStore, {
   ChatId,
   Completion,
   CompletionId,
 } from "@chat/hooks/useChatCompletionStore";
+
+import Cli from "@/features/cli/Cli";
 
 const Chat = () => {
   const chatStore = useChatCompletionStore();
@@ -167,7 +168,7 @@ const Chat = () => {
           </Fragment>
         )}
       </Container>
-      <Prompt
+      <Cli
         loading={loading}
         prompt={prompt}
         setPrompt={setPrompt}

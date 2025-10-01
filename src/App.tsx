@@ -1,5 +1,5 @@
 import type {ProfilerOnRenderCallback} from "react";
-import {Profiler, useEffect, useRef, useState} from "react";
+import {Profiler, useEffect, useLayoutEffect, useRef, useState} from "react";
 import {
   BrowserRouter as Router,
   Navigate,
@@ -93,13 +93,13 @@ const Layout = () => {
     el.style.visibility = debug ? "visible" : "hidden";
   };
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     const resizeObserver = new ResizeObserver(update);
     if (rootRef.current) resizeObserver.observe(rootRef.current);
     return () => {
       resizeObserver.disconnect();
     };
-  });
+  }, []);
 
   const renderTime = useRef<RenderTime>({
     phase: "none",

@@ -7,7 +7,8 @@ import OmnibotSpeak from "@commons/OmnibotSpeak";
 import Line from "@ui/Line";
 
 import styles from "@chat/components/Message.module.css";
-import {PromptDisplay} from "@chat/components/Prompt";
+
+import {RenderCli} from "@cli/Cli";
 
 const Message = (props: {
   role: ChatCompletionRole;
@@ -24,7 +25,7 @@ const Message = (props: {
         <div className={styles.user}>
           <div className={styles["user-pill"]}>{">"}</div>
           <div>
-            <PromptDisplay prompt={content.split("\n")} line={-1} caret={0} />
+            <RenderCli prompt={content.split("\n")} line={-1} caret={0} />
           </div>
         </div>
       ) : (

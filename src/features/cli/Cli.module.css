@@ -20,12 +20,8 @@
 
 .prompt {
   flex-grow: 1;
-  width: 100%;
+  width: calc(var(--content-width) - 2 * var(--font-width));
   min-height: var(--line-height);
-  text-wrap: wrap;
-  white-space: pre-wrap;
-  word-break: break-all;
-  cursor: text;
 }
 
 .prompt-line {
@@ -38,6 +34,9 @@
   text-transform: none !important;
   user-select: text !important;
   cursor: text !important;
+  text-wrap: wrap;
+  white-space: pre-wrap;
+  word-break: break-all;
 }
 
 .placeholder {

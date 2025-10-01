@@ -8,8 +8,9 @@ import {getVariableFromCSS} from "@utils/styles";
 
 import useDebug from "@hooks/useDebug";
 
-import styles from "@chat/components/Prompt.module.css";
 import cmd from "@console/cmd";
+
+import styles from "@cli/Cli.module.css";
 
 import cls from "classnames";
 
@@ -25,7 +26,7 @@ export const KEYS: string[] = [
   "Delete",
 ];
 
-export const PromptDisplay = (props: {
+export const RenderCli = (props: {
   prompt: string[];
   line: number;
   caret: number;
@@ -56,7 +57,7 @@ export const PromptDisplay = (props: {
   );
 };
 
-const Prompt = (props: {
+const Cli = (props: {
   loading: boolean;
   prompt: string[];
   setPrompt: React.Dispatch<React.SetStateAction<string[]>>;
@@ -278,7 +279,7 @@ const Prompt = (props: {
             {placeholders[count]}
           </div>
         </div>
-        <PromptDisplay prompt={prompt} line={line} caret={caret} />
+        <RenderCli prompt={prompt} line={line} caret={caret} />
       </div>
       <input
         name="prompt"
@@ -298,4 +299,4 @@ const Prompt = (props: {
   );
 };
 
-export default memo(Prompt);
+export default memo(Cli);

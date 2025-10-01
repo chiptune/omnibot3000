@@ -32,6 +32,7 @@
       "@ui/*": ["commons/ui/*"],
       "@utils/*": ["commons/utils/*"],
       "@chat/*": ["features/chat/*"],
+      "@cli/*": ["features/cli/*"],
       "@console/*": ["features/console/*"],
       "@help/*": ["features/help/*"],
       "@history/*": ["features/history/*"],
