@@ -1,15 +1,15 @@
 import {
   ASCII_CURRENCY,
   ASCII_DOT,
-  ASCII_POINT,
-  //ASCII_SPACE,
+  //ASCII_POINT,
+  ASCII_SPACE,
 } from "@commons/constants";
 import {vec2} from "@utils/math";
 
 import LIFEFORMS from "@life/lifeforms";
 import {Cell, Grid, Lifeform} from "@life/types";
 
-export const LIFESPAN = 500;
+export const LIFESPAN = 750;
 
 export const init = (w: number, h: number): Grid =>
   Array.from({length: h}, () => Array.from({length: w}, () => 0));
@@ -99,7 +99,7 @@ export const render = (grid: Grid, w: number): string =>
     .flat()
     .map(
       (v, i) =>
-        (v === 1 ? ASCII_CURRENCY : v === 0 ? ASCII_POINT : ASCII_DOT) +
+        (v === 1 ? ASCII_CURRENCY : v === 0 ? ASCII_SPACE : ASCII_DOT) +
         ((i + 1) % w === 0 ? "\n" : ""),
     )
     .join("");

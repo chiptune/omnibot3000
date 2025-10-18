@@ -1,7 +1,9 @@
 import {useEffect, useRef, useState} from "react";
 
+import {ASCII_CURRENCY} from "@commons/constants";
 import styles from "@layout/Background.module.css";
 import {vec2} from "@utils/math";
+import {getCharWidth, getLineHeight} from "@utils/strings";
 
 import useDebug from "@hooks/useDebug";
 
@@ -21,19 +23,24 @@ const Background = (props: {w: number; h: number}) => {
 
   const refBoard1 = useRef<HTMLDivElement>(null);
   const refBoard2 = useRef<HTMLDivElement>(null);
+  const refCursor = useRef<HTMLDivElement>(null);
+
+  const board1 = refBoard1.current;
+  const board2 = refBoard2.current;
+  const cur = refCursor.current;
 
   const mouseMoveHandler = (event: MouseEvent) => {
     setCursor([event.clientX, event.clientY]);
   };
 
   const mouseDownHandler = () => {
-    document.body.style.cursor = "pointer";
+    setGeneration((n) => n + 1);
     setClicked(true);
   };
 
   const mouseUpHandler = () => {
-    document.body.style.cursor = "default";
     setClicked(false);
+    setGeneration((n) => n + 1);
   };
 
   useEffect(() => {
@@ -48,9 +55,10 @@ const Background = (props: {w: number; h: number}) => {
   }, []);
 
   useEffect(() => {
-    if (!clicked) return;
     const board = refBoard1.current;
     if (!board) return;
+    const cw = getCharWidth();
+    const lh = getLineHeight();
     const rect = board.getBoundingClientRect();
     const bw = rect.width;
     const bh = rect.height;
@@ -59,51 +67,68 @@ const Background = (props: {w: number; h: number}) => {
     const by = cursor[1] - rect.top;
     const x = Math.floor((bx / bw) * w);
     const y = Math.floor((by / bh) * h);
-    setGrid((grid) => birth(grid, [[0, 0]], x, y, w, h));
+    if (clicked) {
+      setGrid((grid) => birth(grid, [[0, 0]], x, y, w, h));
+      update();
+    }
+    if (!cur) return;
+    cur.style.left = `${cw + x * cw}px`;
+    cur.style.top = `${cw + y * lh}px`;
+    cur.style.opacity = `var(--opacity-${clicked ? "tertiary" : "ghosting"})`;
+    document.body.style.cursor = clicked ? "pointer" : "default";
+    cur.style.visibility =
+      x >= 0 && x < bw / cw && y >= 0 && y < bh / lh ? "visible" : "hidden";
   }, [cursor, clicked]);
 
-  useEffect(() => {
-    const board1 = refBoard1.current;
-    const board2 = refBoard2.current;
+  const update = () => {
+    if (!clicked) setGrid((grid) => tick(grid, w, h));
+    setBoard((board) => {
+      const b = [...board];
+      b[generation % 2] = render(grid, w);
+      return b;
+    });
     if (!board1 || !board2) return;
-    const interval = setInterval(() => {
-      setGrid((grid) => tick(grid, w, h));
-      setBoard((board) => {
-        const b = [...board];
-        b[generation % 2] = render(grid, w);
-        return b;
-      });
-      if (generation % 2 === 0) {
-        board1.classList.add(styles.life);
-        board2.classList.add(styles.death);
-        board1.classList.remove(styles.death);
-        board2.classList.remove(styles.life);
-      } else {
-        board1.classList.add(styles.death);
-        board2.classList.add(styles.life);
-        board1.classList.remove(styles.life);
-        board2.classList.remove(styles.death);
-      }
-      setGeneration((n) => n + 1);
-      /*if (generation % 100 === 0) setGrid((grid) => randomize(grid, 1, w, h));*/
-    }, LIFESPAN);
-    return () => clearInterval(interval);
-  }, [grid]);
+    if (generation % 2 === 0) {
+      board1.classList.add(styles.life);
+      board2.classList.add(styles.death);
+      board1.classList.remove(styles.death);
+      board2.classList.remove(styles.life);
+    } else {
+      board1.classList.add(styles.death);
+      board2.classList.add(styles.life);
+      board1.classList.remove(styles.life);
+      board2.classList.remove(styles.death);
+    }
+    /*if (generation % 100 === 0) setGrid((grid) => randomize(grid, 1, w, h));*/
+  };
+
+  useEffect(() => {
+    update();
+  }, [generation]);
 
   useEffect(() => {
     setGrid(tick(init(w, h), w, h));
+    const interval = setInterval(() => {
+      setGeneration((n) => n + 1);
+    }, LIFESPAN);
     if (debug) console.info(`%cresize grid: ${w} x ${h}`, "color:#999");
+    return () => clearInterval(interval);
   }, [w, h]);
 
   return (
-    <div className={cls("ascii", styles.root)}>
-      <div ref={refBoard1} className={styles.board}>
-        {board[0]}
+    <>
+      <div className={cls("ascii", styles.root)}>
+        <div ref={refBoard1} className={styles.board}>
+          {board[0]}
+        </div>
+        <div ref={refBoard2} className={styles.board}>
+          {board[1]}
+        </div>
       </div>
-      <div ref={refBoard2} className={styles.board}>
-        {board[1]}
+      <div ref={refCursor} className={cls("ascii", styles.cursor)}>
+        {ASCII_CURRENCY}
       </div>
-    </div>
+    </>
   );
 };
 

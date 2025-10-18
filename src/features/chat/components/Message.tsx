@@ -25,7 +25,7 @@ const Message = (props: {
         <div className={styles.user}>
           <div className={styles["user-pill"]}>{">"}</div>
           <div>
-            <RenderCli prompt={content.split("\n")} line={-1} caret={0} />
+            <RenderCli command={content.split("\n")} line={-1} caret={0} />
           </div>
         </div>
       ) : (

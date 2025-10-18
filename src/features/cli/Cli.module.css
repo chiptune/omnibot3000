@@ -18,13 +18,13 @@
   align-self: start;
 }
 
-.prompt {
+.command {
   flex-grow: 1;
   width: calc(var(--content-width) - 2 * var(--font-width));
   min-height: var(--line-height);
 }
 
-.prompt-line {
+.command-line {
   position: relative;
   display: inline;
   clear: both;

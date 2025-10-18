@@ -27,21 +27,21 @@ export const KEYS: string[] = [
 ];
 
 export const RenderCli = (props: {
-  prompt: string[];
+  command: string[];
   line: number;
   caret: number;
 }) => {
-  const {prompt, line, caret} = props;
+  const {command, line, caret} = props;
   return (
     <div
       style={{
-        height: `calc(${prompt.length} * var(--line-height))`,
+        height: `calc(${command.length} * var(--line-height))`,
       }}>
-      {prompt.map((text: string, i: number) => {
+      {command.map((text: string, i: number) => {
         return (
           <div
-            key={`prompt-line-${i}`}
-            className={styles["prompt-line"]}
+            key={`command-line-${i}`}
+            className={styles["command-line"]}
             style={{clear: i > 0 ? "both" : "none"}}>
             {text}
             {i === line ? (
@@ -268,7 +268,7 @@ const Cli = (props: {
       }}
       className={styles.form}>
       <div className={styles.pill}>{">"}</div>
-      <div className={cls("ascii", styles.prompt)}>
+      <div className={cls("ascii", styles.command)}>
         <div className={cls("text", styles.placeholder)}>
           <div
             className={
@@ -279,10 +279,10 @@ const Cli = (props: {
             {placeholders[count]}
           </div>
         </div>
-        <RenderCli prompt={prompt} line={line} caret={caret} />
+        <RenderCli command={prompt} line={line} caret={caret} />
       </div>
       <input
-        name="prompt"
+        name="command"
         className={styles.input}
         defaultValue={!loading && prompt ? prompt : ""}
         autoComplete="off"

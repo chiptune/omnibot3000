@@ -13,6 +13,13 @@
   opacity: 0;
 }
 
+.cursor {
+  position: absolute;
+  width: var(--font-width);
+  height: var(--line-height);
+  opacity: var(--opacity-ghosting);
+}
+
 .life {
   animation: life var(--duration-lifespan) ease-out;
 }
