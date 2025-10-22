@@ -5,11 +5,11 @@
   },
   "configurations": [
     {
-      "name": "run dev",
+      "name": "run start",
       "type": "node",
       "request": "launch",
       "runtimeExecutable": "pnpm",
-      "runtimeArgs": ["run", "dev"],
+      "runtimeArgs": ["run", "start"],
       "console": "integratedTerminal",
       "cwd": "${workspaceFolder}"
     },
@@ -19,6 +19,15 @@
       "request": "launch",
       "runtimeExecutable": "pnpm",
       "runtimeArgs": ["run", "build"],
+      "console": "integratedTerminal",
+      "cwd": "${workspaceFolder}"
+    },
+    {
+      "name": "upgrade",
+      "type": "node",
+      "request": "launch",
+      "runtimeExecutable": "/bin/bash",
+      "args": ["-c", "./upgrade.sh"],
       "console": "integratedTerminal",
       "cwd": "${workspaceFolder}"
     }

@@ -54,6 +54,28 @@ const Background = (props: {w: number; h: number}) => {
     };
   }, []);
 
+  const update = () => {
+    if (!clicked) setGrid((grid) => tick(grid, w, h));
+    setBoard((board) => {
+      const b = [...board];
+      b[generation % 2] = render(grid, w);
+      return b;
+    });
+    if (!board1 || !board2) return;
+    if (generation % 2 === 0) {
+      board1.classList.add(styles.life);
+      board2.classList.add(styles.death);
+      board1.classList.remove(styles.death);
+      board2.classList.remove(styles.life);
+    } else {
+      board1.classList.add(styles.death);
+      board2.classList.add(styles.life);
+      board1.classList.remove(styles.life);
+      board2.classList.remove(styles.death);
+    }
+    /*if (generation % 100 === 0) setGrid((grid) => randomize(grid, 1, w, h));*/
+  };
+
   useEffect(() => {
     const board = refBoard1.current;
     if (!board) return;
@@ -79,28 +101,6 @@ const Background = (props: {w: number; h: number}) => {
     cur.style.visibility =
       x >= 0 && x < bw / cw && y >= 0 && y < bh / lh ? "visible" : "hidden";
   }, [cursor, clicked]);
-
-  const update = () => {
-    if (!clicked) setGrid((grid) => tick(grid, w, h));
-    setBoard((board) => {
-      const b = [...board];
-      b[generation % 2] = render(grid, w);
-      return b;
-    });
-    if (!board1 || !board2) return;
-    if (generation % 2 === 0) {
-      board1.classList.add(styles.life);
-      board2.classList.add(styles.death);
-      board1.classList.remove(styles.death);
-      board2.classList.remove(styles.life);
-    } else {
-      board1.classList.add(styles.death);
-      board2.classList.add(styles.life);
-      board1.classList.remove(styles.life);
-      board2.classList.remove(styles.death);
-    }
-    /*if (generation % 100 === 0) setGrid((grid) => randomize(grid, 1, w, h));*/
-  };
 
   useEffect(() => {
     update();

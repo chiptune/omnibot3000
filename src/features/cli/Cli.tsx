@@ -1,4 +1,4 @@
-import {FormEvent, memo, useEffect, useRef, useState} from "react";
+import React, {FormEvent, memo, useEffect, useRef, useState} from "react";
 
 import {getPromptPlaceholder} from "@api/api";
 import {BUTTON_SUBMIT} from "@commons/constants";
@@ -102,7 +102,7 @@ const Cli = (props: {
 
     const tabSize = parseInt(getVariableFromCSS("tab-size")) || 2;
 
-    let p = prompt;
+    let p = [...prompt];
     let l = line;
     let c = caret;
 
@@ -222,6 +222,17 @@ const Cli = (props: {
     setCaret(c);
   }, [forceUpdate]);
 
+  const pasteQuery = (e: ClipboardEvent) => {
+    const data = e.clipboardData;
+    if (!data) return;
+    const text = data.getData("text/plain");
+    if (text.trim() === "") return;
+    const query = text.split("\n");
+    setPrompt(query);
+    setLine(query.length - 1);
+    setCaret(query[query.length - 1].length);
+  };
+
   useEffect(() => {
     if (hasRunOnce.current) return;
     hasRunOnce.current = true;
@@ -240,17 +251,6 @@ const Cli = (props: {
     if (prompt[prompt.length - 1].length === 0)
       setCount(Math.round(Math.random() * (placeholders.length - 1)));
   }, [prompt[prompt.length - 1], placeholders]);
-
-  const pasteQuery = (e: ClipboardEvent) => {
-    const data = e.clipboardData;
-    if (!data) return;
-    const text = data.getData("text/plain");
-    if (text.trim() === "") return;
-    const query = text.split("\n");
-    setPrompt(query);
-    setLine(query.length - 1);
-    setCaret(query[query.length - 1].length);
-  };
 
   return (
     <form
