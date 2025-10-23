@@ -1,7 +1,7 @@
 {
   "name": "omnibot3000",
   "private": true,
-  "version": "1.7.6",
+  "version": "1.7.7",
   "type": "module",
   "author": {
     "name": "rez",
@@ -11,38 +11,43 @@
   "scripts": {
     "start": "pnpm run-p start:dev start:api",
     "start:dev": "pnpm run dev",
-    "start:api": "nodemon server.js",
+    "start:api": "nodemon server.ts",
+    "start:prod": "pnpm run build && pnpm run-p prod server",
     "dev": "vite",
-    "build": "tsc -b && vite build",
+    "prod": "vite preview --port 4173",
+    "server": "node dist/server.js",
+    "build": "pnpm run build:client && pnpm run build:server",
+    "build:client": "tsc -b && vite build",
+    "build:server": "tsc --project tsconfig.server.json",
     "lint": "eslint --fix .",
-    "prettify": "prettier --write .",
-    "preview": "vite preview"
+    "prettify": "prettier --write ."
   },
   "dependencies": {
+    "openai": "^6.6.0",
     "react": "^19.2.0",
     "react-dom": "^19.2.0",
     "react-markdown": "^10.1.0",
     "react-router-dom": "^7.9.4",
-    "zustand": "^5.0.8",
-    "openai": "^6.6.0"
+    "zustand": "^5.0.8"
   },
   "devDependencies": {
-    "vite": "^7.1.11",
-    "vite-tsconfig-paths": "^5.1.4",
-    "@vitejs/plugin-react": "^5.0.4",
-    "nodemon": "^3.1.10",
-    "npm-run-all": "^4.1.5",
+    "@types/node": "^24.9.1",
     "@types/react": "^19.2.2",
     "@types/react-dom": "^19.2.2",
+    "@vitejs/plugin-react": "^5.0.4",
+    "classnames": "^2.5.1",
     "eslint": "^9.38.0",
     "eslint-plugin-import": "^2.32.0",
     "eslint-plugin-react-hooks": "^7.0.0",
     "eslint-plugin-react-refresh": "^0.4.24",
     "eslint-plugin-simple-import-sort": "^12.1.1",
-    "classnames": "^2.5.1",
     "globals": "^16.4.0",
+    "nodemon": "^3.1.10",
+    "npm-run-all": "^4.1.5",
     "prettier": "^3.6.2",
     "typescript": "^5.9.3",
-    "typescript-eslint": "^8.46.2"
+    "typescript-eslint": "^8.46.2",
+    "vite": "^7.1.12",
+    "vite-tsconfig-paths": "^5.1.4"
   }
 }

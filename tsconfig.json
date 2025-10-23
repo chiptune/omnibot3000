@@ -20,6 +20,7 @@
     "noFallthroughCasesInSwitch": true,
     /* paths */
     "rootDir": "./src/",
+    "outDir": "./dist/",
     "baseUrl": "./src/",
     "paths": {
       "@/*": ["*"],
@@ -41,5 +42,5 @@
       "@images/*": ["/images/*"]
     }
   },
-  "include": ["src", "@root/vite.config.ts"]
+  "include": ["src"]
 }

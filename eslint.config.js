@@ -66,7 +66,11 @@ export default tseslint.config(
     },
   },
   {
-    files: ["server.js"],
+    extends: [
+      importPlugin.flatConfigs.recommended,
+      importPlugin.flatConfigs.typescript,
+    ],
+    files: ["server.ts"],
     languageOptions: {
       globals: globals.node,
       parserOptions: {

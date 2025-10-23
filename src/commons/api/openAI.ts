@@ -14,13 +14,13 @@ export const getStream = async (
 ): Promise<ChatCompletion | Stream<ChatCompletionChunk>> => {
   const openai = new OpenAI({
     apiKey: import.meta.env.VITE_OPENAI_API_KEY,
-    organization: import.meta.env.OPENAI_ORG_ID,
-    project: import.meta.env.OPENAI_PROJECT_ID,
+    organization: import.meta.env.VITE_OPENAI_ORG_ID,
+    project: import.meta.env.VITE_OPENAI_PROJECT_ID,
     dangerouslyAllowBrowser: true,
   });
 
   /*const openai = new OpenAI({
-    apiKey: import.meta.env.VITE_OPENROUTER_API_KEY,
+    apiKey: import.meta.env.OPENROUTER_API_KEY,
     baseURL: "https://openrouter.ai/api/v1",
     dangerouslyAllowBrowser: true,
   });*/
