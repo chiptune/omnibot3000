@@ -1,0 +1,46 @@
+{
+  "folders": [
+    {
+      "path": ".",
+      "name": "root",
+    },
+    {
+      "path": "src",
+      "name": "source",
+    },
+  ],
+  "launch": {
+    "configurations": [
+      {
+        "name": "run start",
+        "type": "node",
+        "request": "launch",
+        "runtimeExecutable": "pnpm",
+        "runtimeArgs": ["run", "start"],
+        "console": "integratedTerminal",
+        "cwd": "${workspaceFolder}",
+      },
+      {
+        "name": "run build",
+        "type": "node",
+        "request": "launch",
+        "runtimeExecutable": "pnpm",
+        "runtimeArgs": ["run", "build"],
+        "console": "integratedTerminal",
+        "cwd": "${workspaceFolder}",
+      },
+      {
+        "name": "upgrade",
+        "type": "node",
+        "request": "launch",
+        "runtimeExecutable": "/bin/bash",
+        "args": ["-c", "./upgrade.sh"],
+        "console": "integratedTerminal",
+        "cwd": "${workspaceFolder}",
+      },
+    ],
+  },
+  "settings": {
+    "terminal.integrated.cwd": "${workspaceFolder}",
+  },
+}

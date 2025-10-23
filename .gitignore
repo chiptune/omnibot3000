@@ -4,6 +4,4 @@ node_modules
 .env
 dist
 *.tsbuildinfo
-*.code-workspace
-server.js
 .DS_Store
