@@ -9,8 +9,6 @@ import {vec2} from "@utils/math";
 import LIFEFORMS from "@life/lifeforms";
 import {Cell, Grid, Lifeform} from "@life/types";
 
-export const LIFESPAN = 750;
-
 export const init = (w: number, h: number): Grid =>
   Array.from({length: h}, () => Array.from({length: w}, () => 0));
 

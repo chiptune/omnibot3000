@@ -4,10 +4,11 @@ import {ASCII_CURRENCY} from "@commons/constants";
 import styles from "@layout/Background.module.css";
 import {vec2} from "@utils/math";
 import {getCharWidth, getLineHeight} from "@utils/strings";
+import {getVariableFromCSS} from "@utils/styles";
 
 import useDebug from "@hooks/useDebug";
 
-import {birth, init, LIFESPAN, render, tick} from "@life/generation";
+import {birth, init, render, tick} from "@life/generation";
 import {Grid} from "@life/types";
 import cls from "classnames";
 
@@ -107,10 +108,11 @@ const Background = (props: {w: number; h: number}) => {
   }, [generation]);
 
   useEffect(() => {
+    const lifespan = parseInt(getVariableFromCSS("lifespan")) || 0;
     setGrid(tick(init(w, h), w, h));
     const interval = setInterval(() => {
       setGeneration((n) => n + 1);
-    }, LIFESPAN);
+    }, lifespan);
     if (debug) console.info(`%cresize grid: ${w} x ${h}`, "color:#999");
     return () => clearInterval(interval);
   }, [w, h]);

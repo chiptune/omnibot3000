@@ -21,6 +21,8 @@
   /* layout variables */
   --menu-width: 20;
   --content-width: 48;
+  /* game of life variables */
+  --lifespan: 750; /* lifespan of lifeforms in ms */
   /* colors */
   --h: 150; /* amber:30 | yellow: 90 | green:120 | blue:180 */
   --s: 20; /* saturation */
@@ -34,7 +36,7 @@
   /* duration */
   --duration-transition: 375ms;
   --duration-fade: 750ms;
-  --duration-lifespan: 755ms;
+  --duration-lifespan: calc(var(--lifespan) * 1ms + 5ms);
   /* z-index */
   --z-index-background: 1;
   --z-index-screen: 2;

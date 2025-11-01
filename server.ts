@@ -1,9 +1,10 @@
-import {createServer, IncomingMessage, ServerResponse} from "http";
-import {accessSync, readdirSync, statSync, constants as FS, Dirent} from "fs";
-import path from "path";
 import {exec} from "child_process";
+import {accessSync, constants as FS, Dirent, readdirSync, statSync} from "fs";
+import {createServer, IncomingMessage, ServerResponse} from "http";
+import path from "path";
 
 export const API_PATH = "/api";
+
 export const API_PORT = 3001;
 export const BASE_PATH = process.cwd();
 
@@ -17,7 +18,7 @@ const getFolderSize = (folder: string): number => {
   let total = 0;
   try {
     accessSync(folder, FS.R_OK);
-  } catch (err) {
+  } catch {
     return total;
   }
   const files: Dirent[] = readdirSync(folder, {withFileTypes: true});

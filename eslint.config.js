@@ -7,7 +7,7 @@ import importPlugin from "eslint-plugin-import";
 import simpleImportSort from "eslint-plugin-simple-import-sort";
 
 export default tseslint.config(
-  {ignores: ["dist"]},
+  {ignores: ["dist", ".vite", "node_modules"]},
   js.configs.recommended,
   tseslint.configs.recommended,
   {
@@ -30,7 +30,7 @@ export default tseslint.config(
     },
     rules: {
       ...reactHooks.configs.recommended.rules,
-      "@/no-undef": "error",
+      "no-undef": "error",
       "@typescript-eslint/no-unused-vars": ["warn", {argsIgnorePattern: "^_"}],
       "react-hooks/exhaustive-deps": "off", // to fix later
       "react-hooks/set-state-in-effect": "off",
