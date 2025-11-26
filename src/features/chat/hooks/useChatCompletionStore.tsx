@@ -6,9 +6,6 @@ import {COMPLETION_MAX_TOKENS} from "@commons/constants";
 
 import {formatCompletionId} from "@chat/commons/strings";
 
-// Types
-type EpochTimeStamp = number;
-
 export interface ChatSettings {
   maxTokens: number;
 }

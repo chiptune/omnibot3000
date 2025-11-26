@@ -1,4 +1,4 @@
-import {Lifeform} from "@/features/life/types";
+import {Lifeform} from "@life/types";
 
 export const BLOCK: Lifeform = [
   [0, 0] /* O O */,

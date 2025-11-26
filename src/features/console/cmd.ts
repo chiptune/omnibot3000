@@ -13,6 +13,9 @@ const cmd = (query: string, debug: boolean) => {
   let value: ConfigValue = "";
 
   switch (cmd) {
+    case "reboot":
+      window.location.reload();
+      return;
     case "reset":
       config.delete();
       window.location.reload();

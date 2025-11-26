@@ -1,22 +1,34 @@
-import {memo} from "react";
+import {RefObject} from "react";
+import {useNavigate} from "react-router-dom";
 
 import {ASCII_COPYRIGHT, ASCII_CURRENCY} from "@commons/constants";
 import Breadcrumb from "@layout/Breadcrumb";
 import styles from "@layout/Footer.module.css";
+import Button from "@ui/Button";
 import Separator from "@ui/Separator";
 import Spacer from "@ui/Spacer";
 import {numberToRoman} from "@utils/math";
 import {isDev} from "@utils/system";
 import VERSION, {AUTHOR, NAME} from "@utils/version";
 
-import useDebug from "@hooks/useDebug";
+import useConfig from "@hooks/useConfig";
 
 import {RenderTime} from "@/App";
 
 import cls from "classnames";
 
-const Footer = (props: {renderTime: RenderTime}) => {
-  const debug = useDebug();
+const Footer = (props: {renderTime: RefObject<RenderTime>}) => {
+  const {phase, duration} = props.renderTime.current;
+
+  const config = useConfig();
+  const {debug} = config.getConfig();
+
+  const navigate = useNavigate();
+
+  const versionHandler = () => {
+    navigate("/version");
+  };
+
   return (
     <div className={cls("text", styles.root)}>
       <div className={styles.spacing}>
@@ -26,7 +38,7 @@ const Footer = (props: {renderTime: RenderTime}) => {
             {` ${numberToRoman(Number(new Date().getFullYear()))} `}
           </span>
         </div>
-        <a href={AUTHOR.url} target="_blank">
+        <a href={`${AUTHOR.url}/${NAME}`} target="_blank">
           {AUTHOR.name}
         </a>
       </div>
@@ -36,9 +48,9 @@ const Footer = (props: {renderTime: RenderTime}) => {
       {isDev() && (
         <>
           <div className={styles.spacing}>
-            <span className={styles.info}>{`${props.renderTime.phase}:`}</span>
+            <span className={styles.info}>{`${phase}:`}</span>
             <span style={{whiteSpace: "nowrap"}}>
-              {props.renderTime.duration.toFixed(1)}
+              {duration.toFixed(1)}
               <span className={styles.info}>ms</span>
             </span>
           </div>
@@ -48,12 +60,10 @@ const Footer = (props: {renderTime: RenderTime}) => {
       {debug && <div className={styles.info}>{ASCII_CURRENCY}</div>}
       <div className={styles.spacing}>
         <span className={styles.info}>ver </span>
-        <a href={`${AUTHOR.url}/${NAME}`} target="_blank">
-          {VERSION.join(".")}
-        </a>
+        <Button name={VERSION.join(".")} handler={versionHandler} />
       </div>
     </div>
   );
 };
 
-export default memo(Footer);
+export default Footer;

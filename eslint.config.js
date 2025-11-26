@@ -30,7 +30,7 @@ export default tseslint.config(
     },
     rules: {
       ...reactHooks.configs.recommended.rules,
-      "no-undef": "error",
+      "no-undef": "off", // typescript handles this
       "@typescript-eslint/no-unused-vars": ["warn", {argsIgnorePattern: "^_"}],
       "react-hooks/exhaustive-deps": "off", // to fix later
       "react-hooks/set-state-in-effect": "off",
@@ -78,9 +78,26 @@ export default tseslint.config(
         ecmaVersion: "latest",
       },
     },
+    plugins: {
+      "simple-import-sort": simpleImportSort,
+    },
     rules: {
       "no-console": "off",
       "import/no-unresolved": "off",
+      "import/first": "error",
+      "import/newline-after-import": "error",
+      "import/no-duplicates": "error",
+      "simple-import-sort/imports": [
+        "error",
+        {
+          groups: [
+            // node built-in modules
+            ["^(child_process|fs|http|path)(/.*|$)"],
+            // relative imports
+            ["^\\./"],
+          ],
+        },
+      ],
     },
   },
 );

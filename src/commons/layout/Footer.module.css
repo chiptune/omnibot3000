@@ -26,10 +26,6 @@
   word-break: break-all;
 }
 
-.version {
-  opacity: var(--opacity-secondary);
-}
-
 @keyframes fadein {
   0% {
     opacity: 0;

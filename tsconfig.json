@@ -19,7 +19,7 @@
     "noUnusedParameters": true,
     "noFallthroughCasesInSwitch": true,
     /* paths */
-    "rootDir": "./src/",
+    "rootDir": "./",
     "outDir": "./dist/",
     "baseUrl": "./src/",
     "paths": {
@@ -39,6 +39,7 @@
       "@history/*": ["features/history/*"],
       "@home/*": ["features/home/*"],
       "@life/*": ["features/life/*"],
+      "@version/*": ["features/version/*"],
       "@images/*": ["/images/*"]
     }
   },

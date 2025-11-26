@@ -6,14 +6,15 @@ import {vec2} from "@utils/math";
 import {getCharWidth, getLineHeight} from "@utils/strings";
 import {getVariableFromCSS} from "@utils/styles";
 
-import useDebug from "@hooks/useDebug";
+import useConfig from "@hooks/useConfig";
 
 import {birth, init, render, tick} from "@life/generation";
 import {Grid} from "@life/types";
 import cls from "classnames";
 
 const Background = (props: {w: number; h: number}) => {
-  const debug = useDebug();
+  const config = useConfig();
+  const {debug} = config.getConfig();
   const {w, h} = props;
 
   const [grid, setGrid] = useState<Grid>(init(w, h));

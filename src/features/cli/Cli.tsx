@@ -6,7 +6,7 @@ import Caret from "@ui/Caret";
 import {formatText} from "@utils/strings";
 import {getVariableFromCSS} from "@utils/styles";
 
-import useDebug from "@hooks/useDebug";
+import useConfig from "@hooks/useConfig";
 
 import cmd from "@console/cmd";
 
@@ -78,7 +78,8 @@ const Cli = (props: {
 
   const isDisabled = loading || String(prompt).replace("\n", "").trim() === "";
 
-  const debug = useDebug();
+  const config = useConfig();
+  const {debug} = config.getConfig();
 
   const updatePlaceholder = async () => {
     const data = await getPromptPlaceholder();

@@ -4,24 +4,19 @@ import {createRoot} from "react-dom/client";
 import favIcon from "@commons/favicon";
 import {displayPackageVersion} from "@utils/version";
 
-import {DebugProvider} from "@hooks/useDebug";
-
-import Config from "@console/config";
+import {ConfigProvider} from "@hooks/useConfig";
 
 import App from "@/App";
 import ErrorBoundary from "@/Error";
-
-const config = new Config();
-config.apply();
 
 const root = createRoot(document.getElementById("root")!);
 
 root.render(
   <StrictMode>
     <ErrorBoundary>
-      <DebugProvider debug={config.config.debug}>
+      <ConfigProvider>
         <App />
-      </DebugProvider>
+      </ConfigProvider>
     </ErrorBoundary>
   </StrictMode>,
 );

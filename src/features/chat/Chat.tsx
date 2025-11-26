@@ -23,7 +23,7 @@ import useChatCompletionStore, {
   CompletionId,
 } from "@chat/hooks/useChatCompletionStore";
 
-import Cli from "@/features/cli/Cli";
+import Cli from "@cli/Cli";
 
 const Chat = () => {
   const chatStore = useChatCompletionStore();

@@ -40,7 +40,4 @@
       },
     ],
   },
-  "settings": {
-    "terminal.integrated.cwd": "${workspaceFolder}",
-  },
 }

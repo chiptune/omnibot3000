@@ -1,18 +1,25 @@
 import {exec} from "child_process";
-import {accessSync, constants as FS, Dirent, readdirSync, statSync} from "fs";
+import {
+  accessSync,
+  constants as FS,
+  Dirent,
+  readdirSync,
+  statSync,
+  writeFileSync,
+} from "fs";
 import {createServer, IncomingMessage, ServerResponse} from "http";
 import path from "path";
 
-export const API_PATH = "/api";
-
-export const API_PORT = 3001;
-export const BASE_PATH = process.cwd();
-
-export interface Package {
+type Package = {
   name: string;
   version: [number, number, number];
   size: number;
-}
+};
+
+const API_PATH = "/api";
+const API_PORT = 3001;
+const BASE_PATH = process.cwd();
+const JSON_PATH = path.join(BASE_PATH, "dist", "packages.json");
 
 const getFolderSize = (folder: string): number => {
   let total = 0;
@@ -31,6 +38,18 @@ const getFolderSize = (folder: string): number => {
 };
 
 const server = createServer((req: IncomingMessage, res: ServerResponse) => {
+  /* CORS headers */
+  res.setHeader("Access-Control-Allow-Origin", "*");
+  res.setHeader("Access-Control-Allow-Methods", "GET, OPTIONS");
+  res.setHeader("Access-Control-Allow-Headers", "Content-Type");
+
+  /* preflight requests */
+  if (req.method === "OPTIONS") {
+    res.writeHead(204);
+    res.end();
+    return;
+  }
+
   if (req.url === `${API_PATH}/packages`) {
     exec("npm list --json --depth=0", (err, stdout) => {
       if (err) {
@@ -52,6 +71,7 @@ const server = createServer((req: IncomingMessage, res: ServerResponse) => {
         .sort((a, b) => (a.name < b.name ? -1 : 1));
       res.writeHead(200, {"Content-Type": "application/json"});
       res.end(JSON.stringify(list));
+      writeFileSync(JSON_PATH, JSON.stringify(list, null, 2));
     });
   } else {
     res.writeHead(404);
@@ -64,7 +84,7 @@ server.listen(API_PORT, () => {
     "\n\x1b[32m%s\x1b[0m %s \x1b[36m%s\x1b[0m",
     "  →",
     "API running at",
-    `http://localhost:${API_PORT}${API_PATH}/packages`,
+    `http://omnibot:${API_PORT}${API_PATH}/packages`,
   );
   console.log(
     "\x1b[32m%s\x1b[0m %s \x1b[36m%s\x1b[0m\n",

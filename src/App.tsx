@@ -16,7 +16,7 @@ import Line from "@ui/Line";
 import {getCharWidth, getLineHeight} from "@utils/strings";
 import {isSystemDarkModeOn} from "@utils/system";
 
-import useDebug from "@hooks/useDebug";
+import useConfig from "@hooks/useConfig";
 import useStorage from "@hooks/useStorage";
 
 import Chat from "@chat/Chat";
@@ -30,16 +30,20 @@ import "@styles/main.css";
 import "@styles/vt220.css";
 
 import Life from "@life/Life";
+import Version from "@version/Version";
 import cls from "classnames";
 
 export interface RenderTime {
   phase: string;
   duration: number;
+  base: number;
 }
 
 const Layout = () => {
-  const debug = useDebug();
+  const config = useConfig();
   const storage = useStorage();
+
+  const {debug} = config.getConfig();
 
   const beforeUnloadHandler = () => {
     storage.save();
@@ -90,7 +94,7 @@ const Layout = () => {
       document.body.appendChild(el);
     }
     el.innerHTML = `screen: ${vw}x${vh} | char: ${cw}x${lh} | w: ${w} | h: ${h}`;
-    el.style.visibility = debug ? "visible" : "hidden";
+    el.style.display = debug ? "block" : "none";
   };
 
   useLayoutEffect(() => {
@@ -104,22 +108,25 @@ const Layout = () => {
   const renderTime = useRef<RenderTime>({
     phase: "none",
     duration: 0,
+    base: 0,
   });
 
   const profilerCallback: ProfilerOnRenderCallback = (
-    id,
+    _, //id,
     phase,
     actualDuration,
     baseDuration,
   ) => {
-    renderTime.current = {phase, duration: actualDuration};
+    renderTime.current = {phase, duration: actualDuration, base: baseDuration};
     const favicon = document.getElementById("favicon");
     if (favicon) favicon.style.display = debug ? "block" : "none";
-    if (debug)
+    const screenSize = document.getElementById("debug-screen-size");
+    if (screenSize) screenSize.style.display = debug ? "block" : "none";
+    /*if (debug)
       console.info(
         `%c${id} ${phase}: ${Math.round(actualDuration)} ms / ${Math.round(baseDuration)} ms`,
         "color:#999",
-      );
+      );*/
   };
 
   return (
@@ -156,7 +163,7 @@ const Layout = () => {
                 <Outlet />
               </div>
               <Line variant="horizontal" className={styles["h-line"]} />
-              <Footer renderTime={renderTime.current} />
+              <Footer renderTime={renderTime} />
             </div>
           </div>
         </div>
@@ -174,6 +181,7 @@ const App = () => (
         <Route path="/chat/:id?" element={<Chat />} />
         <Route path="/help" element={<Help />} />
         <Route path="/life" element={<Life />} />
+        <Route path="/version" element={<Version />} />
       </Route>
     </Routes>
   </Router>

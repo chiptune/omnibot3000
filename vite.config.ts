@@ -14,7 +14,7 @@ export default defineConfig({
   server: {
     host: true,
     port: 5173,
-    allowedHosts: ["localhost", "lol"],
+    allowedHosts: ["localhost", "omnibot"],
     watch: {
       usePolling: false /* speed up updates */,
       ignored: ["**/node_modules/**", "**/dist/**"],
