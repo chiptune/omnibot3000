@@ -70,7 +70,7 @@ export default tseslint.config(
       importPlugin.flatConfigs.recommended,
       importPlugin.flatConfigs.typescript,
     ],
-    files: ["server.ts"],
+    files: ["api/**/*.ts"],
     languageOptions: {
       globals: globals.node,
       parserOptions: {

@@ -6,8 +6,14 @@ export const EULER = Math.E;
 
 export type vec2 = [number, number];
 
-export const clamp = (n: number, min: number, max: number): number =>
-  Math.max(min, Math.min(n, max));
+export const format = (n: number = 0, d: number = 1): number =>
+  parseFloat(n.toFixed(d));
+
+export const clamp = (
+  n: number = 0,
+  min: number = 0,
+  max: number = 1,
+): number => Math.max(min, Math.min(n, max));
 
 const ROMAN_SYMBOLS = [
   {value: 1000, symbol: "M"},
@@ -25,7 +31,7 @@ const ROMAN_SYMBOLS = [
   {value: 1, symbol: "I"},
 ];
 
-export const numberToRoman = (n: number): string => {
+export const numberToRoman = (n: number = 0): string => {
   let string = "";
   for (const {value, symbol} of ROMAN_SYMBOLS) {
     while (n >= value && n !== 0) {

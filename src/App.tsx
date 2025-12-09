@@ -13,6 +13,7 @@ import Footer from "@layout/Footer";
 import Header from "@layout/Header";
 import Menu from "@layout/Menu";
 import Line from "@ui/Line";
+import {format} from "@utils/math";
 import {getCharWidth, getLineHeight} from "@utils/strings";
 import {isSystemDarkModeOn} from "@utils/system";
 
@@ -93,7 +94,9 @@ const Layout = () => {
       el.className = "debug-info";
       document.body.appendChild(el);
     }
-    el.innerHTML = `screen: ${vw}x${vh} | char: ${cw}x${lh} | w: ${w} | h: ${h}`;
+    el.innerHTML = `viewport: ${vw}x${vh} |\
+    char: ${format(cw)}x${format(lh)} |\
+    w: ${w} | h: ${h}`;
     el.style.display = debug ? "block" : "none";
   };
 

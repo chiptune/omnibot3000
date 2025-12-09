@@ -13,8 +13,8 @@ export default defineConfig({
   plugins: [react(), tsconfigPaths()],
   server: {
     host: true,
-    port: 5173,
-    allowedHosts: ["localhost", "omnibot"],
+    port: 3000,
+    allowedHosts: ["localhost", "lol", "omnibot"],
     watch: {
       usePolling: false /* speed up updates */,
       ignored: ["**/node_modules/**", "**/dist/**"],
@@ -22,7 +22,7 @@ export default defineConfig({
     hmr: {
       protocol: "ws",
       host: "localhost",
-      port: 5173,
+      port: 3000,
     },
   },
   optimizeDeps: {

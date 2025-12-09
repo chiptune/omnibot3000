@@ -8,9 +8,9 @@
     /* linting */
     "strict": true,
     /* paths */
-    "rootDir": "./",
-    "outDir": "./dist/"
+    "rootDir": "./api/",
+    "outDir": "./dist/api/"
   },
-  "include": ["./server.ts"],
+  "include": ["./api/**/*.ts"],
   "exclude": []
 }

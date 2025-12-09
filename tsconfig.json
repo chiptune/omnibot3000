@@ -43,5 +43,5 @@
       "@images/*": ["/images/*"]
     }
   },
-  "include": ["src", "src/global.d.ts"]
+  "include": ["src", "api"]
 }

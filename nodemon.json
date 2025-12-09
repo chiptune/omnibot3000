@@ -1,4 +1,4 @@
 {
-  "watch": ["server.ts"],
-  "exec": "rm -rf ./dist/server.js && pnpm tsc --project tsconfig.server.json && node ./dist/server.js"
+  "watch": ["api/package.ts"],
+  "exec": "rm -rf ./dist/api/package.js && pnpm tsc --project tsconfig.api.json && node ./dist/api/package.js"
 }

@@ -19,18 +19,11 @@ export const getStream = async (
     dangerouslyAllowBrowser: true,
   });
 
-  /*const openai = new OpenAI({
-    apiKey: import.meta.env.OPENROUTER_API_KEY,
-    baseURL: "https://openrouter.ai/api/v1",
-    dangerouslyAllowBrowser: true,
-  });*/
-
   try {
     const response = await openai.chat.completions.create({
       /* https://openai.com/api/pricing/ */
       //model: "gpt-5-mini", /* VERY BAD AND SLOW */
       model: "gpt-4.1-mini",
-      //model: "deepseek/deepseek-chat-v3-0324:free",
       messages,
       max_completion_tokens: COMPLETION_MAX_TOKENS,
       temperature: 0.0, // lower temperature to get stricter completion (good for code)

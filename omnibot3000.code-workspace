@@ -8,15 +8,27 @@
       "path": "src",
       "name": "source",
     },
+    {
+      "path": "api",
+    },
   ],
   "launch": {
     "configurations": [
       {
-        "name": "run start",
+        "name": "run start dev",
         "type": "node",
         "request": "launch",
         "runtimeExecutable": "pnpm",
-        "runtimeArgs": ["run", "start"],
+        "runtimeArgs": ["run", "start", "dev"],
+        "console": "integratedTerminal",
+        "cwd": "${workspaceFolder}",
+      },
+      {
+        "name": "run start api",
+        "type": "node",
+        "request": "launch",
+        "runtimeExecutable": "pnpm",
+        "runtimeArgs": ["run", "start", "api"],
         "console": "integratedTerminal",
         "cwd": "${workspaceFolder}",
       },
