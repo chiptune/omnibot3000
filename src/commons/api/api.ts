@@ -5,6 +5,7 @@ import {
 } from "openai/resources/index.mjs";
 import {Stream} from "openai/streaming.mjs";
 
+import {NAME, VERSION} from "@commons/constants";
 import persona from "@commons/persona.txt?raw";
 import {getVariableFromCSS} from "@utils/styles";
 
@@ -58,6 +59,7 @@ user can change the line height with the "/height number" command. \
 the "/height" command without parameter will reset the value to ${height}. \
 user can reset the settings with the "/reset" command. \
 ${formatting}. \
+your name is ${NAME} and your version is ${VERSION.join(".")}. \
 ${persona}`;
   return {role: "developer", content: systemConfig};
 };

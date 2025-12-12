@@ -1,12 +1,7 @@
-import packageJson from "@root/package.json";
-
+import {NAME, VERSION} from "@commons/constants";
 import {getColorFromCSS} from "@utils/color";
 
-const VERSION = String(packageJson.version)
-  .split(".")
-  .map((v) => Number(v));
-
-export const PACKAGE_VERSION = `${packageJson.name} version ${VERSION.join(".")}`;
+export const PACKAGE_VERSION = `${NAME} version ${VERSION.join(".")}`;
 
 export const displayPackageVersion = (): void => {
   const CHAR = "░";
@@ -26,7 +21,4 @@ export const displayPackageVersion = (): void => {
   );
 };
 
-export const NAME = packageJson.name;
-export const AUTHOR = packageJson.author;
-
-export default VERSION;
+export default PACKAGE_VERSION;

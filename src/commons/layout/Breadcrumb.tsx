@@ -27,7 +27,7 @@ const Breadcrumb = () => {
   }, [location]);
 
   return (
-    <div className={styles.root}>
+    <nav className={styles.root}>
       {path.map((v, i) => {
         return (
           <Fragment key={`breadcrumb-${i}`}>
@@ -47,7 +47,7 @@ const Breadcrumb = () => {
           </Fragment>
         );
       })}
-    </div>
+    </nav>
   );
 };
 

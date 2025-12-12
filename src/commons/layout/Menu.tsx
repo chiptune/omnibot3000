@@ -17,7 +17,7 @@ const Menu = () => {
   const size = String(localStorage[`${SESSION_KEY}_data`] || "").length + 64;
 
   return (
-    <div className={cls("text", styles.root)}>
+    <summary className={cls("text", styles.root)}>
       <div className={styles.header}>
         <span className={styles.title}>history</span>
         <span className={styles.subtitle}>|</span>
@@ -30,7 +30,7 @@ const Menu = () => {
       </div>
       <Line variant="horizontal" className={styles.line} />
       <History />
-    </div>
+    </summary>
   );
 };
 

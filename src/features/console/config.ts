@@ -1,6 +1,5 @@
-import {SESSION_KEY} from "@commons/constants";
+import {SESSION_KEY, VERSION} from "@commons/constants";
 import {getVariableFromCSS, setVariableToCSS} from "@utils/styles";
-import VERSION from "@utils/version";
 
 export interface ConfigType {
   version: string;

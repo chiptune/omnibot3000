@@ -1,7 +1,7 @@
 import {defineConfig, loadEnv} from "vite";
 import tsconfigPaths from "vite-tsconfig-paths";
 
-import {version} from "./package.json";
+import pkg from "./package.json";
 
 import react from "@vitejs/plugin-react";
 
@@ -13,14 +13,15 @@ export default defineConfig(({mode}) => {
     "\n\x1b[1m\x1b[32m%s\x1b[0m %s \x1b[32m%s\x1b[0m %s \x1b[36m%s\x1b[0m",
     "→",
     "Running",
-    "VITE",
+    `${pkg["x-display-name"]} v${pkg.version}`,
     "dev server at",
     `http://${env.DOMAIN}:${env.DEV_PORT}`,
   );
 
   return {
     define: {
-      __APP_VERSION__: JSON.stringify(version),
+      __APP_VERSION__: JSON.stringify(pkg.version),
+      __APP_NAME__: JSON.stringify(pkg["x-display-name"]),
       "import.meta.env.DOMAIN": JSON.stringify(env.DOMAIN),
       "import.meta.env.DEV_PORT": JSON.stringify(env.DEV_PORT),
       "import.meta.env.API_PORT": JSON.stringify(env.API_PORT),

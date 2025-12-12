@@ -65,9 +65,9 @@ const Header = (_props: {darkMode: boolean; onThemeToggle: () => void}) => {
   }, []);
 
   return (
-    <div className={styles.root}>
+    <header className={cls("text", styles.root)}>
       <div className={styles.container}>
-        <div className={cls("text", styles.title)}>
+        <div className={styles.title}>
           <Button name={NAME} handler={homeHandler} />
           <span
             className={
@@ -95,7 +95,7 @@ const Header = (_props: {darkMode: boolean; onThemeToggle: () => void}) => {
         <br />
         <Button name={BUTTON_LIFE} handler={lifeHandler} />
       </div>
-    </div>
+    </header>
   );
 };
 

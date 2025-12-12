@@ -10,7 +10,6 @@ import OmnibotSpeak from "@commons/OmnibotSpeak";
 import Container from "@layout/Container";
 import Button from "@ui/Button";
 import {formatText} from "@utils/strings";
-import {displayPackageVersion} from "@utils/version";
 
 import useChatCompletionStore from "@chat/hooks/useChatCompletionStore";
 import styles from "@home/Home.module.css";
@@ -78,7 +77,6 @@ separate each element with an empty line.`,
     hasRunOnce.current = true;
 
     chatStore.resetChat();
-    displayPackageVersion();
     setLoading(true);
     getResponse();
     updateStartButton();

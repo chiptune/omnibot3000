@@ -1,7 +1,13 @@
 import {RefObject} from "react";
 import {useNavigate} from "react-router-dom";
 
-import {ASCII_COPYRIGHT, ASCII_CURRENCY} from "@commons/constants";
+import {
+  ASCII_COPYRIGHT,
+  ASCII_CURRENCY,
+  AUTHOR,
+  NAME,
+  VERSION,
+} from "@commons/constants";
 import Breadcrumb from "@layout/Breadcrumb";
 import styles from "@layout/Footer.module.css";
 import Button from "@ui/Button";
@@ -9,7 +15,6 @@ import Separator from "@ui/Separator";
 import Spacer from "@ui/Spacer";
 import {numberToRoman} from "@utils/math";
 import {isDev} from "@utils/system";
-import VERSION, {AUTHOR, NAME} from "@utils/version";
 
 import useConfig from "@hooks/useConfig";
 
@@ -30,7 +35,7 @@ const Footer = (props: {renderTime: RefObject<RenderTime>}) => {
   };
 
   return (
-    <div className={cls("text", styles.root)}>
+    <footer className={cls("text", styles.root)}>
       <div className={styles.spacing}>
         <div>
           <span className={styles.copyright}>{ASCII_COPYRIGHT}</span>
@@ -62,7 +67,7 @@ const Footer = (props: {renderTime: RefObject<RenderTime>}) => {
         <span className={styles.info}>ver </span>
         <Button name={VERSION.join(".")} handler={versionHandler} />
       </div>
-    </div>
+    </footer>
   );
 };
 

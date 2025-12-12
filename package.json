@@ -1,7 +1,9 @@
 {
-  "name": "omnibot3000",
-  "private": true,
-  "version": "1.7.12",
+  "name": "omnibot",
+  "x-display-name": "OMNIBOT 3000",
+  "description": "the omniscient source of truth",
+  "private": false,
+  "version": "1.8.0",
   "type": "module",
   "author": {
     "name": "rez",
@@ -25,15 +27,15 @@
   "dependencies": {
     "dotenv": "^17.2.3",
     "openai": "^6.10.0",
-    "react": "^19.2.1",
-    "react-dom": "^19.2.1",
+    "react": "^19.2.3",
+    "react-dom": "^19.2.3",
     "react-markdown": "^10.1.0",
     "react-router-dom": "^7.10.1",
     "zustand": "^5.0.9"
   },
   "devDependencies": {
     "@eslint/js": "^9.39.1",
-    "@types/node": "^25.0.0",
+    "@types/node": "^25.0.1",
     "@types/react": "^19.2.7",
     "@types/react-dom": "^19.2.3",
     "@vitejs/plugin-react": "^5.1.2",

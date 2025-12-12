@@ -1,9 +1,9 @@
 import {memo, useEffect, useRef, useState} from "react";
 
-import {NAME} from "@commons/constants";
+import {NAME, VERSION} from "@commons/constants";
 import OmnibotSpeak from "@commons/OmnibotSpeak";
 import Container from "@layout/Container";
-import VERSION from "@utils/version";
+import {displayPackageVersion} from "@utils/version";
 
 import useChatCompletionStore from "@chat/hooks/useChatCompletionStore";
 import styles from "@help/Help.module.css";
@@ -53,6 +53,7 @@ const Version = () => {
     chatStore.resetChat();
     setLoading(true);
     getResponse();
+    displayPackageVersion();
   }, []);
 
   return (

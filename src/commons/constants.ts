@@ -1,5 +1,11 @@
-export const NAME = "OMNIBOT 3000";
-export const SESSION_KEY = NAME.toLowerCase().replace(/\s/g, "_");
+import pkg from "@root/package.json";
+
+export const NAME = String(pkg["x-display-name"] || pkg.name);
+export const VERSION = String(pkg.version)
+  .split(".")
+  .map((v) => Number(v));
+export const AUTHOR = pkg.author;
+export const SESSION_KEY = String(pkg.name).toLowerCase().replace(/\s/g, "_");
 
 export const COMPLETION_ID_WILDCARD = "chatcmpl-";
 
