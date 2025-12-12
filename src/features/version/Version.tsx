@@ -10,8 +10,10 @@ import styles from "@help/Help.module.css";
 
 import cls from "classnames";
 
-const API_PATH = "/api";
-const API_PORT = 3001;
+console.info(JSON.stringify(import.meta.env, null, 2));
+
+const API_PORT = Number(import.meta.env.API_PORT) || 3001;
+const API_PATH = import.meta.env.API_PATH || "/api";
 
 interface Package {
   name: string;
@@ -25,7 +27,7 @@ const Version = () => {
   const chatStore = useChatCompletionStore();
 
   const hasRunOnce = useRef(false);
-  const [response, setResponse] = useState<string>("");
+  const [response, setResponse] = useState<string>("loading...");
   const [loading, setLoading] = useState<boolean>(false);
 
   const getResponse = async () => {

@@ -7,8 +7,7 @@ import {
 } from "openai/resources/index.mjs";
 import {Stream} from "openai/streaming.mjs";
 
-import {getChatTitle, getSystemConfig} from "@api/api";
-import getStream from "@api/openAI";
+import getData, {getChatTitle, getSystemConfig} from "@api/api";
 import Container from "@layout/Container";
 
 import useStorage from "@hooks/useStorage";
@@ -85,11 +84,11 @@ const Chat = () => {
     const messages: ChatCompletionMessageParam[] = [getSystemConfig()];
 
     messages.push({
-      role: "system",
+      role: "developer",
       content: `\
-        end all messages with a short, acid and fun commment about humankind weakness.\
-        keep your message short, do not write more than 256 characters as comment.\
-        you must separate each part of your answer with an empty line.`,
+end all messages with a short, acid and fun commment about humankind weakness. \
+keep your message short, do not write more than 256 characters as comment. \
+you must separate each part of your answer with an empty line.`,
     });
 
     /* add chat history to the messages array to give context */
@@ -100,31 +99,39 @@ const Chat = () => {
     /* append current query */
     messages.push({role: "user", content: query});
 
-    const response = (await getStream(messages)) as Stream<ChatCompletionChunk>;
+    const stream = (await getData(messages)) as Stream<ChatCompletionChunk>;
 
-    for await (const chunk of response) {
-      const choice = chunk.choices[0] || {};
-      const finish_reason = choice.finish_reason;
-      const text = choice.delta?.content || "";
-      if (finish_reason) {
-        setLoading(false);
-        if (finish_reason === "length") {
-          setResponse((prev) => `${prev}\n\n[max tokens length reached]\n`);
+    try {
+      for await (const chunk of stream) {
+        const choice = chunk.choices?.[0] || {};
+        const finish_reason = choice.finish_reason;
+        const text = choice.delta?.content || "";
+
+        if (finish_reason) {
+          setLoading(false);
+          if (finish_reason === "length") {
+            setResponse((prev) => `${prev}\n\n[max tokens length reached]\n`);
+          }
+          setCompletion({
+            id: formatCompletionId(chunk.id),
+            created: chunk.created,
+            model: chunk.model,
+            prompt: query,
+            message: "",
+            index: 0,
+            children: [],
+            parentCompletion: completionId,
+          });
+          setCompletionId(chunk.id);
         }
-        setCompletion({
-          id: formatCompletionId(chunk.id),
-          created: chunk.created,
-          model: chunk.model,
-          prompt: query,
-          message: "",
-          index: 0,
-          children: [],
-          parentCompletion: completionId,
-        });
-        setCompletionId(chunk.id);
+
+        if (text) {
+          setResponse((prev) => `${prev}${text}`);
+        }
       }
-      if (!text) continue;
-      setResponse((prev) => `${prev}${text}`);
+    } catch (error) {
+      console.error("Error reading stream:", error);
+      setLoading(false);
     }
   };
 

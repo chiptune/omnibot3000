@@ -2,13 +2,7 @@ import {create} from "zustand";
 
 import {ChatCompletionMessageParam} from "openai/resources/index.mjs";
 
-import {COMPLETION_MAX_TOKENS} from "@commons/constants";
-
 import {formatCompletionId} from "@chat/commons/strings";
-
-export interface ChatSettings {
-  maxTokens: number;
-}
 
 export type ChatId = string | undefined;
 
@@ -38,9 +32,6 @@ export interface Data {
 }
 
 export interface ChatCompletionStoreState {
-  settings: ChatSettings;
-  setSetting: (key: string, value: number | string | boolean) => void;
-  getSettings: () => ChatSettings;
   chatId: ChatId;
   setChatId: (id?: ChatId) => void;
   getChatId: () => ChatId;
@@ -69,12 +60,6 @@ export interface ChatCompletionStoreState {
 
 const useChatCompletionStore = create<ChatCompletionStoreState>()(
   (set, get) => ({
-    settings: {maxTokens: COMPLETION_MAX_TOKENS},
-    setSetting: (key: string, value: number | string | boolean) =>
-      set((state) => ({
-        settings: {...state.settings, [key]: value},
-      })),
-    getSettings: () => get().settings,
     chatId: undefined,
     setChatId: (id?: ChatId) => set({chatId: id}),
     getChatId: () => get().chatId,
