@@ -1,9 +1,9 @@
 {
-  "name": "omnibot-3000",
+  "name": "omnibot3000",
   "x-display-name": "OMNIBOT 3000",
-  "description": "the omniscient source of truth",
+  "description": "your omniscient source of truth",
   "private": false,
-  "version": "1.8.1",
+  "version": "1.8.2",
   "type": "module",
   "author": {
     "name": "rez",
@@ -26,7 +26,6 @@
     "prettify": "prettier --write ."
   },
   "dependencies": {
-    "dotenv": "^17.2.3",
     "openai": "^6.10.0",
     "react": "^19.2.3",
     "react-dom": "^19.2.3",
@@ -35,13 +34,14 @@
     "zustand": "^5.0.9"
   },
   "devDependencies": {
-    "@eslint/js": "^9.39.1",
+    "@eslint/js": "^9.39.2",
     "@types/node": "^25.0.1",
     "@types/react": "^19.2.7",
     "@types/react-dom": "^19.2.3",
     "@vitejs/plugin-react": "^5.1.2",
     "classnames": "^2.5.1",
-    "eslint": "^9.39.1",
+    "dotenv": "^17.2.3",
+    "eslint": "^9.39.2",
     "eslint-plugin-import": "^2.32.0",
     "eslint-plugin-react-hooks": "^7.0.1",
     "eslint-plugin-react-refresh": "^0.4.24",
