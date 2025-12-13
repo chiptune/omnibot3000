@@ -1,15 +1,16 @@
 {
-  "name": "omnibot",
+  "name": "omnibot-3000",
   "x-display-name": "OMNIBOT 3000",
   "description": "the omniscient source of truth",
   "private": false,
-  "version": "1.8.0",
+  "version": "1.8.1",
   "type": "module",
   "author": {
     "name": "rez",
     "email": "rez@lol.pm",
     "url": "https://github.com/chiptune"
   },
+  "homepage": "https://www.omnibot3000.com",
   "scripts": {
     "start": "pnpm run-p start:dev start:api",
     "start:dev": "pnpm run dev",
