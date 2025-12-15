@@ -36,7 +36,6 @@
   cursor: text !important;
   text-wrap: wrap;
   white-space: pre-wrap;
-  word-break: break-all;
 }
 
 .placeholder {

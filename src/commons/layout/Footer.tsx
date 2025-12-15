@@ -1,4 +1,4 @@
-import {RefObject} from "react";
+import {Fragment, RefObject} from "react";
 import {useNavigate} from "react-router-dom";
 
 import {
@@ -36,7 +36,7 @@ const Footer = (props: {renderTime: RefObject<RenderTime>}) => {
 
   return (
     <footer className={cls("text", styles.root)}>
-      <div className={styles.spacing}>
+      <section className={styles.spacing}>
         <div>
           <span className={styles.copyright}>{ASCII_COPYRIGHT}</span>
           <span className={styles.info}>
@@ -46,27 +46,27 @@ const Footer = (props: {renderTime: RefObject<RenderTime>}) => {
         <a href={SOURCE} target="_blank">
           {AUTHOR.name}
         </a>
-      </div>
+      </section>
       <Separator />
       <Breadcrumb />
       <Spacer />
       {isDev() && (
-        <>
-          <div className={styles.spacing}>
+        <Fragment>
+          <section className={styles.spacing}>
             <span className={styles.info}>{`${phase}:`}</span>
-            <span style={{whiteSpace: "nowrap"}}>
+            <time style={{whiteSpace: "nowrap"}}>
               {duration.toFixed(1)}
               <span className={styles.info}>ms</span>
-            </span>
-          </div>
+            </time>
+          </section>
           <Separator />
-        </>
+        </Fragment>
       )}
       {debug && <div className={styles.info}>{ASCII_CURRENCY}</div>}
-      <div className={styles.spacing}>
+      <section className={styles.spacing}>
         <span className={styles.info}>ver </span>
         <Button name={VERSION.join(".")} handler={versionHandler} />
-      </div>
+      </section>
     </footer>
   );
 };

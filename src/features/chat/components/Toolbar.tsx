@@ -26,7 +26,7 @@ const Toolbar = (props: {completion: Completion}) => {
   const {completion} = props;
 
   return (
-    <div className={styles.root}>
+    <footer className={styles.root}>
       <div className={styles.corner}>+</div>
       <Line variant="horizontal" className={styles["line"]} />
       <div className={cls("text", styles.toolbar)}>
@@ -37,7 +37,7 @@ const Toolbar = (props: {completion: Completion}) => {
           }}
         />
       </div>
-    </div>
+    </footer>
   );
 };
 

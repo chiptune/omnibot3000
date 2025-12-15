@@ -25,7 +25,7 @@ const Version = () => {
   const chatStore = useChatCompletionStore();
 
   const hasRunOnce = useRef(false);
-  const [response, setResponse] = useState<string>("loading...");
+  const [response, setResponse] = useState<string>("");
   const [loading, setLoading] = useState<boolean>(false);
 
   const getResponse = async () => {

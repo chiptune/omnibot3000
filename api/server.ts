@@ -76,10 +76,13 @@ const server = createServer((req: IncomingMessage, res: ServerResponse) => {
         const response = await openai.chat.completions.create({
           /* https://openai.com/api/pricing/ */
           model: "gpt-4.1-mini",
-          messages,
+          //model: "gpt-5-mini",
+          temperature: 2.0 /* more creative */,
+          top_p: 0.2 /* use nucleus sampling */,
+          presence_penalty: 2.0 /* encourage new topics */,
+          frequency_penalty: 0.8 /* avoid repetition */,
           max_completion_tokens: 1000,
-          temperature: 1.0, // lower temperature to get stricter completion (good for code)
-          //reasoning: {effort: "high"},
+          messages,
           stream,
         });
 
@@ -101,10 +104,19 @@ const server = createServer((req: IncomingMessage, res: ServerResponse) => {
           res.writeHead(200, {"Content-Type": "application/json"});
           res.end(JSON.stringify(response));
         }
-      } catch (err) {
-        const error = err instanceof Error ? err.message : "unknown error";
-        res.writeHead(500, {"Content-Type": "application/json"});
-        res.end(JSON.stringify({error}));
+      } catch {
+        const response = {
+          choices: [
+            {
+              message: {
+                role: "assistant",
+                content: "no signal",
+              },
+            },
+          ],
+        };
+        res.writeHead(200, {"Content-Type": "application/json"});
+        res.end(JSON.stringify(response));
       }
     });
   } else if (url.startsWith(`${API_PATH}/packages`)) {

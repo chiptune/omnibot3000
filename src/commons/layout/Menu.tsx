@@ -17,20 +17,20 @@ const Menu = () => {
   const size = String(localStorage[`${SESSION_KEY}_data`] || "").length + 64;
 
   return (
-    <summary className={cls("text", styles.root)}>
-      <div className={styles.header}>
+    <aside className={cls("text", styles.root)}>
+      <header className={styles.header}>
         <span className={styles.title}>history</span>
         <span className={styles.subtitle}>|</span>
         <span className={styles.count}>{count}</span>
         <span className={styles.title}>{` talk${count > 1 ? "s" : ""}`}</span>
-      </div>
-      <div>
+      </header>
+      <summary>
         <span className={styles.count}>{(size / 1024).toFixed(1)}</span>
         <span className={styles.title}>kb wasted</span>
-      </div>
+      </summary>
       <Line variant="horizontal" className={styles.line} />
       <History />
-    </summary>
+    </aside>
   );
 };
 

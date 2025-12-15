@@ -100,7 +100,6 @@ h6 {
   display: inline-block;
   margin: 0;
   padding: 0;
-  margin-bottom: var(--line-height);
   font-family: inherit;
   font-size: inherit;
   font-weight: inherit;

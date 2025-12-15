@@ -159,7 +159,7 @@ you must separate each part of your answer with an empty line.`,
   }, [completion]);
 
   return (
-    <div className={styles.root}>
+    <section className={styles.root}>
       <Container>
         {chatStore.getCompletions(chatId).map((completion: Completion) => (
           <Fragment key={`chat-completion-${completion.id}`}>
@@ -181,7 +181,7 @@ you must separate each part of your answer with an empty line.`,
         setPrompt={setPrompt}
         submitHandler={getCompletion}
       />
-    </div>
+    </section>
   );
 };
 

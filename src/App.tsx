@@ -166,9 +166,9 @@ w: ${w} | h: ${h}`;
             <div className={styles.content}>
               <Header darkMode={darkMode} onThemeToggle={themeSwitchHandler} />
               <Line variant="horizontal" className={styles["h-line"]} />
-              <div ref={bodyRef} className={styles.body}>
+              <main ref={bodyRef} className={styles.body}>
                 <Outlet />
-              </div>
+              </main>
               <Line variant="horizontal" className={styles["h-line"]} />
               <Footer renderTime={renderTime} />
             </div>

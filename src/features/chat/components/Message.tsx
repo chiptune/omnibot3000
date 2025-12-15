@@ -20,25 +20,25 @@ const Message = (props: {
   const isUser = Boolean(role === "user");
 
   return (
-    <div className={styles.root}>
+    <article className={styles.root}>
       {isUser ? (
-        <div className={styles.user}>
+        <header className={styles.user}>
           <div className={styles["user-pill"]}>{">"}</div>
-          <div>
+          <h1>
             <RenderCli command={content.split("\n")} line={-1} caret={0} />
-          </div>
-        </div>
+          </h1>
+        </header>
       ) : (
-        <div className={styles.bot}>
+        <p className={styles.bot}>
           <Line
             variant="vertical"
             char={ASCII_BLOCK1}
             className={styles["bot-line"]}
           />
           <OmnibotSpeak truth={content} hasCaret={hasCaret} />
-        </div>
+        </p>
       )}
-    </div>
+    </article>
   );
 };
 
