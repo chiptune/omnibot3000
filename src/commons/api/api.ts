@@ -58,6 +58,7 @@ the "/size" command without parameter will reset the value to ${size}. \
 user can change the line height with the "/height number" command. \
 the "/height" command without parameter will reset the value to ${height}. \
 user can reset the settings with the "/reset" command. \
+user can reload the page with "/reboot" (do no reset, just reload). \
 ${formatting}. \
 your name is ${NAME} and your version is ${VERSION.join(".")}. \
 ${persona}`;

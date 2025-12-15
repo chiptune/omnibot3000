@@ -5,7 +5,8 @@ export const VERSION = String(pkg.version)
   .split(".")
   .map((v) => Number(v));
 export const AUTHOR = pkg.author;
-export const SESSION_KEY = String(pkg.name).toLowerCase().replace(/\s/g, "_");
+export const SOURCE = pkg.repository.url;
+export const SESSION_KEY = String(NAME).toLowerCase().replace(/\s/g, "_");
 
 export const COMPLETION_ID_WILDCARD = "chatcmpl-";
 

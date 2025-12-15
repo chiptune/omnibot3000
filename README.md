@@ -6,4 +6,4 @@ YOUR OMNISCIENT SOURCE OF TRUTH
 
 ### Install
 
-```pnpm i omnibot3000```
+`pnpm i omnibot3000`

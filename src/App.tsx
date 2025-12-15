@@ -86,19 +86,23 @@ const Layout = () => {
 
     setWidth(Math.floor((vw - cw * 2) / cw) * cw);
     setHeight(Math.floor((vh - cw * 4) / lh) * lh + cw * 2);
+  };
+
+  useEffect(() => {
+    const vw = window.innerWidth;
+    const vh = window.innerHeight;
 
     let el = document.getElementById("debug-screen-size");
-    if (!el) {
-      el = document.createElement("div");
-      el.id = "debug-screen-size";
-      el.className = "debug-info";
-      document.body.appendChild(el);
-    }
-    el.innerHTML = `viewport: ${vw}x${vh} |\
-    char: ${format(cw)}x${format(lh)} |\
-    w: ${w} | h: ${h}`;
+    if (!el) el = document.createElement("div");
+
+    el.id = "debug-screen-size";
+    el.className = "debug-info";
+    document.body.appendChild(el);
+    el.innerHTML = `viewport: ${vw}x${vh} | \
+char: ${format(cw)}x${format(lh)} | \
+w: ${w} | h: ${h}`;
     el.style.display = debug ? "block" : "none";
-  };
+  }, [w, h]);
 
   useLayoutEffect(() => {
     const resizeObserver = new ResizeObserver(update);

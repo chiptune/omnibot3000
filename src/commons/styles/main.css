@@ -135,7 +135,13 @@ ol {
   margin: 0;
   padding: 0;
   margin-bottom: var(--line-height);
-  list-style-position: inside;
+  list-style-position: outside;
+  p {
+    display: block !important;
+  }
+  ::marker {
+    color: var(--color-primary);
+  }
 }
 
 ul {

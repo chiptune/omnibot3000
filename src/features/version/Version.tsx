@@ -10,8 +10,6 @@ import styles from "@help/Help.module.css";
 
 import cls from "classnames";
 
-console.info(JSON.stringify(import.meta.env, null, 2));
-
 const API_PORT = Number(import.meta.env.API_PORT) || 3001;
 const API_PATH = import.meta.env.API_PATH || "/api";
 
@@ -54,6 +52,10 @@ const Version = () => {
     setLoading(true);
     getResponse();
     displayPackageVersion();
+    console.info(
+      `%c${JSON.stringify(import.meta.env, null, 2)}`,
+      "color: #999",
+    );
   }, []);
 
   return (

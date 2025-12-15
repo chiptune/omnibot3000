@@ -1,0 +1,12 @@
+# basic commit message validation
+
+if ! head -1 "$1" | grep -qE '^\[(feat|fix|doc|style|perf|test|chore|misc)(\(.+\))?!?\]'; then
+  echo "❌ Commit message must follow format: [type] message"
+  echo ""
+  echo "Examples:"
+  echo "  [feat] add new feature"
+  echo "  [fix] resolve bug in component"
+  echo "  [doc] update README"
+  echo "  [chore] update dependencies"
+  exit 1
+fi

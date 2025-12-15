@@ -10,9 +10,10 @@
 .container {
   display: flex;
   flex-direction: row;
-  ul {
-    margin-bottom: 0 !important;
-  }
+}
+
+.container > ul {
+  margin-bottom: 0 !important;
 }
 
 .content {

@@ -5,7 +5,7 @@ import {
   ASCII_COPYRIGHT,
   ASCII_CURRENCY,
   AUTHOR,
-  NAME,
+  SOURCE,
   VERSION,
 } from "@commons/constants";
 import Breadcrumb from "@layout/Breadcrumb";
@@ -43,7 +43,7 @@ const Footer = (props: {renderTime: RefObject<RenderTime>}) => {
             {` ${numberToRoman(Number(new Date().getFullYear()))} `}
           </span>
         </div>
-        <a href={`${AUTHOR.url}/${NAME}`} target="_blank">
+        <a href={SOURCE} target="_blank">
           {AUTHOR.name}
         </a>
       </div>

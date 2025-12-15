@@ -48,9 +48,9 @@ export const Container = ({children}: {children: ReactNode}) => {
     <div ref={rootRef} className={styles.root}>
       <div className={styles.container}>
         <ScrollSnap content={contentRef} className={styles.snap} />
-        <div ref={contentRef} className={styles.content}>
+        <main ref={contentRef} className={styles.content}>
           {children}
-        </div>
+        </main>
       </div>
       <a id="end-of-line" />
     </div>
