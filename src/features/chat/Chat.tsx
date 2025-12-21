@@ -1,13 +1,8 @@
 import {Fragment, memo, useEffect, useState} from "react";
 import {useNavigate, useParams} from "react-router-dom";
 
-import {
-  ChatCompletionChunk,
-  ChatCompletionMessageParam,
-} from "openai/resources/index.mjs";
-import {Stream} from "openai/streaming.mjs";
-
-import getData, {getChatTitle, getSystemConfig} from "@api/api";
+import {getChatTitle} from "@api/api";
+import getStream from "@api/getStream";
 import Container from "@layout/Container";
 
 import useStorage from "@hooks/useStorage";
@@ -40,6 +35,43 @@ const Chat = () => {
 
   const {id} = useParams();
   const chatId = chatStore.getChatId();
+
+  const completionCallback = (
+    id: string,
+    created: number,
+    model: string,
+    query: string,
+  ) => {
+    setCompletion({
+      id: formatCompletionId(id),
+      created: created,
+      model: model,
+      prompt: query,
+      message: "",
+      index: 0,
+      children: [],
+      parentCompletion: completionId,
+    });
+    setCompletionId(id);
+  };
+
+  const submitHandler = (input: string) => {
+    setLoading(true);
+    setQuery(input);
+    getStream(
+      setLoading,
+      setResponse,
+      [
+        "keep your message short and concise, do not repeat yourself",
+        "do not present yourself again, focus on answering the user prompt",
+        "end all messages with a short and acid commment about humankind weakness",
+        "do not write more than 256 characters as comment",
+        "you must separate each part of your answer with an empty line",
+      ],
+      prompt,
+      completionCallback,
+    );
+  };
 
   const setTitle = async (id: ChatId) => {
     const title = await getChatTitle(chatStore.getMessages(id));
@@ -74,88 +106,26 @@ const Chat = () => {
     return () => unsubscribe();
   }, []);
 
-  const getCompletion = async (query: string) => {
-    setQuery(query); /* save the query before reset */
-
-    if (String(query).replace("\n", "").trim() === "") return;
-
-    setLoading(true);
-
-    const messages: ChatCompletionMessageParam[] = [getSystemConfig()];
-
-    messages.push({
-      role: "developer",
-      content: `\
-end all messages with a short, acid and fun commment about humankind weakness. \
-keep your message short, do not write more than 256 characters as comment. \
-you must separate each part of your answer with an empty line.`,
-    });
-
-    /* add chat history to the messages array to give context */
-    if (chatId) {
-      messages.push(...chatStore.getMessages(chatId));
-    }
-
-    /* append current query */
-    messages.push({role: "user", content: query});
-
-    const stream = (await getData(messages)) as Stream<ChatCompletionChunk>;
-
-    try {
-      for await (const chunk of stream) {
-        const choice = chunk.choices?.[0] || {};
-        const finish_reason = choice.finish_reason;
-        const text = choice.delta?.content || "";
-
-        if (finish_reason) {
-          setLoading(false);
-          if (finish_reason === "length") {
-            setResponse((prev) => `${prev}\n\n[max tokens length reached]\n`);
-          }
-          setCompletion({
-            id: formatCompletionId(chunk.id),
-            created: chunk.created,
-            model: chunk.model,
-            prompt: query,
-            message: "",
-            index: 0,
-            children: [],
-            parentCompletion: completionId,
-          });
-          setCompletionId(chunk.id);
-        }
-
-        if (text) {
-          setResponse((prev) => `${prev}${text}`);
-        }
-      }
-    } catch (error) {
-      console.error("Error reading stream:", error);
-      setLoading(false);
-    }
-  };
-
   useEffect(() => {
-    if (completion) {
-      setCompletion((prev) => {
-        if (!prev) return;
-        prev.message = response;
-        return prev;
-      });
-      if (!chatId) {
-        chatStore.setCompletions();
-        chatStore.createChat(completion);
-        setTitle(chatStore.getChatId());
-      }
-      chatStore.addCompletion(completion);
-      if (chatId) {
-        chatStore.updateCompletions(chatId);
-        setTitle(chatId);
-      }
-      /* reset values once the completion is saved in the store */
-      setCompletion(undefined);
-      setResponse("");
+    if (!completion) return;
+    setCompletion((prev) => {
+      if (!prev) return;
+      prev.message = response;
+      return prev;
+    });
+    if (!chatId) {
+      chatStore.setCompletions();
+      chatStore.createChat(completion);
+      setTitle(chatStore.getChatId());
     }
+    chatStore.addCompletion(completion);
+    if (chatId) {
+      chatStore.updateCompletions(chatId);
+      setTitle(chatId);
+    }
+    /* reset values once the completion is saved in the store */
+    setCompletion(undefined);
+    setResponse("");
   }, [completion]);
 
   return (
@@ -179,7 +149,7 @@ you must separate each part of your answer with an empty line.`,
         loading={loading}
         prompt={prompt}
         setPrompt={setPrompt}
-        submitHandler={getCompletion}
+        submitHandler={submitHandler}
       />
     </section>
   );

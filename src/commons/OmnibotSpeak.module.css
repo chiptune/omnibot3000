@@ -35,6 +35,7 @@
 .hr {
   margin: 0;
   padding: 0;
+  padding-bottom: var(--line-height);
   opacity: var(--opacity-tertiary);
 }
 

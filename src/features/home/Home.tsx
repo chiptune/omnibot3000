@@ -1,11 +1,8 @@
 import {memo, useEffect, useRef, useState} from "react";
 import {useNavigate} from "react-router-dom";
 
-import {ChatCompletionMessageParam} from "openai/resources";
-import {ChatCompletionChunk} from "openai/resources/index.mjs";
-import {Stream} from "openai/streaming.mjs";
-
-import getData, {getStartButton, getSystemConfig} from "@api/api";
+import {getStartButton} from "@api/api";
+import getStream from "@api/getStream";
 import OmnibotSpeak from "@commons/OmnibotSpeak";
 import Container from "@layout/Container";
 import Button from "@ui/Button";
@@ -31,40 +28,6 @@ const Home = () => {
     setStartButton(formatText(data));
   };
 
-  const getResponse = async () => {
-    try {
-      const messages: ChatCompletionMessageParam[] = [getSystemConfig()];
-
-      messages.push({
-        role: "developer",
-        content: `\
-write an intro message for the user. keep it short and to the point. \
-explain who are you, why you are here and how you can help the user. \
-separate each element with an empty line.`,
-      });
-
-      const response = (await getData(messages)) as Stream<ChatCompletionChunk>;
-
-      for await (const chunk of response) {
-        const choice = chunk.choices?.[0] || {};
-        const finish_reason = choice.finish_reason;
-        const text = choice.delta?.content || "";
-        if (finish_reason) {
-          setLoading(false);
-          if (finish_reason === "length")
-            setResponse((prev) => `${prev}\n\n[max tokens length reached]\n`);
-          break;
-        }
-        if (!text) continue;
-        setResponse((prev) => `${prev}${text}`);
-      }
-    } catch (error) {
-      console.error("Error reading stream:", error);
-      setLoading(false);
-      setResponse("no signal");
-    }
-  };
-
   const newChat = () => {
     chatStore.setChatId();
     chatStore.setCompletionId();
@@ -78,7 +41,21 @@ separate each element with an empty line.`,
 
     chatStore.resetChat();
     setLoading(true);
-    getResponse();
+    getStream(
+      setLoading,
+      setResponse,
+      [
+        "keep it short and straight to the point",
+        "do not repeat yourself",
+        "do not exceed 512 characters",
+        "separate each element with an empty line",
+      ],
+      [
+        "write an intro message for the user",
+        "explain who are you, why you are here and what you can do",
+        "it's not a help or documentation page",
+      ],
+    );
     updateStartButton();
   }, []);
 

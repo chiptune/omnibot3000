@@ -11,6 +11,8 @@ import {createServer, IncomingMessage, ServerResponse} from "http";
 import path from "path";
 
 import "dotenv/config";
+import {Mistral} from "@mistralai/mistralai";
+import type {CompletionEvent} from "@mistralai/mistralai/models/components";
 import OpenAI from "openai";
 import type {ChatCompletionChunk} from "openai/resources/index.mjs";
 import type {Stream} from "openai/streaming";
@@ -21,11 +23,22 @@ type Package = {
   size: number;
 };
 
+const API: string = "mistral";
+const MAX_TOKENS = 1000;
+
 const DOMAIN = process.env.DOMAIN || "localhost";
 const API_PATH = process.env.API_PATH || "/api";
 const API_PORT = process.env.API_PORT || 3001;
 const BASE_PATH = process.cwd();
 const JSON_PATH = path.join(BASE_PATH, "dist", "packages.json");
+
+const API_CONFIG_MISTRAL = {
+  model: "ministral-14b-latest",
+  //model: "mistral-small-latest",
+  temperature: 1 /* creativity */,
+  topP: 0.1 /* nucleus sampling */,
+  maxTokens: MAX_TOKENS,
+};
 
 const getFolderSize = (folder: string): number => {
   let total = 0;
@@ -67,56 +80,107 @@ const server = createServer((req: IncomingMessage, res: ServerResponse) => {
       try {
         const {messages, stream} = JSON.parse(body);
 
-        const openai = new OpenAI({
-          apiKey: process.env.OPENAI_API_KEY,
-          organization: process.env.OPENAI_ORG_ID,
-          project: process.env.OPENAI_PROJECT_ID,
-        });
+        switch (API) {
+          case "openai":
+            /* https://openai.com/api/pricing/ */
+            {
+              const openai = new OpenAI({
+                apiKey: process.env.OPENAI_API_KEY,
+                organization: process.env.OPENAI_ORG_ID,
+                project: process.env.OPENAI_PROJECT_ID,
+              });
+              const response = await openai.chat.completions.create({
+                model: "gpt-4.1-mini",
+                //model: "gpt-5-mini",
+                temperature: 2.0 /* more creative */,
+                top_p: 0.2 /* use nucleus sampling */,
+                presence_penalty: 2.0 /* encourage new topics */,
+                frequency_penalty: 1.5 /* avoid repetition */,
+                max_completion_tokens: MAX_TOKENS,
+                messages,
+                stream,
+              });
 
-        const response = await openai.chat.completions.create({
-          /* https://openai.com/api/pricing/ */
-          model: "gpt-4.1-mini",
-          //model: "gpt-5-mini",
-          temperature: 2.0 /* more creative */,
-          top_p: 0.2 /* use nucleus sampling */,
-          presence_penalty: 2.0 /* encourage new topics */,
-          frequency_penalty: 0.8 /* avoid repetition */,
-          max_completion_tokens: 1000,
-          messages,
-          stream,
-        });
+              if (stream) {
+                /* server-sent events headers */
+                res.writeHead(200, {
+                  "Content-Type": "text/event-stream",
+                  "Cache-Control": "no-cache",
+                  Connection: "keep-alive",
+                });
+                /* forward chunks to browser as SSE */
+                for await (const chunk of response as unknown as Stream<ChatCompletionChunk>) {
+                  res.write(`data: ${JSON.stringify(chunk)}\n\n`);
+                }
+                /* end the SSE stream */
+                res.write("data: [DONE]\n\n");
+                res.end();
+              } else {
+                res.writeHead(200, {"Content-Type": "application/json"});
+                res.end(JSON.stringify(response));
+              }
+            }
+            break;
+          case "mistral":
+            /* https://mistral.ai/pricing#api-pricing */
+            {
+              const mistral = new Mistral({
+                apiKey: process.env.MISTRAL_API_KEY,
+              });
 
-        if (stream) {
-          /* server-sent events headers */
-          res.writeHead(200, {
-            "Content-Type": "text/event-stream",
-            "Cache-Control": "no-cache",
-            Connection: "keep-alive",
-          });
-          /* forward chunks to browser as SSE */
-          for await (const chunk of response as unknown as Stream<ChatCompletionChunk>) {
-            res.write(`data: ${JSON.stringify(chunk)}\n\n`);
-          }
-          /* end the SSE stream */
-          res.write("data: [DONE]\n\n");
-          res.end();
-        } else {
+              if (stream) {
+                /* server-sent events headers */
+                res.writeHead(200, {
+                  "Content-Type": "text/event-stream",
+                  "Cache-Control": "no-cache",
+                  Connection: "keep-alive",
+                });
+
+                const response = await mistral.chat.stream({
+                  ...API_CONFIG_MISTRAL,
+                  messages,
+                });
+                /* forward chunks to browser as SSE */
+                for await (const chunk of response as AsyncIterable<CompletionEvent>) {
+                  res.write(`data: ${JSON.stringify(chunk)}\n\n`);
+                }
+                /* end the SSE stream */
+                res.write("data: [DONE]\n\n");
+                res.end();
+              } else {
+                const response = await mistral.chat.complete({
+                  ...API_CONFIG_MISTRAL,
+                  messages,
+                });
+                res.writeHead(200, {"Content-Type": "application/json"});
+                res.end(JSON.stringify(response));
+              }
+            }
+            break;
+          default:
+            throw new Error("Invalid API specified");
+        }
+      } catch (error) {
+        console.error(
+          "API Error:",
+          error instanceof Error ? error.message : String(error),
+        );
+
+        /* Only send response if headers haven't been sent yet */
+        if (!res.headersSent) {
+          const response = {
+            choices: [
+              {
+                message: {
+                  role: "assistant",
+                  content: "no signal",
+                },
+              },
+            ],
+          };
           res.writeHead(200, {"Content-Type": "application/json"});
           res.end(JSON.stringify(response));
         }
-      } catch {
-        const response = {
-          choices: [
-            {
-              message: {
-                role: "assistant",
-                content: "no signal",
-              },
-            },
-          ],
-        };
-        res.writeHead(200, {"Content-Type": "application/json"});
-        res.end(JSON.stringify(response));
       }
     });
   } else if (url.startsWith(`${API_PATH}/packages`)) {
@@ -148,6 +212,10 @@ const server = createServer((req: IncomingMessage, res: ServerResponse) => {
     res.end("nothing to see here");
   }
 });
+
+/* Increase max listeners to handle concurrent streaming requests */
+server.setMaxListeners(0);
+server.maxConnections = 100;
 
 server.listen(API_PORT, () => {
   console.log(

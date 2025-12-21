@@ -22,21 +22,21 @@ const Message = (props: {
   return (
     <article className={styles.root}>
       {isUser ? (
-        <header className={styles.user}>
+        <div className={styles.user}>
           <div className={styles["user-pill"]}>{">"}</div>
           <h1>
             <RenderCli command={content.split("\n")} line={-1} caret={0} />
           </h1>
-        </header>
+        </div>
       ) : (
-        <p className={styles.bot}>
+        <div className={styles.bot}>
           <Line
             variant="vertical"
             char={ASCII_BLOCK1}
             className={styles["bot-line"]}
           />
           <OmnibotSpeak truth={content} hasCaret={hasCaret} />
-        </p>
+        </div>
       )}
     </article>
   );
