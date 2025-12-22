@@ -4,7 +4,7 @@ import Markdown from "react-markdown";
 import styles from "@commons/OmnibotSpeak.module.css";
 import Caret from "@ui/Caret";
 import Line from "@ui/Line";
-import {formatText, sanitizeHTML} from "@utils/strings";
+import {sanitizeHTML} from "@utils/strings";
 
 import cls from "classnames";
 
@@ -21,7 +21,7 @@ export const OmnibotSpeak = (props: {truth: string; hasCaret?: boolean}) => (
             return <Line char="*" className={styles["hr"]} />;
           },
         }}>
-        {formatText(sanitizeHTML(props.truth))}
+        {sanitizeHTML(props.truth)}
       </Markdown>
     </div>
     {props.hasCaret && <Caret />}

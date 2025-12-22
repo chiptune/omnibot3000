@@ -2,7 +2,7 @@ import {memo, useEffect, useRef, useState} from "react";
 import {useNavigate} from "react-router-dom";
 
 import {getStartButton} from "@api/api";
-import getStream from "@api/getStream";
+import getStream from "@api/utils/getStream";
 import OmnibotSpeak from "@commons/OmnibotSpeak";
 import Container from "@layout/Container";
 import Button from "@ui/Button";

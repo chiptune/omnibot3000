@@ -2,7 +2,7 @@ import {Fragment, memo, useEffect, useState} from "react";
 import {useNavigate, useParams} from "react-router-dom";
 
 import {getChatTitle} from "@api/api";
-import getStream from "@api/getStream";
+import getStream from "@api/utils/getStream";
 import Container from "@layout/Container";
 
 import useStorage from "@hooks/useStorage";
@@ -64,11 +64,12 @@ const Chat = () => {
       [
         "keep your message short and concise, do not repeat yourself",
         "do not present yourself again, focus on answering the user prompt",
-        "end all messages with a short and acid commment about humankind weakness",
-        "do not write more than 256 characters as comment",
-        "you must separate each part of your answer with an empty line",
+        "end your answer with an acid but funny haiku about humankind",
+        "this comment length must be less than 256 characters long",
+        "you must separate each part with a line or empty line",
       ],
       prompt,
+      chatStore.getMessages(id),
       completionCallback,
     );
   };

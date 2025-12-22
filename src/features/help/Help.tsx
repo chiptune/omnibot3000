@@ -1,6 +1,6 @@
 import {memo, useEffect, useRef, useState} from "react";
 
-import getStream from "@api/getStream";
+import getStream from "@api/utils/getStream";
 import OmnibotSpeak from "@commons/OmnibotSpeak";
 import Container from "@layout/Container";
 

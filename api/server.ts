@@ -12,8 +12,12 @@ import path from "path";
 
 import "dotenv/config";
 import {Mistral} from "@mistralai/mistralai";
-import type {CompletionEvent} from "@mistralai/mistralai/models/components";
+import type {
+  ChatCompletionRequest,
+  CompletionEvent,
+} from "@mistralai/mistralai/models/components";
 import OpenAI from "openai";
+import type {ChatCompletionCreateParamsNonStreaming} from "openai/resources/chat/completions";
 import type {ChatCompletionChunk} from "openai/resources/index.mjs";
 import type {Stream} from "openai/streaming";
 
@@ -23,7 +27,9 @@ type Package = {
   size: number;
 };
 
-const API: string = "mistral";
+type Provider = "openai" | "mistral";
+
+const MODEL: Provider = "openai";
 const MAX_TOKENS = 1000;
 
 const DOMAIN = process.env.DOMAIN || "localhost";
@@ -32,12 +38,29 @@ const API_PORT = process.env.API_PORT || 3001;
 const BASE_PATH = process.cwd();
 const JSON_PATH = path.join(BASE_PATH, "dist", "packages.json");
 
-const API_CONFIG_MISTRAL = {
-  model: "ministral-14b-latest",
-  //model: "mistral-small-latest",
-  temperature: 1 /* creativity */,
-  topP: 0.1 /* nucleus sampling */,
-  maxTokens: MAX_TOKENS,
+type OpenAIConfig = Omit<ChatCompletionCreateParamsNonStreaming, "messages">;
+type MistralConfig = Omit<ChatCompletionRequest, "messages">;
+
+const API_CONFIG = {
+  openai: {
+    model: "gpt-4.1-mini",
+    //model: "gpt-5-mini",
+    temperature: 2.0 /* more creative */,
+    top_p: 0.3 /* use nucleus sampling */,
+    frequency_penalty: 1.5 /* avoid repetition */,
+    presence_penalty: 2.0 /* encourage new topics */,
+    max_completion_tokens: MAX_TOKENS,
+  } satisfies OpenAIConfig,
+  mistral: {
+    //model: "ministral-14b-latest",
+    model: "mistral-small-latest",
+    temperature: 1 /* creativity */,
+    topP: 0.3 /* nucleus sampling */,
+    frequencyPenalty: 1.0 /* avoid repetition */,
+    presencePenalty: 1.0 /* encourage new topics */,
+    maxTokens: MAX_TOKENS,
+    randomSeed: Math.round(Math.random() * 1e9),
+  } satisfies MistralConfig,
 };
 
 const getFolderSize = (folder: string): number => {
@@ -80,7 +103,7 @@ const server = createServer((req: IncomingMessage, res: ServerResponse) => {
       try {
         const {messages, stream} = JSON.parse(body);
 
-        switch (API) {
+        switch (MODEL as Provider) {
           case "openai":
             /* https://openai.com/api/pricing/ */
             {
@@ -90,17 +113,10 @@ const server = createServer((req: IncomingMessage, res: ServerResponse) => {
                 project: process.env.OPENAI_PROJECT_ID,
               });
               const response = await openai.chat.completions.create({
-                model: "gpt-4.1-mini",
-                //model: "gpt-5-mini",
-                temperature: 2.0 /* more creative */,
-                top_p: 0.2 /* use nucleus sampling */,
-                presence_penalty: 2.0 /* encourage new topics */,
-                frequency_penalty: 1.5 /* avoid repetition */,
-                max_completion_tokens: MAX_TOKENS,
+                ...API_CONFIG.openai,
                 messages,
                 stream,
               });
-
               if (stream) {
                 /* server-sent events headers */
                 res.writeHead(200, {
@@ -127,7 +143,6 @@ const server = createServer((req: IncomingMessage, res: ServerResponse) => {
               const mistral = new Mistral({
                 apiKey: process.env.MISTRAL_API_KEY,
               });
-
               if (stream) {
                 /* server-sent events headers */
                 res.writeHead(200, {
@@ -135,9 +150,8 @@ const server = createServer((req: IncomingMessage, res: ServerResponse) => {
                   "Cache-Control": "no-cache",
                   Connection: "keep-alive",
                 });
-
                 const response = await mistral.chat.stream({
-                  ...API_CONFIG_MISTRAL,
+                  ...API_CONFIG.mistral,
                   messages,
                 });
                 /* forward chunks to browser as SSE */
@@ -149,7 +163,7 @@ const server = createServer((req: IncomingMessage, res: ServerResponse) => {
                 res.end();
               } else {
                 const response = await mistral.chat.complete({
-                  ...API_CONFIG_MISTRAL,
+                  ...API_CONFIG.mistral,
                   messages,
                 });
                 res.writeHead(200, {"Content-Type": "application/json"});
@@ -165,7 +179,6 @@ const server = createServer((req: IncomingMessage, res: ServerResponse) => {
           "API Error:",
           error instanceof Error ? error.message : String(error),
         );
-
         /* Only send response if headers haven't been sent yet */
         if (!res.headersSent) {
           const response = {

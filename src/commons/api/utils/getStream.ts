@@ -3,6 +3,7 @@ import type {ChatCompletionChunk} from "openai/resources/index.mjs";
 import {Stream} from "openai/streaming.mjs";
 
 import {getSystemConfig} from "@api/api";
+import {formatText} from "@utils/strings";
 
 import type {CompletionEvent} from "@mistralai/mistralai/models/components";
 
@@ -31,6 +32,7 @@ const getStream = async (
   setResponse: React.Dispatch<React.SetStateAction<string>>,
   system?: string[],
   query?: string[],
+  context?: ChatCompletionMessageParam[],
   completionCallback?: (
     id: string,
     created: number,
@@ -39,20 +41,20 @@ const getStream = async (
   ) => void,
 ) => {
   try {
-    const messages: ChatCompletionMessageParam[] = [getSystemConfig()];
-
-    messages.push(
+    const messages: ChatCompletionMessageParam[] = [
+      getSystemConfig(),
       {
         role: "system",
         content: system?.map((str) => str.trim()).join(". ") || "",
       },
+      ...(context?.filter((msg) => String(msg?.content || "").trim()) || []),
       {
         role: "user",
         content:
           query?.map((str) => str.trim()).join(". ") ||
           "write a short and assassine comment about the lack of input",
       },
-    );
+    ];
 
     const stream = Stream.fromSSEResponse(
       await fetchResponse(messages),
@@ -81,7 +83,7 @@ const getStream = async (
         break;
       }
       if (!text) continue;
-      setResponse((prev) => `${prev}${text}`);
+      setResponse((prev) => `${prev}${formatText(text as string)}`);
     }
   } catch (error) {
     console.error("Error reading stream:", error);
