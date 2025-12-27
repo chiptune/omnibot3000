@@ -9,7 +9,7 @@ export const getData = async (
   context?: ChatCompletionMessageParam[],
 ): Promise<ChatCompletion> => {
   const messages: ChatCompletionMessageParam[] = [
-    getSystemConfig(),
+    await getSystemConfig(),
     {
       role: "system",
       content: system?.map((str) => str.trim()).join(". ") || "",

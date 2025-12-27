@@ -30,6 +30,7 @@ const Chat = () => {
   const [completion, setCompletion] = useState<Completion>();
   const [loading, setLoading] = useState<boolean>(false);
   const [query, setQuery] = useState<string>("");
+  const [updateTitle, setUpdateTitle] = useState<boolean>(false);
 
   const navigate = useNavigate();
 
@@ -69,15 +70,12 @@ const Chat = () => {
         "you must separate each part with a line or empty line",
       ],
       prompt,
-      chatStore.getMessages(id),
+      [
+        ...chatStore.getMessages(id),
+        {role: "assistant", content: completion?.message || "nothing"},
+      ],
       completionCallback,
     );
-  };
-
-  const setTitle = async (id: ChatId) => {
-    const title = await getChatTitle(chatStore.getMessages(id));
-    chatStore.updateChatTitle(id, title);
-    storage.save();
   };
 
   /* handle chat id url parameter */
@@ -117,17 +115,28 @@ const Chat = () => {
     if (!chatId) {
       chatStore.setCompletions();
       chatStore.createChat(completion);
-      setTitle(chatStore.getChatId());
     }
     chatStore.addCompletion(completion);
     if (chatId) {
       chatStore.updateCompletions(chatId);
-      setTitle(chatId);
     }
     /* reset values once the completion is saved in the store */
     setCompletion(undefined);
     setResponse("");
+    setUpdateTitle(true);
   }, [completion]);
+
+  const setTitle = async (id: ChatId) => {
+    const title = await getChatTitle(chatStore.getMessages(id));
+    chatStore.updateChatTitle(id, title);
+    storage.save();
+  };
+
+  useEffect(() => {
+    if (!updateTitle) return;
+    setTitle(chatStore.getChatId());
+    setUpdateTitle(false);
+  }, [updateTitle]);
 
   return (
     <section className={styles.root}>
@@ -139,7 +148,7 @@ const Chat = () => {
             <Toolbar completion={completion} />
           </Fragment>
         ))}
-        {loading && response && (
+        {loading && (
           <Fragment key="chat-completion">
             <Message role="user" content={query} />
             <Message role="assistant" content={response} hasCaret={loading} />

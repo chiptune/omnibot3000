@@ -42,7 +42,7 @@ const getStream = async (
 ) => {
   try {
     const messages: ChatCompletionMessageParam[] = [
-      getSystemConfig(),
+      await getSystemConfig(),
       {
         role: "system",
         content: system?.map((str) => str.trim()).join(". ") || "",

@@ -78,17 +78,17 @@ const Header = (_props: {darkMode: boolean; onThemeToggle: () => void}) => {
             <div className={subtitle && styles.subtext}>{subtitle}</div>
           </div>
         </div>
-        {subtitle && (
-          <>
-            <div className={styles.avatar}>
-              {AVATAR_1}
-              <br />
-              {AVATAR_2}
-            </div>
-            <Button name="?" handler={helpHandler} className={styles.help} />
-          </>
-        )}
       </div>
+      {subtitle && (
+        <div className={styles.avatar}>
+          <div>
+            {AVATAR_1}
+            <br />
+            {AVATAR_2}
+          </div>
+          <Button name="?" handler={helpHandler} className={styles.help} />
+        </div>
+      )}
       <Spacer />
       <div className={styles.button}>
         <Button name={BUTTON_CREATE} handler={newChatHandler} />

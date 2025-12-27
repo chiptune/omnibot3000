@@ -6,34 +6,43 @@ import persona from "@commons/persona.txt?raw";
 import {formatText} from "@utils/strings";
 import {getVariableFromCSS} from "@utils/styles";
 
-export const getSystemConfig = (): ChatCompletionMessageParam => {
-  const size = getVariableFromCSS("base-size");
-  const height = getVariableFromCSS("base-height");
-  const systemConfig = [
-    ...formatting,
-    `your name is ${NAME} and your version is ${VERSION.join(".")}`,
-    ...persona.split("\n").map((line) => line.trim()),
-    `current date: ${new Date().toLocaleDateString()}`,
-    `current time: ${new Date().toLocaleTimeString()}`,
-    `current unix EPOCH time: ${Math.floor(Date.now() / 1000)}`,
-    `a list of random number: ${Array.from({length: 32}, () =>
-      Math.round(Math.random() * 100),
-    ).join(", ")}`,
-    `current user agent: ${navigator.userAgent}`,
-    `current color hue: ${getVariableFromCSS("h")}°`,
-    `current color saturation: ${getVariableFromCSS("s")}%`,
-    `current color lightness: ${getVariableFromCSS("l")}%`,
-    `current font base size: ${getVariableFromCSS("BASE-SIZE")}`,
-    'user can change the color with the "/color [h|s|l] number" command',
-    'user can change the font size with the "/size number" command',
-    `the "/size" command without parameter will reset the value to ${size}`,
-    'user can change the line height with the "/height number" command',
-    `the "/height" command without parameter will reset the value to ${height}`,
-    'user can reset the settings with the "/reset" command',
-    'user can reload the page with "/reboot" (do no reset, just reload)',
-  ];
-  return {role: "system", content: systemConfig.join(". ")};
+export const getApiConfig = async (): Promise<Record<string, string>> => {
+  const response = await fetch("/api/config");
+  return response.ok ? await response.json() : {};
 };
+
+export const getSystemConfig =
+  async (): Promise<ChatCompletionMessageParam> => {
+    const size = getVariableFromCSS("base-size");
+    const height = getVariableFromCSS("base-height");
+    const apiConfig = await getApiConfig();
+    const systemConfig = [
+      ...formatting,
+      `your name is ${NAME} and your version is ${VERSION.join(".")}`,
+      ...persona.split("\n").map((line) => line.trim()),
+      `current date: ${new Date().toLocaleDateString()}`,
+      `current time: ${new Date().toLocaleTimeString()}`,
+      `current unix EPOCH time: ${Math.floor(Date.now() / 1000)}`,
+      `a list of random number: ${Array.from({length: 32}, () =>
+        Math.round(Math.random() * 100),
+      ).join(", ")}`,
+      `current API provider: ${apiConfig.provider || "unknown"}`,
+      `current API config: ${JSON.stringify(apiConfig.config || {})}`,
+      `current user agent: ${navigator.userAgent}`,
+      `current color hue: ${getVariableFromCSS("h")}°`,
+      `current color saturation: ${getVariableFromCSS("s")}%`,
+      `current color lightness: ${getVariableFromCSS("l")}%`,
+      `current font base size: ${getVariableFromCSS("BASE-SIZE")}`,
+      'user can change the color with the "/color [h|s|l] number" command',
+      'user can change the font size with the "/size number" command',
+      `the "/size" command without parameter will reset the value to ${size}`,
+      'user can change the line height with the "/height number" command',
+      `the "/height" command without parameter will reset the value to ${height}`,
+      'user can reset the settings with the "/reset" command',
+      'user can reload the page with "/reboot" (do no reset, just reload)',
+    ];
+    return {role: "system", content: systemConfig.join(". ")};
+  };
 
 export const formatting = [
   "do not mention, repeat or paraphrase user prompt, just answer it",

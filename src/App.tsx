@@ -98,8 +98,8 @@ const Layout = () => {
     el.id = "debug-screen-size";
     el.className = "debug-info";
     document.body.appendChild(el);
-    el.innerHTML = `viewport: ${vw}x${vh} | \
-char: ${format(cw)}x${format(lh)} | \
+    el.innerHTML = `viewport: ${vw}*${vh} | \
+char: ${format(cw)}*${format(lh)} | \
 w: ${w} | h: ${h}`;
     el.style.display = debug ? "block" : "none";
   }, [w, h]);

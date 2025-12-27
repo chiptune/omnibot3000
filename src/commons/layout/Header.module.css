@@ -4,7 +4,7 @@
   flex-grow: 0;
   flex-shrink: 0;
   column-gap: var(--font-width);
-  align-items: center;
+  align-items: flex-start;
   align-self: stretch;
   padding-left: var(--font-width);
 }
@@ -12,6 +12,7 @@
 .container {
   display: flex;
   flex-direction: row;
+  flex-wrap: wrap;
   column-gap: var(--font-width);
   height: fit-content;
 }
@@ -20,11 +21,11 @@
   display: inline-block;
   text-wrap: wrap;
   text-overflow: ellipsis;
-  width: fit-content;
   opacity: var(--opacity-primary);
 }
 
 .subtitle {
+  flex-shrink: 1;
   min-height: var(--line-height);
   opacity: var(--opacity-secondary);
 }
@@ -44,6 +45,7 @@
 .avatar {
   display: flex;
   flex: row;
+  flex-wrap: nowrap;
   column-gap: var(--font-width);
   align-items: flex-start;
   opacity: 0;

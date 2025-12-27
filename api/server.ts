@@ -27,35 +27,35 @@ type Package = {
   size: number;
 };
 
-type Provider = "openai" | "mistral";
-
-const MODEL: Provider = "openai";
-const MAX_TOKENS = 1000;
-
 const DOMAIN = process.env.DOMAIN || "localhost";
 const API_PATH = process.env.API_PATH || "/api";
 const API_PORT = process.env.API_PORT || 3001;
 const BASE_PATH = process.cwd();
 const JSON_PATH = path.join(BASE_PATH, "dist", "packages.json");
 
+type Provider = "openai" | "mistral";
+
+export const MODEL: Provider = "openai";
+const MAX_TOKENS = 1000;
+
 type OpenAIConfig = Omit<ChatCompletionCreateParamsNonStreaming, "messages">;
 type MistralConfig = Omit<ChatCompletionRequest, "messages">;
 
-const API_CONFIG = {
+export const API_CONFIG = {
   openai: {
     model: "gpt-4.1-mini",
     //model: "gpt-5-mini",
     temperature: 2.0 /* more creative */,
-    top_p: 0.3 /* use nucleus sampling */,
-    frequency_penalty: 1.5 /* avoid repetition */,
+    top_p: 0.1 /* use nucleus sampling */,
+    frequency_penalty: 2.0 /* avoid repetition */,
     presence_penalty: 2.0 /* encourage new topics */,
     max_completion_tokens: MAX_TOKENS,
   } satisfies OpenAIConfig,
   mistral: {
-    //model: "ministral-14b-latest",
+    //model: "labs-mistral-small-creative",
     model: "mistral-small-latest",
     temperature: 1 /* creativity */,
-    topP: 0.3 /* nucleus sampling */,
+    topP: 0.1 /* nucleus sampling */,
     frequencyPenalty: 1.0 /* avoid repetition */,
     presencePenalty: 1.0 /* encourage new topics */,
     maxTokens: MAX_TOKENS,
@@ -102,7 +102,6 @@ const server = createServer((req: IncomingMessage, res: ServerResponse) => {
     req.on("end", async () => {
       try {
         const {messages, stream} = JSON.parse(body);
-
         switch (MODEL as Provider) {
           case "openai":
             /* https://openai.com/api/pricing/ */
@@ -113,7 +112,7 @@ const server = createServer((req: IncomingMessage, res: ServerResponse) => {
                 project: process.env.OPENAI_PROJECT_ID,
               });
               const response = await openai.chat.completions.create({
-                ...API_CONFIG.openai,
+                ...API_CONFIG[MODEL],
                 messages,
                 stream,
               });
@@ -151,7 +150,7 @@ const server = createServer((req: IncomingMessage, res: ServerResponse) => {
                   Connection: "keep-alive",
                 });
                 const response = await mistral.chat.stream({
-                  ...API_CONFIG.mistral,
+                  ...API_CONFIG[MODEL],
                   messages,
                 });
                 /* forward chunks to browser as SSE */
@@ -163,7 +162,7 @@ const server = createServer((req: IncomingMessage, res: ServerResponse) => {
                 res.end();
               } else {
                 const response = await mistral.chat.complete({
-                  ...API_CONFIG.mistral,
+                  ...API_CONFIG[MODEL],
                   messages,
                 });
                 res.writeHead(200, {"Content-Type": "application/json"});
@@ -196,6 +195,13 @@ const server = createServer((req: IncomingMessage, res: ServerResponse) => {
         }
       }
     });
+  } else if (url.startsWith(`${API_PATH}/config`)) {
+    const config = {
+      provider: MODEL,
+      config: API_CONFIG[MODEL],
+    };
+    res.writeHead(200, {"Content-Type": "application/json"});
+    res.end(JSON.stringify(config));
   } else if (url.startsWith(`${API_PATH}/packages`)) {
     exec("npm list --json --depth=0 --silent", (err, stdout) => {
       if (err) {
@@ -226,8 +232,7 @@ const server = createServer((req: IncomingMessage, res: ServerResponse) => {
   }
 });
 
-/* Increase max listeners to handle concurrent streaming requests */
-server.setMaxListeners(0);
+server.setMaxListeners(0); /* remove listener limit */
 server.maxConnections = 100;
 
 server.listen(API_PORT, () => {
