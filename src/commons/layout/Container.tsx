@@ -34,11 +34,25 @@ export const Container = ({children}: {children: ReactNode}) => {
   }, []);
 
   useEffect(() => {
-    const eol = document.getElementById("end-of-line");
-    if (eol) {
-      eol.scrollIntoView({
+    const start = document.getElementById("start");
+    const nearest = document.getElementById("nearest");
+    const end = document.getElementById("end");
+    if (start) {
+      start.scrollIntoView({
+        behavior: "smooth",
+        block: "start",
+        inline: "nearest",
+      });
+    } else if (nearest) {
+      nearest.scrollIntoView({
         behavior: "smooth",
         block: "nearest",
+        inline: "nearest",
+      });
+    } else if (end) {
+      end.scrollIntoView({
+        behavior: "smooth",
+        block: "end",
         inline: "nearest",
       });
     }
@@ -51,8 +65,8 @@ export const Container = ({children}: {children: ReactNode}) => {
         <main ref={contentRef} className={styles.content}>
           {children}
         </main>
+        <a id="end" />
       </div>
-      <a id="end-of-line" />
     </div>
   );
 };

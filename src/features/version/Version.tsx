@@ -39,7 +39,7 @@ const Version = () => {
       })
       .join("");
 
-    const text = `# __${NAME}__ version **${VERSION.join(".")}**\n${list}`;
+    const text = `# __${NAME}__ version **${VERSION.join(".")}**\n---\n${list}`;
     setLoading(false);
     setResponse(text);
   };
@@ -60,6 +60,7 @@ const Version = () => {
 
   return (
     <div className={styles.root}>
+      <a id="start" />
       <Container>
         <div className={cls("text", styles.body)}>
           <OmnibotSpeak truth={response} hasCaret={loading} />

@@ -21,6 +21,7 @@
   flex-direction: column;
   flex-grow: 1;
   flex-shrink: 1;
+  row-gap: var(--line-height);
   justify-content: end;
   width: 100%;
   max-width: calc((var(--content-width) - 3) * var(--font-width));
@@ -46,7 +47,9 @@
   }
 }
 
-#end-of-line {
+#home,
+#anchor,
+#end {
   width: 100%;
   max-width: calc((var(--content-width) - 3) * var(--font-width));
 }

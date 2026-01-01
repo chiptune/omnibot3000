@@ -14,8 +14,9 @@ const Message = (props: {
   role: ChatCompletionRole;
   content: string;
   hasCaret?: boolean;
+  anchor?: ScrollLogicalPosition;
 }) => {
-  const {role, content, hasCaret} = props;
+  const {role, content, hasCaret, anchor} = props;
 
   const isUser = Boolean(role === "user");
 
@@ -23,6 +24,7 @@ const Message = (props: {
     <article className={styles.root}>
       {isUser ? (
         <div className={styles.user}>
+          {anchor === "start" && <a id="start" />}
           <div className={styles["user-pill"]}>{">"}</div>
           <h1>
             <RenderCli command={content.split("\n")} line={-1} caret={0} />

@@ -84,7 +84,6 @@ const server = createServer((req: IncomingMessage, res: ServerResponse) => {
   res.setHeader("Access-Control-Allow-Origin", "*");
   res.setHeader("Access-Control-Allow-Methods", "GET, POST, OPTIONS");
   res.setHeader("Access-Control-Allow-Headers", "Content-Type");
-
   /* preflight requests */
   if (req.method === "OPTIONS") {
     res.writeHead(204);
@@ -178,21 +177,18 @@ const server = createServer((req: IncomingMessage, res: ServerResponse) => {
           "API Error:",
           error instanceof Error ? error.message : String(error),
         );
-        /* Only send response if headers haven't been sent yet */
-        if (!res.headersSent) {
-          const response = {
-            choices: [
-              {
-                message: {
-                  role: "assistant",
-                  content: "no signal",
-                },
+        const response = {
+          choices: [
+            {
+              message: {
+                role: "assistant",
+                content: "no signal",
               },
-            ],
-          };
-          res.writeHead(200, {"Content-Type": "application/json"});
-          res.end(JSON.stringify(response));
-        }
+            },
+          ],
+        };
+        res.writeHead(200, {"Content-Type": "application/json"});
+        res.end(JSON.stringify(response));
       }
     });
   } else if (url.startsWith(`${API_PATH}/config`)) {

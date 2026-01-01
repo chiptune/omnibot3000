@@ -20,10 +20,8 @@ const fetchResponse = async (
       stream: true,
     }),
   });
-  if (!response.ok) {
-    throw new Error(response.statusText);
-  }
-  if (!response.body) throw new Error("Response body is not readable");
+  if (!response.ok) throw new Error(response.statusText);
+  if (!response.body) throw new Error("response body is not readable");
   return response;
 };
 

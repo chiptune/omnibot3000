@@ -1,0 +1,6 @@
+build/
+dist/
+node_modules/
+*.min.js
+pnpm-lock.yaml
+.DS_Store

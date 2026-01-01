@@ -6,8 +6,6 @@
   display: flex;
   flex-direction: row;
   column-gap: var(--font-width);
-  margin-bottom: var(--line-height);
-  margin-top: var(--line-height);
 }
 
 .user-pill {

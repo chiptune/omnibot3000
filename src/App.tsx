@@ -69,20 +69,22 @@ const Layout = () => {
   const rootRef = useRef<HTMLDivElement | null>(null);
   const bodyRef = useRef<HTMLDivElement | null>(null);
 
-  const [cw, setCharWidth] = useState<number>(getCharWidth());
-  const [lh, setLineHeight] = useState<number>(getLineHeight());
   const [w, setWidth] = useState<number>(window.innerWidth);
   const [h, setHeight] = useState<number>(window.innerHeight);
+  const [cw, setCharWidth] = useState<number>(getCharWidth());
+  const [lh, setLineHeight] = useState<number>(getLineHeight());
 
   const update = () => {
     const root = rootRef.current;
     if (!root) return;
 
-    setCharWidth(getCharWidth());
-    setLineHeight(getLineHeight());
-
     const vw = window.innerWidth;
     const vh = window.innerHeight;
+    const cw = getCharWidth();
+    const lh = getLineHeight();
+
+    setCharWidth(cw);
+    setLineHeight(lh);
 
     setWidth(Math.floor((vw - cw * 2) / cw) * cw);
     setHeight(Math.floor((vh - cw * 4) / lh) * lh + cw * 2);
@@ -91,6 +93,11 @@ const Layout = () => {
   useEffect(() => {
     const vw = window.innerWidth;
     const vh = window.innerHeight;
+    const cw = getCharWidth();
+    const lh = getLineHeight();
+
+    setCharWidth(cw);
+    setLineHeight(lh);
 
     let el = document.getElementById("debug-screen-size");
     if (!el) el = document.createElement("div");

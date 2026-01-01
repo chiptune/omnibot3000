@@ -141,13 +141,19 @@ const Chat = () => {
   return (
     <section className={styles.root}>
       <Container>
-        {chatStore.getCompletions(chatId).map((completion: Completion) => (
-          <Fragment key={`chat-completion-${completion.id}`}>
-            <Message role="user" content={completion.prompt} />
-            <Message role="assistant" content={completion.message} />
-            <Toolbar completion={completion} />
-          </Fragment>
-        ))}
+        {chatStore
+          .getCompletions(chatId)
+          .map((completion: Completion, i: number, a: Completion[]) => (
+            <Fragment key={`chat-completion-${completion.id}`}>
+              <Message
+                role="user"
+                content={completion.prompt}
+                anchor={i === a.length - 1 ? "start" : undefined}
+              />
+              <Message role="assistant" content={completion.message} />
+              <Toolbar completion={completion} />
+            </Fragment>
+          ))}
         {loading && (
           <Fragment key="chat-completion">
             <Message role="user" content={query} />

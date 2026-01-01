@@ -61,6 +61,7 @@ const Home = () => {
 
   return (
     <div className={styles.root}>
+      <a id="start" />
       <Container>
         <div className={cls("text", styles.body)}>
           <OmnibotSpeak truth={response} hasCaret={loading} />
