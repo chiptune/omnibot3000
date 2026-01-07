@@ -1,4 +1,4 @@
-import {useEffect, useRef, useState} from "react";
+import {Fragment, useEffect, useRef, useState} from "react";
 
 import {ASCII_CURRENCY} from "@commons/constants";
 import styles from "@layout/Background.module.css";
@@ -119,7 +119,7 @@ const Background = (props: {w: number; h: number}) => {
   }, [w, h]);
 
   return (
-    <>
+    <Fragment>
       <div className={cls("ascii", styles.root)}>
         <div ref={refBoard1} className={styles.board}>
           {board[0]}
@@ -131,7 +131,7 @@ const Background = (props: {w: number; h: number}) => {
       <div ref={refCursor} className={cls("ascii", styles.cursor)}>
         {ASCII_CURRENCY}
       </div>
-    </>
+    </Fragment>
   );
 };
 

@@ -17,6 +17,7 @@ import {format} from "@utils/math";
 import {getCharWidth, getLineHeight} from "@utils/strings";
 import {isSystemDarkModeOn} from "@utils/system";
 
+import {CliProvider} from "@hooks/useCli";
 import useConfig from "@hooks/useConfig";
 import useStorage from "@hooks/useStorage";
 
@@ -30,6 +31,7 @@ import "@styles/debug.css";
 import "@styles/main.css";
 import "@styles/vt220.css";
 
+import Cli from "@cli/Cli";
 import Life from "@life/Life";
 import Version from "@version/Version";
 import cls from "classnames";
@@ -39,7 +41,6 @@ export interface RenderTime {
   duration: number;
   base: number;
 }
-
 const Layout = () => {
   const config = useConfig();
   const storage = useStorage();
@@ -52,9 +53,7 @@ const Layout = () => {
 
   useEffect(() => {
     storage.load();
-
     window.addEventListener("beforeunload", beforeUnloadHandler);
-
     return () => {
       window.removeEventListener("beforeunload", beforeUnloadHandler);
     };
@@ -93,11 +92,6 @@ const Layout = () => {
   useEffect(() => {
     const vw = window.innerWidth;
     const vh = window.innerHeight;
-    const cw = getCharWidth();
-    const lh = getLineHeight();
-
-    setCharWidth(cw);
-    setLineHeight(lh);
 
     let el = document.getElementById("debug-screen-size");
     if (!el) el = document.createElement("div");
@@ -105,9 +99,11 @@ const Layout = () => {
     el.id = "debug-screen-size";
     el.className = "debug-info";
     document.body.appendChild(el);
-    el.innerHTML = `viewport: ${vw}*${vh} | \
-char: ${format(cw)}*${format(lh)} | \
-w: ${w} | h: ${h}`;
+    el.innerHTML = [
+      `viewport: ${vw}*${vh}`,
+      `char: ${format(cw)}*${format(lh)}`,
+      `w: ${w} | h: ${h}`,
+    ].join(" | ");
     el.style.display = debug ? "block" : "none";
   }, [w, h]);
 
@@ -176,6 +172,7 @@ w: ${w} | h: ${h}`;
               <main ref={bodyRef} className={styles.body}>
                 <Outlet />
               </main>
+              <Cli />
               <Line variant="horizontal" className={styles["h-line"]} />
               <Footer renderTime={renderTime} />
             </div>
@@ -188,16 +185,18 @@ w: ${w} | h: ${h}`;
 
 const App = () => (
   <Router>
-    <Routes>
-      <Route path="/" element={<Layout />}>
-        <Route path="/" element={<Navigate to="/home" replace />} />
-        <Route path="/home" element={<Home />} />
-        <Route path="/chat/:id?" element={<Chat />} />
-        <Route path="/help" element={<Help />} />
-        <Route path="/life" element={<Life />} />
-        <Route path="/version" element={<Version />} />
-      </Route>
-    </Routes>
+    <CliProvider>
+      <Routes>
+        <Route path="/" element={<Layout />}>
+          <Route path="/" element={<Navigate to="/home" replace />} />
+          <Route path="/home" element={<Home />} />
+          <Route path="/chat/:id?" element={<Chat />} />
+          <Route path="/help" element={<Help />} />
+          <Route path="/life" element={<Life />} />
+          <Route path="/version" element={<Version />} />
+        </Route>
+      </Routes>
+    </CliProvider>
   </Router>
 );
 

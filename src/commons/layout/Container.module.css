@@ -1,6 +1,6 @@
 .root {
   width: 100%;
-  height: fit-content;
+  height: 100%;
   overflow-x: hidden;
   overflow-y: auto;
   outline: none;
@@ -22,7 +22,6 @@
   flex-grow: 1;
   flex-shrink: 1;
   row-gap: var(--line-height);
-  justify-content: end;
   width: 100%;
   max-width: calc((var(--content-width) - 3) * var(--font-width));
   height: fit-content;

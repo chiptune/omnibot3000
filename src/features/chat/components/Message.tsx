@@ -24,7 +24,7 @@ const Message = (props: {
     <article className={styles.root}>
       {isUser ? (
         <div className={styles.user}>
-          {anchor === "start" && <a id="start" />}
+          {anchor === "start" && <a id="start" role="anchor" />}
           <div className={styles["user-pill"]}>{">"}</div>
           <h1>
             <RenderCli command={content.split("\n")} line={-1} caret={0} />

@@ -51,7 +51,8 @@ const favIcon = () => {
   icon.href = canvas.toDataURL();
   document.head.appendChild(icon);
 
-  const preview = document.createElement("img");
+  let preview = document.getElementById("favicon") as HTMLImageElement | null;
+  if (!preview) preview = document.createElement("img");
   preview.id = "favicon";
   preview.src = canvas.toDataURL();
   preview.style.position = "absolute";

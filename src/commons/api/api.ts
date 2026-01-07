@@ -100,7 +100,7 @@ export const getSubtitle = async (): Promise<string> => {
   return formatText(response.choices[0].message.content || "?");
 };
 
-export const getPromptPlaceholder = async (): Promise<string> => {
+export const getInputPlaceholder = async (): Promise<string> => {
   const response = await getData(
     [
       "separate each sentence with a carriage return",

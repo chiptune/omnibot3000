@@ -24,8 +24,8 @@
   /* game of life variables */
   --lifespan: 750; /* lifespan of lifeforms in ms */
   /* colors */
-  --h: 150; /* amber:30 | yellow: 90 | green:120 | blue:180 */
-  --s: 25; /* saturation */
+  --h: 160; /* amber:30 | yellow: 90 | green:120 | blue:180 */
+  --s: 30; /* saturation */
   --l: 60; /* lightness */
   --color-primary: hsla(var(--h) var(--s) var(--l) / 0.7);
   --color-secondary: hsla(var(--h) var(--s) var(--l) / 0.5);
@@ -223,4 +223,9 @@ a:visited {
 
 a:focus {
   color: var(--color-highlight);
+}
+
+a[role="anchor"] {
+  visibility: hidden;
+  width: 0;
 }

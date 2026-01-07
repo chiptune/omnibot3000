@@ -21,21 +21,27 @@
   }
   ul > :last-child {
     padding-bottom: 0 !important;
-    p {
-      padding-bottom: 0 !important;
-    }
   }
   ol {
     list-style-position: outside;
     padding-left: calc(var(--tab-size) * var(--font-width));
     margin-left: calc(var(--tab-size) * var(--font-width));
   }
+  ol > :last-child {
+    padding-bottom: 0 !important;
+  }
+  li {
+    padding-bottom: var(--line-height);
+    p {
+      padding-bottom: 0 !important;
+    }
+  }
 }
 
 .hr {
   margin: 0;
   padding: 0;
-  padding-bottom: var(--line-height);
+  /*padding-bottom: var(--line-height);*/
   opacity: var(--opacity-tertiary);
 }
 

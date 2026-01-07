@@ -39,9 +39,13 @@ const Version = () => {
       })
       .join("");
 
-    const text = `# __${NAME}__ version **${VERSION.join(".")}**\n---\n${list}`;
+    const text = [
+      `# __${NAME}__ version **${VERSION.join(".")}**`,
+      "---",
+      list,
+    ];
     setLoading(false);
-    setResponse(text);
+    setResponse(text.join("\n"));
   };
 
   useEffect(() => {

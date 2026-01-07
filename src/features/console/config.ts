@@ -1,4 +1,5 @@
 import {SESSION_KEY, VERSION} from "@commons/constants";
+import favIcon from "@commons/favicon";
 import {getVariableFromCSS, setVariableToCSS} from "@utils/styles";
 
 export interface ConfigType {
@@ -90,6 +91,7 @@ class Config {
   save(config?: ConfigType): void {
     localStorage.setItem(Config.KEY, JSON.stringify(config || this.config));
     if (this.config.debug) console.info("%cconfig saved", "color:#999");
+    favIcon();
   }
 
   apply(): void {
@@ -100,6 +102,7 @@ class Config {
     if (size) setVariableToCSS("font-size", `${size}px`);
     if (height) setVariableToCSS("line-height", `${height}rem`);
     if (this.config.debug) console.info("%cconfig applied", "color:#999");
+    favIcon();
   }
 }
 

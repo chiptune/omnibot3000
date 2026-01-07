@@ -3,7 +3,11 @@ import {getVariableFromCSS, setVariableToCSS} from "@utils/styles";
 
 import Config, {ConfigValue} from "@console/config";
 
-const cmd = (query: string, debug: boolean) => {
+const cmd = (
+  query: string,
+  navigate: (path: string) => void,
+  debug: boolean,
+) => {
   if (query.trim() === "") return;
 
   const config = new Config();
@@ -15,14 +19,16 @@ const cmd = (query: string, debug: boolean) => {
   switch (cmd) {
     case "reboot":
       window.location.reload();
-      return;
+      break;
     case "reset":
       config.delete();
       window.location.reload();
-      return;
+      break;
+    case "home":
     case "help":
-      window.location.pathname = "/help";
-      return;
+    case "version":
+      navigate(cmd);
+      break;
     case "debug":
       switch (arg1) {
         case "on":
@@ -43,7 +49,7 @@ const cmd = (query: string, debug: boolean) => {
     case "color":
       if (!arg1 || !arg2) {
         console.warn(`missing arguments for command "${cmd}"`);
-        return;
+        break;
       }
       switch (arg1) {
         case "h":
@@ -67,7 +73,6 @@ const cmd = (query: string, debug: boolean) => {
       );
       setVariableToCSS("font-size", `${value}px`);
       config.update(cmd, "", value);
-      window.location.reload();
       break;
     case "height":
       value = clamp(
@@ -77,7 +82,6 @@ const cmd = (query: string, debug: boolean) => {
       );
       setVariableToCSS("line-height", `${value.toFixed(1)}rem`);
       config.update(cmd, "", value);
-      window.location.reload();
       break;
     default:
       console.warn(`unknown command "${cmd}"`);

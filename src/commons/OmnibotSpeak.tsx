@@ -18,7 +18,7 @@ export const OmnibotSpeak = (props: {truth: string; hasCaret?: boolean}) => (
             return <code className={className}>{children}</code>;
           },
           hr() {
-            return <Line char="*" className={styles["hr"]} />;
+            return <Line char={"~"} className={styles["hr"]} />;
           },
         }}>
         {sanitizeHTML(props.truth)}

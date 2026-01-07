@@ -1,20 +1,25 @@
-import React, {FormEvent, memo, useEffect, useRef, useState} from "react";
+import React, {
+  FormEvent,
+  memo,
+  useEffect,
+  useLayoutEffect,
+  useRef,
+  useState,
+} from "react";
 
-import {getPromptPlaceholder} from "@api/api";
+import {getInputPlaceholder} from "@api/api";
 import {BUTTON_SUBMIT} from "@commons/constants";
 import Caret from "@ui/Caret";
-import {formatText} from "@utils/strings";
+import {formatText, getCharWidth} from "@utils/strings";
 import {getVariableFromCSS} from "@utils/styles";
 
-import useConfig from "@hooks/useConfig";
-
-import cmd from "@console/cmd";
+import useCli from "@hooks/useCli";
 
 import styles from "@cli/Cli.module.css";
 
 import cls from "classnames";
 
-export const KEYS: string[] = [
+const KEYS: string[] = [
   "Escape",
   "Control",
   "Meta",
@@ -57,32 +62,54 @@ export const RenderCli = (props: {
   );
 };
 
-const Cli = (props: {
-  loading: boolean;
-  prompt: string[];
-  setPrompt: React.Dispatch<React.SetStateAction<string[]>>;
-  submitHandler: (query: string) => void;
-}) => {
-  const {loading, prompt, setPrompt, submitHandler} = props;
+const Cli = (props: {loading?: boolean}) => {
+  const {loading} = props;
 
   const keyEvent = useRef<KeyboardEvent>(undefined);
   const hasRunOnce = useRef<boolean>(false);
 
+  const [input, setInput] = useState<string[]>([""]);
   const [placeholders, setPlaceholders] = useState<string[]>([]);
   const [count, setCount] = useState<number>(0);
   const [line, setLine] = useState<number>(0);
   const [caret, setCaret] = useState<number>(0);
   const [forceUpdate, setForceUpdate] = useState<number>(0);
 
+  const rootRef = useRef<HTMLDivElement>(null);
   const formRef = useRef<HTMLFormElement>(null);
 
-  const isDisabled = loading || String(prompt).replace("\n", "").trim() === "";
+  const isDisabled = loading || input.join("").trim() === "";
 
-  const config = useConfig();
-  const {debug} = config.getConfig();
+  const cli = useCli();
+
+  const update = () => {
+    const form = formRef.current;
+    if (!form) return;
+
+    const root = rootRef.current;
+    if (!root) return;
+
+    const rootWidth = root.offsetWidth ?? 0;
+    const formWidth = form.clientWidth ?? 0;
+
+    const cw = getCharWidth();
+
+    const n = Math.floor((rootWidth - formWidth) / 2 / cw) + 1;
+    form.style.marginLeft = `calc(${n} * var(--font-width))`;
+    //root.style.outline = `0.125rem dashed orange`;
+    //root.style.borderRadius = "0.5rem";
+  };
+
+  useLayoutEffect(() => {
+    const resizeObserver = new ResizeObserver(update);
+    if (formRef.current) resizeObserver.observe(formRef.current);
+    return () => {
+      resizeObserver.disconnect();
+    };
+  }, []);
 
   const updatePlaceholder = async () => {
-    const data = await getPromptPlaceholder();
+    const data = await getInputPlaceholder();
     setPlaceholders(
       data
         .split("\n")
@@ -91,10 +118,10 @@ const Cli = (props: {
     );
   };
 
-  function handleInput(e: KeyboardEvent): void {
+  const handleInput = (e: KeyboardEvent): void => {
     keyEvent.current = e;
     setForceUpdate((n) => (n + 1) % 256);
-  }
+  };
 
   useEffect(() => {
     const {key, shiftKey, ctrlKey, metaKey} = keyEvent.current || {};
@@ -103,7 +130,7 @@ const Cli = (props: {
 
     const tabSize = parseInt(getVariableFromCSS("tab-size")) || 2;
 
-    let p = [...prompt];
+    let p = [...input];
     let l = line;
     let c = caret;
 
@@ -114,11 +141,7 @@ const Cli = (props: {
           p.splice(l, 0, p[l - 1].substring(c));
           p[l - 1] = p[l - 1].substring(0, c);
         } else {
-          if (p[0].charAt(0) === "/") {
-            cmd(p[0].substring(1), debug);
-          } else {
-            submitHandler(p.join("\n").trim());
-          }
+          cli.submit(p);
           p = [""];
           l = 0;
         }
@@ -153,7 +176,7 @@ const Cli = (props: {
       case "ArrowRight":
         c++;
         if (c > p[l].length) {
-          if (l < prompt.length - 1) {
+          if (l < input.length - 1) {
             l++;
             c = 0;
           } else {
@@ -172,8 +195,8 @@ const Cli = (props: {
         break;
       case "ArrowDown":
         l++;
-        if (l > prompt.length - 1) {
-          l = prompt.length - 1;
+        if (l > input.length - 1) {
+          l = input.length - 1;
           c = p[l].length;
         } else {
           c = Math.min(c, p[l].length);
@@ -190,7 +213,7 @@ const Cli = (props: {
         c = 0;
         break;
       case "End":
-        l = prompt.length - 1;
+        l = input.length - 1;
         c = p[l].length;
         break;
       default:
@@ -218,7 +241,7 @@ const Cli = (props: {
       }
     }
 
-    setPrompt(p);
+    setInput(p);
     setLine(l);
     setCaret(c);
   }, [forceUpdate]);
@@ -229,7 +252,7 @@ const Cli = (props: {
     const text = data.getData("text/plain");
     if (text.trim() === "") return;
     const query = text.split("\n");
-    setPrompt(query);
+    setInput(query);
     setLine(query.length - 1);
     setCaret(query[query.length - 1].length);
   };
@@ -249,54 +272,57 @@ const Cli = (props: {
   }, []);
 
   useEffect(() => {
-    if (prompt[prompt.length - 1].length === 0)
+    if (input[input.length - 1].length === 0)
       setCount(Math.round(Math.random() * (placeholders.length - 1)));
-  }, [prompt[prompt.length - 1], placeholders]);
+  }, [input[input.length - 1], placeholders]);
 
   return (
-    <form
-      ref={formRef}
-      onSubmit={(e: FormEvent) => {
-        e.preventDefault();
-        submitHandler(prompt.join("\n").trim());
-        setPrompt([""]);
-        setLine(0);
-        setCaret(0);
-      }}
-      onPaste={(e: React.ClipboardEvent) => {
-        e.preventDefault();
-        pasteQuery(e.nativeEvent);
-      }}
-      className={styles.form}>
-      <div className={styles.pill}>{">"}</div>
-      <div className={cls("ascii", styles.command)}>
-        <div className={cls("text", styles.placeholder)}>
-          <div
-            className={
-              styles[
-                prompt.join() || placeholders.length === 0 ? "hide" : "show"
-              ]
-            }>
-            {placeholders[count]}
+    <div ref={rootRef} className={styles.root}>
+      <form
+        ref={formRef}
+        onSubmit={(e: FormEvent) => {
+          e.preventDefault();
+          cli.submit(input);
+          setInput([""]);
+          setLine(0);
+          setCaret(0);
+        }}
+        onPaste={(e: React.ClipboardEvent) => {
+          e.preventDefault();
+          pasteQuery(e.nativeEvent);
+        }}
+        className={styles.form}>
+        <div className={styles.pill}>{">"}</div>
+        <div className={cls("ascii", styles.command)}>
+          <div className={cls("text", styles.placeholder)}>
+            <div
+              className={
+                styles[
+                  input.join() || placeholders.length === 0 ? "hide" : "show"
+                ]
+              }>
+              {placeholders[count]}
+            </div>
           </div>
+          <RenderCli command={input} line={line} caret={caret} />
         </div>
-        <RenderCli command={prompt} line={line} caret={caret} />
-      </div>
-      <input
-        name="command"
-        className={styles.input}
-        defaultValue={!loading && prompt ? prompt : ""}
-        autoComplete="off"
-      />
-      <div>
-        <button
-          type="submit"
-          disabled={isDisabled}
-          className={cls("ascii", styles.submit)}>
-          {BUTTON_SUBMIT}
-        </button>
-      </div>
-    </form>
+        <input
+          name="command"
+          className={styles.input}
+          defaultValue={!loading && input ? input.join("\n") : ""}
+          autoComplete="off"
+        />
+        <div>
+          <button
+            type="submit"
+            disabled={isDisabled}
+            className={cls("ascii", styles.submit)}>
+            {BUTTON_SUBMIT}
+          </button>
+        </div>
+        <div className={styles.pill}></div>
+      </form>
+    </div>
   );
 };
 

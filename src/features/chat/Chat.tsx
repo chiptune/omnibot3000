@@ -5,6 +5,7 @@ import {getChatTitle} from "@api/api";
 import getStream from "@api/utils/getStream";
 import Container from "@layout/Container";
 
+import useCli from "@hooks/useCli";
 import useStorage from "@hooks/useStorage";
 
 import styles from "@chat/Chat.module.css";
@@ -17,14 +18,11 @@ import useChatCompletionStore, {
   CompletionId,
 } from "@chat/hooks/useChatCompletionStore";
 
-import Cli from "@cli/Cli";
-
 const Chat = () => {
   const chatStore = useChatCompletionStore();
 
   const storage = useStorage();
 
-  const [prompt, setPrompt] = useState<string[]>([""]);
   const [response, setResponse] = useState<string>("");
   const [completionId, setCompletionId] = useState<CompletionId>();
   const [completion, setCompletion] = useState<Completion>();
@@ -36,6 +34,8 @@ const Chat = () => {
 
   const {id} = useParams();
   const chatId = chatStore.getChatId();
+
+  const cli = useCli();
 
   const completionCallback = (
     id: string,
@@ -54,11 +54,17 @@ const Chat = () => {
       parentCompletion: completionId,
     });
     setCompletionId(id);
+    cli.set([""]);
   };
 
-  const submitHandler = (input: string) => {
+  useEffect(() => {
+    setQuery(cli.get() as string);
+  }, [cli.get()]);
+
+  /* handle query submission */
+  useEffect(() => {
+    if (query === "") return;
     setLoading(true);
-    setQuery(input);
     getStream(
       setLoading,
       setResponse,
@@ -69,14 +75,14 @@ const Chat = () => {
         "this comment length must be less than 256 characters long",
         "you must separate each part with a line or empty line",
       ],
-      prompt,
+      query.split("\n"),
       [
         ...chatStore.getMessages(id),
         {role: "assistant", content: completion?.message || "nothing"},
       ],
       completionCallback,
     );
-  };
+  }, [query]);
 
   /* handle chat id url parameter */
   useEffect(() => {
@@ -150,8 +156,10 @@ const Chat = () => {
                 content={completion.prompt}
                 anchor={i === a.length - 1 ? "start" : undefined}
               />
-              <Message role="assistant" content={completion.message} />
-              <Toolbar completion={completion} />
+              <div>
+                <Message role="assistant" content={completion.message} />
+                <Toolbar completion={completion} />
+              </div>
             </Fragment>
           ))}
         {loading && (
@@ -161,12 +169,14 @@ const Chat = () => {
           </Fragment>
         )}
       </Container>
+      <a id="end" role="anchor" />
+      {/*
       <Cli
         loading={loading}
         prompt={prompt}
         setPrompt={setPrompt}
         submitHandler={submitHandler}
-      />
+      />*/}
     </section>
   );
 };

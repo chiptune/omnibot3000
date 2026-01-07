@@ -24,3 +24,7 @@
   flex-shrink: 0;
   opacity: var(--opacity-tertiary);
 }
+
+a[role="anchor"] {
+  margin-right: calc(var(--font-width) * -1);
+}

@@ -30,6 +30,10 @@ export default tseslint.config(
     },
     rules: {
       ...reactHooks.configs.recommended.rules,
+      "react-refresh/only-export-components": [
+        "warn",
+        {allowConstantExport: true},
+      ],
       "no-undef": "off", // typescript handles this
       "@typescript-eslint/no-unused-vars": ["warn", {argsIgnorePattern: "^_"}],
       "react-hooks/exhaustive-deps": "off", // to fix later

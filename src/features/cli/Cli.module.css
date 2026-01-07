@@ -1,3 +1,8 @@
+.root {
+  width: 100%;
+  height: fit-content;
+}
+
 .form {
   display: flex;
   flex-direction: row;
@@ -5,9 +10,8 @@
   flex-shrink: 1;
   column-gap: var(--font-width);
   align-items: end;
-  margin-left: var(--font-width);
-  margin-right: var(--font-width);
-  max-width: calc((var(--content-width) - 3) * var(--font-width));
+  width: 100%;
+  max-width: calc((var(--content-width) - 2) * var(--font-width));
 }
 
 .input {
@@ -20,7 +24,6 @@
 
 .command {
   flex-grow: 1;
-  width: calc(var(--content-width) - 2 * var(--font-width));
   min-height: var(--line-height);
 }
 

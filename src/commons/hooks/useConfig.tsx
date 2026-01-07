@@ -1,4 +1,13 @@
-import {createContext, FC, ReactNode, useContext, useEffect} from "react";
+import {
+  createContext,
+  FC,
+  ReactNode,
+  useContext,
+  useEffect,
+  useRef,
+} from "react";
+
+import {displayPackageVersion} from "@utils/version";
 
 import useKeyPress from "@hooks/useKeyPress";
 
@@ -19,8 +28,13 @@ export const ConfigProvider: FC<ConfigProviderProps> = ({children}) => {
   const config = new Config();
   const getConfig = () => config.config;
 
+  const hasRunOnce = useRef<boolean>(false);
+
   useEffect(() => {
+    if (hasRunOnce.current) return;
+    hasRunOnce.current = true;
     config.apply();
+    displayPackageVersion();
   }, []);
 
   const debugHotKey = useKeyPress("Escape", {shft: true}, "keydown");

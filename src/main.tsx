@@ -1,9 +1,6 @@
 import {StrictMode} from "react";
 import {createRoot} from "react-dom/client";
 
-import favIcon from "@commons/favicon";
-import {displayPackageVersion} from "@utils/version";
-
 import {ConfigProvider} from "@hooks/useConfig";
 
 import App from "@/App";
@@ -22,8 +19,6 @@ root.render(
 );
 
 window.addEventListener("DOMContentLoaded", () => {
-  favIcon();
-  displayPackageVersion();
   document.body.style.visibility = "visible";
 });
 
