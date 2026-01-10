@@ -2,6 +2,7 @@ import {memo} from "react";
 import Markdown from "react-markdown";
 
 import styles from "@commons/OmnibotSpeak.module.css";
+import Box from "@ui/Box";
 import Caret from "@ui/Caret";
 import Line from "@ui/Line";
 import {sanitizeHTML} from "@utils/strings";
@@ -15,7 +16,11 @@ export const OmnibotSpeak = (props: {truth: string; hasCaret?: boolean}) => (
         components={{
           code(props) {
             const {children, className} = props;
-            return <code className={className}>{children}</code>;
+            return (
+              <Box className={className}>
+                <code>{children}</code>
+              </Box>
+            );
           },
           hr() {
             return <Line char={"~"} className={styles["hr"]} />;

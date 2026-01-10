@@ -36,6 +36,9 @@
       padding-bottom: 0 !important;
     }
   }
+  li > :last-child {
+    margin-bottom: 0;
+  }
 }
 
 .hr {

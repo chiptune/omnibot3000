@@ -18,6 +18,7 @@ export const ASCII_BLOCK3 = "\u00b8";
 export const ASCII_RECTANGLE = "\u00ff";
 export const ASCII_VLINE = "\u00af";
 export const ASCII_HLINE = "-";
+export const ASCII_CORNER = "+";
 export const ASCII_POINT = "\u00a0";
 export const ASCII_PI = "π";
 export const ASCII_CURRENCY = "\u00a8";
