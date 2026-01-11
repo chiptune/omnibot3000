@@ -2,11 +2,20 @@
 
 YOUR OMNISCIENT SOURCE OF TRUTH
 
-![image](https://github.com/user-attachments/assets/f8954b78-290e-469f-b85f-99a4fef8281a)
+![image](https://github.com/user-attachments/assets/f3c88ab8-4c8c-4056-8d82-9cfb3fbe023e)
 
 ### Install
 
 `pnpm i omnibot3000`
+
+### Run
+
+From the _omnibot3000_ directory run this command:
+`pnpm link -g`
+
+Make sure that the file `./src/bin/omnibot.js` has execution rules (`chmod 755`)
+
+Then you can just run: `omnibot`
 
 ### Configuration
 
@@ -31,8 +40,8 @@ https://www.npmjs.com/package/omnibot3000
 
 ### Contributing
 
-NO
+Please **NO**.
 
 ### License
 
-NO
+I just said **NO**.
