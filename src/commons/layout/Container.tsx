@@ -18,12 +18,12 @@ export const Container = ({children}: {children: ReactNode}) => {
 
     const bodyWidth = body.offsetWidth ?? 0;
     //const rootHeight = root.offsetHeight ?? 0;
-    const contentWidth = content.clientWidth ?? 0;
+    const contentWidth = content.offsetWidth ?? 0;
     //const contentHeight = content.offsetHeight ?? 0;
 
     const cw = getCharWidth();
 
-    const n = Math.floor((bodyWidth - contentWidth) / 2 / cw) - 1;
+    const n = Math.floor((bodyWidth - contentWidth) / 2 / cw);
     body.style.paddingLeft = `calc(${n} * var(--font-width))`;
 
     /*const start = document.getElementById("start");

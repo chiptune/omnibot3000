@@ -4,6 +4,8 @@ import getStream from "@api/utils/getStream";
 import OmnibotSpeak from "@commons/OmnibotSpeak";
 import Container from "@layout/Container";
 
+import useCli from "@hooks/useCli";
+
 import useChatCompletionStore from "@chat/hooks/useChatCompletionStore";
 import styles from "@help/Help.module.css";
 
@@ -11,6 +13,8 @@ import cls from "classnames";
 
 const Help = () => {
   const chatStore = useChatCompletionStore();
+
+  const cli = useCli();
 
   const hasRunOnce = useRef(false);
   const [response, setResponse] = useState<string>("");
@@ -22,6 +26,7 @@ const Help = () => {
 
     chatStore.resetChat();
     setLoading(true);
+    cli.block();
     getStream(
       setLoading,
       setResponse,
@@ -34,6 +39,10 @@ const Help = () => {
         "add a description of each command to help the user",
         "do not include commands that are not provided",
       ],
+      [],
+      () => {
+        cli.unblock();
+      },
     );
   }, []);
 

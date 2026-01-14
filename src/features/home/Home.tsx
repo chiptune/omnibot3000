@@ -8,6 +8,8 @@ import Container from "@layout/Container";
 import Button from "@ui/Button";
 import {formatText} from "@utils/strings";
 
+import useCli from "@hooks/useCli";
+
 import useChatCompletionStore from "@chat/hooks/useChatCompletionStore";
 import styles from "@home/Home.module.css";
 
@@ -17,6 +19,8 @@ const Home = () => {
   const chatStore = useChatCompletionStore();
 
   const navigate = useNavigate();
+
+  const cli = useCli();
 
   const hasRunOnce = useRef(false);
   const [response, setResponse] = useState<string>("");
@@ -41,6 +45,7 @@ const Home = () => {
 
     chatStore.resetChat();
     setLoading(true);
+    cli.block();
     getStream(
       setLoading,
       setResponse,
@@ -55,8 +60,12 @@ const Home = () => {
         "explain who are you, why you are here and what you can do",
         "it's not a help or documentation page",
       ],
+      [],
+      () => {
+        cli.unblock();
+        updateStartButton();
+      },
     );
-    updateStartButton();
   }, []);
 
   return (

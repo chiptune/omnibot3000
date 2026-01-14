@@ -85,8 +85,8 @@ const Layout = () => {
     setCharWidth(cw);
     setLineHeight(lh);
 
-    setWidth(Math.floor((vw - cw * 2) / cw) * cw);
-    setHeight(Math.floor((vh - cw * 4) / lh) * lh + cw * 2);
+    setWidth(format(Math.floor((vw - cw * 2) / cw) * cw, 3));
+    setHeight(format(Math.floor((vh - cw * 4) / lh) * lh + cw * 2, 3));
   };
 
   useEffect(() => {
@@ -101,7 +101,7 @@ const Layout = () => {
     document.body.appendChild(el);
     el.innerHTML = [
       `viewport: ${vw}*${vh}`,
-      `char: ${format(cw)}*${format(lh)}`,
+      `char: ${cw}*${lh}`,
       `w: ${w} | h: ${h}`,
     ].join(" | ");
     el.style.display = debug ? "block" : "none";
@@ -171,8 +171,8 @@ const Layout = () => {
               <Line variant="horizontal" className={styles["h-line"]} />
               <main ref={bodyRef} className={styles.body}>
                 <Outlet />
+                <Cli />
               </main>
-              <Cli />
               <Line variant="horizontal" className={styles["h-line"]} />
               <Footer renderTime={renderTime} />
             </div>

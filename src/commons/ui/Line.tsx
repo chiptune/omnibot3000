@@ -30,7 +30,7 @@ const Line = (props: {
         const h = el.offsetHeight;
         el.innerHTML = (char || ASCII_VLINE).repeat(Math.round(h / lh));
       } else {
-        el.style.height = `${lh}px`;
+        el.style.height = "var(--line-height)";
         const w = el.offsetWidth;
         el.innerHTML = (char || ASCII_HLINE).repeat(Math.round(w / cw));
       }

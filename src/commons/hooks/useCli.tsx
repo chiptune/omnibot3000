@@ -20,6 +20,9 @@ interface CliContextType {
   get: () => string;
   submit: (cmd: string[]) => void;
   log: (message: string) => void;
+  blocked?: boolean;
+  block: () => void;
+  unblock: () => void;
 }
 
 const CliContext = createContext<CliContextType | undefined>(undefined);
@@ -32,6 +35,7 @@ export const CliProvider: FC<CliProviderProps> = ({children}) => {
   const [command, setCommand] = useState("");
   const navigate = useNavigate();
   const location = useLocation();
+  const [blocked, setBlocked] = useState(false);
 
   const config = useConfig();
   const {debug} = config.getConfig();
@@ -50,9 +54,13 @@ export const CliProvider: FC<CliProviderProps> = ({children}) => {
       cmd(query[0].substring(1), navigate, debug);
     } else {
       set(query);
+      block();
       if (!location.pathname.startsWith("/chat")) navigate("/chat");
     }
   };
+
+  const block = () => setBlocked(true);
+  const unblock = () => setBlocked(false);
 
   const log = (message: string): void => {
     if (message.trim() === "") return;
@@ -66,8 +74,13 @@ export const CliProvider: FC<CliProviderProps> = ({children}) => {
     log(get());
   }, [command]);
 
+  useEffect(() => {
+    log(blocked ? "blocked" : "unblocked");
+  }, [blocked]);
+
   return (
-    <CliContext.Provider value={{command, set, get, submit, log}}>
+    <CliContext.Provider
+      value={{command, set, get, submit, log, blocked, block, unblock}}>
       {children}
     </CliContext.Provider>
   );

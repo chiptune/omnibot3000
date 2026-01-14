@@ -61,12 +61,18 @@
 
 .debug-info {
   position: absolute;
-  top: 0.15rem;
-  left: 0.3rem;
-  line-height: 1rem;
-  font-size: 1rem;
+  top: 0.375rem;
+  left: 0.25rem;
+  line-height: 1.05rem;
+  font-size: 1.5rem;
   font-weight: 900;
   color: #f53;
   text-transform: uppercase;
+  background-color: #000;
+  border-radius: 0.25rem;
+  box-shadow:
+    0rem 0rem 0.125rem #000,
+    0rem 0rem 0.25rem #000,
+    0rem 0rem 0.5rem #000;
   z-index: var(--z-index-debug);
 }

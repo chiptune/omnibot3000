@@ -6,10 +6,12 @@
 
 .vline {
   width: var(--font-width);
+  min-width: var(--font-width);
 }
 
 .hline {
   height: var(--line-height);
+  min-height: var(--line-height);
 }
 .border {
   user-select: none;

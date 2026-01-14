@@ -10,6 +10,7 @@
   flex-shrink: 1;
   column-gap: var(--font-width);
   align-items: end;
+  margin-left: var(--font-width);
   width: 100%;
   max-width: calc((var(--content-width) - 2) * var(--font-width));
 }

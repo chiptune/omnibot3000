@@ -1,16 +1,9 @@
-import React, {
-  FormEvent,
-  memo,
-  useEffect,
-  useLayoutEffect,
-  useRef,
-  useState,
-} from "react";
+import React, {FormEvent, memo, useEffect, useRef, useState} from "react";
 
 import {getInputPlaceholder} from "@api/api";
 import {BUTTON_SUBMIT} from "@commons/constants";
 import Caret from "@ui/Caret";
-import {formatText, getCharWidth} from "@utils/strings";
+import {formatText} from "@utils/strings";
 import {getVariableFromCSS} from "@utils/styles";
 
 import useCli from "@hooks/useCli";
@@ -35,6 +28,7 @@ export const RenderCli = (props: {
   command: string[];
   line: number;
   caret: number;
+  blocked?: boolean;
 }) => {
   const {command, line, caret} = props;
   return (
@@ -51,8 +45,14 @@ export const RenderCli = (props: {
             {text}
             {i === line ? (
               <div className={cls("blink", styles.caret)}>
-                <span style={{visibility: "hidden"}}>{"%".repeat(caret)}</span>
-                <Caret />
+                <span
+                  style={{
+                    clear: i === 0 ? "none" : "both",
+                    visibility: "hidden",
+                  }}>
+                  {command[line].substring(0, caret)}
+                </span>
+                {!props.blocked && <Caret />}
               </div>
             ) : null}
           </div>
@@ -62,9 +62,7 @@ export const RenderCli = (props: {
   );
 };
 
-const Cli = (props: {loading?: boolean}) => {
-  const {loading} = props;
-
+const Cli = () => {
   const keyEvent = useRef<KeyboardEvent>(undefined);
   const hasRunOnce = useRef<boolean>(false);
 
@@ -78,35 +76,10 @@ const Cli = (props: {loading?: boolean}) => {
   const rootRef = useRef<HTMLDivElement>(null);
   const formRef = useRef<HTMLFormElement>(null);
 
-  const isDisabled = loading || input.join("").trim() === "";
-
   const cli = useCli();
+  const {blocked} = cli;
 
-  const update = () => {
-    const form = formRef.current;
-    if (!form) return;
-
-    const root = rootRef.current;
-    if (!root) return;
-
-    const rootWidth = root.offsetWidth ?? 0;
-    const formWidth = form.clientWidth ?? 0;
-
-    const cw = getCharWidth();
-
-    const n = Math.floor((rootWidth - formWidth) / 2 / cw) + 1;
-    form.style.marginLeft = `calc(${n} * var(--font-width))`;
-    //root.style.outline = `0.125rem dashed orange`;
-    //root.style.borderRadius = "0.5rem";
-  };
-
-  useLayoutEffect(() => {
-    const resizeObserver = new ResizeObserver(update);
-    if (formRef.current) resizeObserver.observe(formRef.current);
-    return () => {
-      resizeObserver.disconnect();
-    };
-  }, []);
+  const isDisabled = blocked || input.join("").trim() === "";
 
   const updatePlaceholder = async () => {
     const data = await getInputPlaceholder();
@@ -124,6 +97,8 @@ const Cli = (props: {loading?: boolean}) => {
   };
 
   useEffect(() => {
+    if (blocked) return;
+
     const {key, shiftKey, ctrlKey, metaKey} = keyEvent.current || {};
 
     if (!key || KEYS.includes(key)) return;
@@ -304,12 +279,17 @@ const Cli = (props: {loading?: boolean}) => {
               {placeholders[count]}
             </div>
           </div>
-          <RenderCli command={input} line={line} caret={caret} />
+          <RenderCli
+            command={input}
+            line={line}
+            caret={caret}
+            blocked={blocked}
+          />
         </div>
         <input
           name="command"
           className={styles.input}
-          defaultValue={!loading && input ? input.join("\n") : ""}
+          defaultValue={!isDisabled && input ? input.join("\n") : ""}
           autoComplete="off"
         />
         <div>

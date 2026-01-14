@@ -1,4 +1,5 @@
 import {ASCII_BLOCK1} from "@commons/constants";
+import {format} from "@utils/math";
 
 export const getTextBoundingBox = (text: string): DOMRect => {
   const el = document.createElement("span");
@@ -12,9 +13,9 @@ export const getTextBoundingBox = (text: string): DOMRect => {
 };
 
 export const getCharWidth = (): number =>
-  getTextBoundingBox(ASCII_BLOCK1).width;
+  format(getTextBoundingBox(ASCII_BLOCK1).width, 3);
 export const getCharHeight = (): number =>
-  getTextBoundingBox(ASCII_BLOCK1).height;
+  format(getTextBoundingBox(ASCII_BLOCK1).height, 3);
 
 export const getLineHeight = (): number => {
   const el = document.createElement("span");

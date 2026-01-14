@@ -36,6 +36,7 @@ const Chat = () => {
   const chatId = chatStore.getChatId();
 
   const cli = useCli();
+  const {blocked} = cli;
 
   const completionCallback = (
     id: string,
@@ -55,6 +56,7 @@ const Chat = () => {
     });
     setCompletionId(id);
     cli.set([""]);
+    cli.unblock();
   };
 
   useEffect(() => {
@@ -64,7 +66,7 @@ const Chat = () => {
   /* handle query submission */
   useEffect(() => {
     if (query === "") return;
-    setLoading(true);
+    cli.block();
     getStream(
       setLoading,
       setResponse,
@@ -165,18 +167,11 @@ const Chat = () => {
         {loading && (
           <Fragment key="chat-completion">
             <Message role="user" content={query} />
-            <Message role="assistant" content={response} hasCaret={loading} />
+            <Message role="assistant" content={response} hasCaret={blocked} />
           </Fragment>
         )}
       </Container>
       <a id="end" role="anchor" />
-      {/*
-      <Cli
-        loading={loading}
-        prompt={prompt}
-        setPrompt={setPrompt}
-        submitHandler={submitHandler}
-      />*/}
     </section>
   );
 };
