@@ -31,11 +31,14 @@ const Help = () => {
       setLoading,
       setResponse,
       [
-        "you can give a single example for commands that need parameter",
         "highlight the command in bold and keep all comments shorts",
+        "give an example in ``` tags for commands that use any parameter",
+        "the example should be on a new line right after the command",
+        "do not add label or any  extra commentary for the examples",
+        "do not add any empty lines",
       ],
       [
-        "make a list of all available config commands",
+        "make a bullet list of all available config commands",
         "add a description of each command to help the user",
         "do not include commands that are not provided",
       ],

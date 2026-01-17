@@ -3,7 +3,7 @@
   "x-display-name": "OMNIBOT 3000",
   "description": "your omniscient source of truth",
   "private": false,
-  "version": "1.9.6",
+  "version": "1.9.7",
   "type": "module",
   "author": {
     "name": "rez",
