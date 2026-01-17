@@ -46,9 +46,8 @@
   }
 }
 
-#home,
-#anchor,
-#end {
+.blank {
+  margin-left: var(--font-width);
   width: 100%;
   max-width: calc((var(--content-width) - 3) * var(--font-width));
 }

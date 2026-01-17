@@ -268,7 +268,7 @@ const Cli = () => {
         }}
         className={styles.form}>
         <div className={styles.pill}>{">"}</div>
-        <div className={cls("ascii", styles.command)}>
+        <div className={styles.command}>
           <div className={cls("text", styles.placeholder)}>
             <div
               className={

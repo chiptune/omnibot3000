@@ -10,8 +10,7 @@ YOUR OMNISCIENT SOURCE OF TRUTH
 
 ### Run
 
-From the _omnibot3000_ directory run this command:
-`pnpm link -g`
+From the _omnibot3000_ directory run this command: `pnpm link -g`
 
 Make sure that the file `./src/bin/omnibot.js` has execution rules (`chmod 755`)
 

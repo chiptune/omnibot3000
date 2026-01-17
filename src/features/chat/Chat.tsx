@@ -66,6 +66,7 @@ const Chat = () => {
   /* handle query submission */
   useEffect(() => {
     if (query === "") return;
+    setLoading(true);
     cli.block();
     getStream(
       setLoading,
