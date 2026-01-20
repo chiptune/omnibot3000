@@ -49,7 +49,9 @@ export const CliProvider: FC<CliProviderProps> = ({children}) => {
     );
   const get = (): string => command;
 
-  const submit = (query: string[]) => {
+  const submit = (lines: string[]) => {
+    const query = lines.map((line) => line.trim());
+    if (query.join("") === "") return; /* ignore empty commands */
     if (query[0].charAt(0) === "/") {
       cmd(query[0].substring(1), navigate, debug);
     } else {

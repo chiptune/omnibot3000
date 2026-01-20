@@ -31,9 +31,13 @@ export const Container = ({children}: {children: ReactNode}) => {
 
     const start = document.getElementById("start");
     if (start) {
-      const sy = start.getBoundingClientRect().top;
-      const ry = root.getBoundingClientRect().top;
-      blank.style.height = `${clamp(sy - ry, 0, contentHeight)}px`;
+      const rootHeight = root.offsetHeight ?? 0;
+      const startRect = start.getBoundingClientRect();
+      const rootRect = root.getBoundingClientRect();
+      const startOffset = startRect.top - rootRect.top + root.scrollTop;
+      const contentStart = contentHeight - startOffset;
+
+      blank.style.height = `${clamp(rootHeight - contentStart, 0, rootHeight)}px`;
       start.scrollIntoView({
         behavior: "smooth",
         block: "start",
