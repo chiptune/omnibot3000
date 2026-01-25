@@ -8,7 +8,7 @@ import Line from "@ui/Line";
 
 import styles from "@chat/components/Message.module.css";
 
-import {RenderCli} from "@cli/Cli";
+import RenderCli from "@cli/components/RenderCli";
 
 const Message = (props: {
   role: ChatCompletionRole;

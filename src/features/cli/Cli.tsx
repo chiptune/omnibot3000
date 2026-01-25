@@ -2,7 +2,6 @@ import React, {FormEvent, memo, useEffect, useRef, useState} from "react";
 
 import {getInputPlaceholder} from "@api/api";
 import {BUTTON_SUBMIT} from "@commons/constants";
-import Caret from "@ui/Caret";
 import {formatText} from "@utils/strings";
 import {getVariableFromCSS} from "@utils/styles";
 
@@ -10,6 +9,7 @@ import useCli from "@hooks/useCli";
 
 import styles from "@cli/Cli.module.css";
 
+import RenderCli from "@cli/components/RenderCli";
 import cls from "classnames";
 
 const KEYS: string[] = [
@@ -23,44 +23,6 @@ const KEYS: string[] = [
   "Insert",
   "Delete",
 ];
-
-export const RenderCli = (props: {
-  command: string[];
-  line: number;
-  caret: number;
-  blocked?: boolean;
-}) => {
-  const {command, line, caret} = props;
-  return (
-    <div
-      style={{
-        height: `calc(${command.length} * var(--line-height))`,
-      }}>
-      {command.map((text: string, i: number) => {
-        return (
-          <div
-            key={`command-line-${i}`}
-            className={styles["command-line"]}
-            style={{clear: i > 0 ? "both" : "none"}}>
-            {text}
-            {i === line ? (
-              <div className={cls("blink", styles.caret)}>
-                <span
-                  style={{
-                    clear: i === 0 ? "none" : "both",
-                    visibility: "hidden",
-                  }}>
-                  {command[line].substring(0, caret)}
-                </span>
-                {!props.blocked && <Caret />}
-              </div>
-            ) : null}
-          </div>
-        );
-      })}
-    </div>
-  );
-};
 
 const Cli = () => {
   const keyEvent = useRef<KeyboardEvent>(undefined);
