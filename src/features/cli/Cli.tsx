@@ -18,11 +18,15 @@ const KEYS: string[] = [
   "Meta",
   "Shift",
   "Alt",
-  "Dead",
   "CapsLock",
   "Insert",
-  "Delete",
 ];
+
+const KEYMAP: {[key: string]: string[]} = {
+  Quote: ["'", '"'],
+  Backquote: ["`", "~"],
+  Digit6: ["6", "^"],
+};
 
 const Cli = () => {
   const keyEvent = useRef<KeyboardEvent>(undefined);
@@ -61,7 +65,7 @@ const Cli = () => {
   useEffect(() => {
     if (blocked) return;
 
-    const {key, shiftKey, ctrlKey, metaKey} = keyEvent.current || {};
+    const {key, code, shiftKey, ctrlKey, metaKey} = keyEvent.current || {};
 
     if (!key || KEYS.includes(key)) return;
 
@@ -94,6 +98,15 @@ const Cli = () => {
           c--;
         } else if (l > 0) {
           l--;
+          p[l] += p[l + 1];
+          c = p[l].length - p[l + 1].length;
+          p.splice(l + 1, 1);
+        }
+        break;
+      case "Delete":
+        if (c < p[l].length) {
+          p[l] = `${p[l].substring(0, c)}${p[l].substring(c + 1)}`;
+        } else if (l < p.length - 1) {
           p[l] += p[l + 1];
           c = p[l].length - p[l + 1].length;
           p.splice(l + 1, 1);
@@ -155,7 +168,9 @@ const Cli = () => {
         break;
       default:
         if (!ctrlKey && !metaKey) {
-          p[l] = `${p[l].substring(0, c)}${key}${p[l].substring(c)}`;
+          let k = key;
+          if (code && KEYMAP[code]) k = KEYMAP[code][shiftKey ? 1 : 0] || k;
+          p[l] = `${p[l].substring(0, c)}${k}${p[l].substring(c)}`;
           c++;
         }
     }
