@@ -18,7 +18,7 @@ const Line = (props: {
   const lineRef = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
-    const updateLine = () => {
+    const update = () => {
       const el = lineRef.current;
       if (!el) return;
 
@@ -36,9 +36,9 @@ const Line = (props: {
       }
     };
 
-    updateLine();
+    update();
 
-    const resizeObserver = new ResizeObserver(updateLine);
+    const resizeObserver = new ResizeObserver(update);
     if (lineRef.current) {
       resizeObserver.observe(lineRef.current);
     }
@@ -55,7 +55,6 @@ const Line = (props: {
       style={{
         userSelect: "none",
         wordWrap: "break-word",
-        overflow: "hidden",
         cursor: "default",
       }}></div>
   );

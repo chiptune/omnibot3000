@@ -11,6 +11,7 @@ import {
 import Breadcrumb from "@layout/Breadcrumb";
 import styles from "@layout/Footer.module.css";
 import Button from "@ui/Button";
+import Number from "@ui/Number";
 import Separator from "@ui/Separator";
 import Spacer from "@ui/Spacer";
 import {numberToRoman} from "@utils/math";
@@ -40,7 +41,7 @@ const Footer = (props: {renderTime: RefObject<RenderTime>}) => {
         <div>
           <span className={styles.copyright}>{ASCII_COPYRIGHT}</span>
           <span className={styles.info}>
-            {` ${numberToRoman(Number(new Date().getFullYear()))} `}
+            {` ${numberToRoman(new Date().getFullYear())} `}
           </span>
         </div>
         <a href={SOURCE} target="_blank">
@@ -55,8 +56,14 @@ const Footer = (props: {renderTime: RefObject<RenderTime>}) => {
           <section className={styles.spacing}>
             <span className={styles.info}>{`${phase}:`}</span>
             <time style={{whiteSpace: "nowrap"}}>
-              {duration.toFixed(1)}
-              <span className={styles.info}>ms</span>
+              {
+                <Number
+                  value={duration}
+                  decimal={1}
+                  unit="time"
+                  className={styles.time}
+                />
+              }
             </time>
           </section>
           <Separator />

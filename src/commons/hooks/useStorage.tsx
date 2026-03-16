@@ -1,3 +1,4 @@
+/* global localStorage, console */
 import {SESSION_KEY} from "@commons/constants";
 
 import useConfig from "@hooks/useConfig";

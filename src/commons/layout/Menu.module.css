@@ -26,6 +26,15 @@
   opacity: var(--opacity-primary);
 }
 
+.size {
+  b {
+    opacity: var(--opacity-primary);
+  }
+  i {
+    opacity: var(--opacity-secondary);
+  }
+}
+
 .line {
   flex-grow: 0;
   flex-shrink: 0;

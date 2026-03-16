@@ -1,12 +1,16 @@
 import {memo, useEffect, useRef, useState} from "react";
 
 import {NAME, VERSION} from "@commons/constants";
-import OmnibotSpeak from "@commons/OmnibotSpeak";
 import Container from "@layout/Container";
+import Line from "@ui/Line";
+import ProgressBar from "@ui/ProgressBar";
 import {displayPackageVersion} from "@utils/version";
 
 import useChatCompletionStore from "@chat/hooks/useChatCompletionStore";
-import styles from "@help/Help.module.css";
+
+import Caret from "@/commons/ui/Caret";
+
+import styles from "@version/Version.module.css";
 
 import cls from "classnames";
 
@@ -25,7 +29,8 @@ const Version = () => {
   const chatStore = useChatCompletionStore();
 
   const hasRunOnce = useRef(false);
-  const [response, setResponse] = useState<string>("");
+  const [response, setResponse] = useState<Package[]>([]);
+  const [totalSize, setTotalSize] = useState(0);
   const [loading, setLoading] = useState<boolean>(false);
 
   const getResponse = async () => {
@@ -33,19 +38,9 @@ const Version = () => {
 
     const packages: Package[] = await response.json();
 
-    const list = packages
-      .map((pkg) => {
-        return `${pkg.name} **${pkg.version.join(".")}**  \n`;
-      })
-      .join("");
-
-    const text = [
-      `# __${NAME}__ version **${VERSION.join(".")}**`,
-      "---",
-      list,
-    ];
     setLoading(false);
-    setResponse(text.join("\n"));
+    setResponse(packages);
+    setTotalSize(packages.reduce((acc, pkg) => acc + pkg.size, 0));
   };
 
   useEffect(() => {
@@ -66,8 +61,22 @@ const Version = () => {
     <div className={styles.root}>
       <a id="start" />
       <Container>
-        <div className={cls("text", styles.body)}>
-          <OmnibotSpeak truth={response} hasCaret={loading} />
+        <div className={cls("ascii", styles.body)}>
+          <b>{NAME}</b> version <b>{VERSION.join(".")}</b>
+          <br />
+          <Line char={"~"} className={styles.line} />
+          {loading ? (
+            <Caret></Caret>
+          ) : (
+            response.map((pkg, i) => (
+              <>
+                <div key={i}>
+                  <b>{pkg.name}</b> version <b>{pkg.version.join(".")}</b>
+                </div>
+                <ProgressBar value={pkg.size} unit="byte" max={totalSize} />
+              </>
+            ))
+          )}
         </div>
       </Container>
     </div>

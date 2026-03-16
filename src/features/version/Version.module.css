@@ -6,3 +6,14 @@
   height: 100%;
   overflow: hidden;
 }
+
+.body {
+  color: var(--color-tertiary);
+  b {
+    color: var(--color-primary);
+  }
+}
+
+.line {
+  opacity: var(--opacity-tertiary);
+}

@@ -3,6 +3,7 @@ import {memo} from "react";
 import {SESSION_KEY} from "@commons/constants";
 import styles from "@layout/Menu.module.css";
 import Line from "@ui/Line";
+import Number from "@ui/Number";
 
 import useChatCompletionStore from "@chat/hooks/useChatCompletionStore";
 import History from "@history/History";
@@ -25,8 +26,8 @@ const Menu = () => {
         <span className={styles.title}>{` talk${count > 1 ? "s" : ""}`}</span>
       </header>
       <summary>
-        <span className={styles.count}>{(size / 1024).toFixed(1)}</span>
-        <span className={styles.title}>kb wasted</span>
+        <Number value={size} unit="byte" decimal={1} className={styles.size} />{" "}
+        <span className={styles.title}>wasted</span>
       </summary>
       <Line variant="horizontal" className={styles.line} />
       <History />

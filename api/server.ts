@@ -199,7 +199,7 @@ const server = createServer((req: IncomingMessage, res: ServerResponse) => {
     res.writeHead(200, {"Content-Type": "application/json"});
     res.end(JSON.stringify(config));
   } else if (url.startsWith(`${API_PATH}/packages`)) {
-    exec("npm list --json --depth=0 --silent", (err, stdout) => {
+    exec("npm list --json --depth=0 --prod --silent", (err, stdout) => {
       if (err) {
         const error = err instanceof Error ? err.message : "unknown error";
         res.writeHead(500, {"Content-Type": "application/json"});

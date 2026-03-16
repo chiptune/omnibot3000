@@ -22,7 +22,7 @@ const Box = (props: BoxProps) => {
   const boxRightRef = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
-    const updateBox = () => {
+    const update = () => {
       const boxTop = boxTopRef.current;
       const boxBottom = boxBottomRef.current;
       const boxLeft = boxLeftRef.current;
@@ -48,9 +48,9 @@ const Box = (props: BoxProps) => {
       boxRight.innerHTML = vborder;
     };
 
-    updateBox();
+    update();
 
-    const resizeObserver = new ResizeObserver(updateBox);
+    const resizeObserver = new ResizeObserver(update);
     if (boxRef.current) {
       resizeObserver.observe(boxRef.current);
     }

@@ -52,7 +52,7 @@ export class ErrorBoundary extends React.Component<Props, State> {
               }}>
               <div className={cls("text", "ascii", styles.error)}>
                 <div>
-                  <span style={{opacity: "var(--opacity-tertiary)"}}>% </span>
+                  <span style={{opacity: "var(--opacity-tertiary)"}}>%</span>{" "}
                   <span>error :(</span>
                 </div>
                 <Line className={styles["h-line"]} />

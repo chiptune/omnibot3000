@@ -1,0 +1,27 @@
+.root {
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  height: var(--line-height);
+  user-select: none;
+  word-wrap: break-word;
+  cursor: default;
+}
+
+.bar {
+  b {
+    opacity: var(--opacity-secondary);
+  }
+  i {
+    opacity: var(--opacity-tertiary);
+  }
+}
+
+.number {
+  b {
+    opacity: var(--opacity-primary);
+  }
+  i {
+    opacity: var(--opacity-secondary);
+  }
+}

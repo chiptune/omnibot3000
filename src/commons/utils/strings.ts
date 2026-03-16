@@ -1,4 +1,4 @@
-import {ASCII_BLOCK1} from "@commons/constants";
+import {ASCII_BLOCK3} from "@commons/constants";
 import {format} from "@utils/math";
 
 export const getTextBoundingBox = (text: string): DOMRect => {
@@ -13,14 +13,14 @@ export const getTextBoundingBox = (text: string): DOMRect => {
 };
 
 export const getCharWidth = (): number =>
-  format(getTextBoundingBox(ASCII_BLOCK1).width, 3);
+  format(getTextBoundingBox(ASCII_BLOCK3).width, 3);
 export const getCharHeight = (): number =>
-  format(getTextBoundingBox(ASCII_BLOCK1).height, 3);
+  format(getTextBoundingBox(ASCII_BLOCK3).height, 3);
 
 export const getLineHeight = (): number => {
   const el = document.createElement("span");
   el.className = "text ascii";
-  el.textContent = ASCII_BLOCK1;
+  el.textContent = ASCII_BLOCK3;
   el.style.visibility = "none";
   document.body.appendChild(el);
   const lh = parseFloat(getComputedStyle(el).lineHeight);
@@ -34,8 +34,9 @@ export const formatText = (text: string): string =>
     .replaceAll("–", "-")
     .replaceAll("’", "'")
     .replaceAll("“", '"')
-    .replaceAll("”", '"')
-    .replaceAll("→", "->");
+    .replaceAll("→", "->")
+    .replaceAll("…", "...")
+    .replaceAll("█", ASCII_BLOCK3);
 
 export const sanitizeHTML = (html: string): string => {
   const parser = new DOMParser();
@@ -43,6 +44,6 @@ export const sanitizeHTML = (html: string): string => {
   const body = new XMLSerializer().serializeToString(doc.body);
   const text = body.replace(/<body[^>]*>|<\/body>/g, "");
   const textarea = document.createElement("textarea");
-  textarea.innerHTML = text;
+  textarea.innerHTML = formatText(text);
   return textarea.value;
 };

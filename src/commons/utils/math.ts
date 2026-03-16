@@ -15,6 +15,49 @@ export const clamp = (
   max: number = 1,
 ): number => Math.max(min, Math.min(n, max));
 
+export type Unit = "byte" | "time" | "percent";
+
+const UNIT_SCALE: Record<Unit, Record<string, number>> = {
+  byte: {
+    b: 1,
+    kb: 1024,
+    mb: 1024 * 1024,
+    gb: 1024 * 1024 * 1024,
+    tb: 1024 * 1024 * 1024 * 1024,
+  },
+  time: {
+    ms: 1,
+    s: 1000,
+    m: 1000 * 60,
+    h: 1000 * 60 * 60,
+    d: 1000 * 60 * 60 * 24,
+  },
+  percent: {
+    "%": 1,
+  },
+};
+
+export const scale = (
+  value: number,
+  decimal?: number,
+  unit?: Unit,
+): {value: number; unit: string} => {
+  let v = value;
+  let u = "";
+  if (unit && unit in UNIT_SCALE) {
+    const entries = Object.entries(UNIT_SCALE[unit]);
+    u = entries[0][0];
+    for (const [name, scale] of entries.reverse()) {
+      if (Math.abs(v) >= scale) {
+        v /= scale;
+        u = name;
+        break;
+      }
+    }
+  }
+  return {value: format(v, decimal), unit: u};
+};
+
 const ROMAN_SYMBOLS = [
   {value: 1000, symbol: "M"},
   {value: 900, symbol: "CM"},

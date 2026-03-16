@@ -27,6 +27,15 @@
   word-break: break-all;
 }
 
+.time {
+  b {
+    opacity: var(--opacity-primary);
+  }
+  i {
+    opacity: var(--opacity-secondary);
+  }
+}
+
 @keyframes fadein {
   0% {
     opacity: 0;
