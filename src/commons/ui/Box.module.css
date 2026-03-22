@@ -13,9 +13,10 @@
   height: var(--line-height);
   min-height: var(--line-height);
 }
+
 .border {
   user-select: none;
-  word-wrap: break-word;
+  overflow-wrap: break-word;
   overflow: hidden;
   cursor: default;
   opacity: var(--opacity-secondary);

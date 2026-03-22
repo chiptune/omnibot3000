@@ -26,22 +26,22 @@
     ),
     linear-gradient(
       30deg,
-      hsla(calc(var(--h) - 90) 30% 30% / var(--opacity-background)) 0%,
-      hsla(calc(var(--h) - 45) 50% 20% / var(--opacity-background)) 25%,
-      hsla(calc(var(--h) + 0) 70% 10% / var(--opacity-background)) 50%,
-      hsla(calc(var(--h) + 45) 50% 20% / var(--opacity-background)) 75%,
-      hsla(calc(var(--h) + 90) 30% 30% / var(--opacity-background)) 100%
+      hsl(calc(var(--h) - 90) 30% 30% / var(--opacity-background)) 0%,
+      hsl(calc(var(--h) - 45) 50% 20% / var(--opacity-background)) 25%,
+      hsl(calc(var(--h) + 0) 70% 10% / var(--opacity-background)) 50%,
+      hsl(calc(var(--h) + 45) 50% 20% / var(--opacity-background)) 75%,
+      hsl(calc(var(--h) + 90) 30% 30% / var(--opacity-background)) 100%
     ),
     radial-gradient(
       circle,
-      hsla(calc(var(--h) - 270) 30% 30% / var(--opacity-background)) 0%,
-      hsla(calc(var(--h) - 180) 30% 30% / var(--opacity-background)) 100%
+      hsl(calc(var(--h) - 270) 30% 30% / var(--opacity-background)) 0%,
+      hsl(calc(var(--h) - 180) 30% 30% / var(--opacity-background)) 100%
     ),
     radial-gradient(
       circle,
-      hsla(0 100% 100% / 0.0125) 0%,
-      hsla(0 0% 0% / 0.25) 80%,
-      hsla(0 0% 0% / 0.5) 100%
+      hsl(0deg 100% 100% / 1.25%) 0%,
+      hsl(0deg 0% 0% / 25%) 80%,
+      hsl(0deg 0% 0% / 50%) 100%
     );
   animation: fade-tty var(--duration-fade) linear;
 }
@@ -59,15 +59,15 @@
   animation: fade-tty var(--duration-fade) linear;
   background-image: repeating-linear-gradient(
     0deg,
-    #0000 0rem,
-    hsla(0 0% 0% / 0.3) 0.02rem,
-    hsla(0 0% 0% / 0.3) 0.12rem,
+    #0000 0,
+    hsl(0deg 0% 0% / 30%) 0.02rem,
+    hsl(0deg 0% 0% / 30%) 0.12rem,
     #0000 0.14rem,
     #0000 0.2rem
   );
   background-size: 100%, 100%;
   background-repeat: no-repeat, repeat;
-  background-position: 0rem -0.0333rem;
+  background-position: 0 -0.0333rem;
   background-blend-mode: overlay;
 }
 
@@ -119,9 +119,11 @@
   0% {
     opacity: 0;
   }
+
   20% {
     opacity: 0;
   }
+
   100% {
     opacity: 1;
   }

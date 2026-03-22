@@ -1,8 +1,7 @@
 .root {
   width: 100%;
   height: 100%;
-  overflow-x: hidden;
-  overflow-y: auto;
+  overflow: hidden auto;
   outline: none;
   scroll-snap-type: both mandatory;
 }
@@ -41,6 +40,7 @@
   opacity: var(--opacity-secondary);
   visibility: hidden;
   list-style-type: none;
+
   li {
     scroll-snap-align: start;
   }

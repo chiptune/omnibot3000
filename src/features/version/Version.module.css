@@ -9,6 +9,7 @@
 
 .body {
   color: var(--color-tertiary);
+
   b {
     color: var(--color-primary);
   }

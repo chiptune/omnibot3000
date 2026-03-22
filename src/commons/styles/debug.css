@@ -12,9 +12,7 @@
 
 .debug * {
   border-radius: 0.125rem;
-  outline-style: dashed !important;
-  outline-width: 0.125rem !important;
-  outline-color: var(--color-rainbow-1) !important;
+  outline: var(--color-rainbow-1) dashed 0.125rem !important;
   outline-offset: 0.25rem;
   visibility: visible !important;
 }
@@ -39,23 +37,23 @@
   outline-color: var(--color-rainbow-6) !important;
 }
 
-.debug * > * > * > * > * > * {
+.debug * > * > * > * > * > * > * {
   outline-color: var(--color-rainbow-7) !important;
 }
 
-.debug * > * > * > * > * > * > * {
+.debug * > * > * > * > * > * > * > * {
   outline-color: var(--color-rainbow-8) !important;
 }
 
-.debug * > * > * > * > * > * > * > * {
+.debug * > * > * > * > * > * > * > * > * {
   outline-color: var(--color-rainbow-1) !important;
 }
 
-.debug * > * > * > * > * > * > * > * > * {
+.debug * > * > * > * > * > * > * > * > * > * {
   outline-color: var(--color-rainbow-2) !important;
 }
 
-.debug * > * > * > * > * > * > * > * > * > * {
+.debug * > * > * > * > * > * > * > * > * > * > * {
   outline-color: var(--color-rainbow-3) !important;
 }
 
@@ -71,8 +69,8 @@
   background-color: #000;
   border-radius: 0.25rem;
   box-shadow:
-    0rem 0rem 0.125rem #000,
-    0rem 0rem 0.25rem #000,
-    0rem 0rem 0.5rem #000;
+    0 0 0.125rem #000,
+    0 0 0.25rem #000,
+    0 0 0.5rem #000;
   z-index: var(--z-index-debug);
 }

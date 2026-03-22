@@ -4,9 +4,9 @@
   margin-right: calc(var(--font-width) - var(--scrollbar-size));
   width: 100%;
   height: 100%;
-  overflow-x: hidden;
-  overflow-y: scroll;
+  overflow: hidden scroll;
   scroll-snap-type: both mandatory;
+
   li {
     list-style-type: none;
     scroll-snap-align: start;

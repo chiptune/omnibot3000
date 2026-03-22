@@ -30,6 +30,7 @@
   b {
     opacity: var(--opacity-primary);
   }
+
   i {
     opacity: var(--opacity-secondary);
   }

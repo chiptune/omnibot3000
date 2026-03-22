@@ -4,7 +4,7 @@
   width: 100%;
   height: var(--line-height);
   user-select: none;
-  word-wrap: break-word;
+  overflow-wrap: break-word;
   cursor: default;
 }
 
@@ -12,6 +12,7 @@
   b {
     opacity: var(--opacity-secondary);
   }
+
   i {
     opacity: var(--opacity-tertiary);
   }
@@ -21,6 +22,7 @@
   b {
     opacity: var(--opacity-primary);
   }
+
   i {
     opacity: var(--opacity-secondary);
   }

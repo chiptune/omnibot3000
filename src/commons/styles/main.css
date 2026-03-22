@@ -2,6 +2,7 @@
   /* constants */
   --base-size: 15; /* default font size */
   --base-height: 2; /* default line height */
+
   /* global variables */
   --font-width: 1rem;
   --font-height: 2rem;
@@ -18,29 +19,35 @@
   --opacity-tertiary: 0.5;
   --opacity-ghosting: 0.25;
   --opacity-background: 0.15;
+
   /* layout variables */
   --menu-width: 20;
   --content-width: 48;
+
   /* game of life variables */
   --lifespan: 750; /* lifespan of lifeforms in ms */
+
   /* colors */
   --h: 150; /* amber:30 | yellow: 90 | green:120 | blue:180 */
   --s: 33.333; /* saturation */
   --l: 66.666; /* lightness */
-  --color-primary: hsla(var(--h) var(--s) var(--l) / 0.7);
-  --color-secondary: hsla(var(--h) var(--s) var(--l) / 0.5);
-  --color-tertiary: hsla(var(--h) var(--s) var(--l) / 0.3);
-  --color-background: hsla(var(--h) var(--s) var(--l) / 0.15);
-  --color-highlight: hsla(var(--h) calc(var(--s) * 1.2) calc(var(--l) * 1.2));
-  --color-scrollbar: hsla(var(--h) var(--s) var(--l) / 0.125);
+  --color-primary: hsl(var(--h) var(--s) var(--l) / 70%);
+  --color-secondary: hsl(var(--h) var(--s) var(--l) / 50%);
+  --color-tertiary: hsl(var(--h) var(--s) var(--l) / 30%);
+  --color-background: hsl(var(--h) var(--s) var(--l) / 15%);
+  --color-highlight: hsl(var(--h) calc(var(--s) * 1.2) calc(var(--l) * 1.2));
+  --color-scrollbar: hsl(var(--h) var(--s) var(--l) / 12.5%);
+
   /* duration */
   --duration-transition: 375ms;
   --duration-fade: 750ms;
-  --duration-lifespan: calc(var(--lifespan) * 1ms + 5ms);
+  --duration-lifespan: calc((var(--lifespan) + 5) * 1ms);
+
   /* z-index */
   --z-index-background: 1;
   --z-index-screen: 2;
   --z-index-debug: 3;
+
   /* global settings */
   user-select: none;
   -webkit-user-drag: none;
@@ -48,28 +55,31 @@
   font-size: var(--font-size);
   line-height: var(--line-height);
   font-weight: var(--font-weight);
-  ::selection {
-    background-color: var(--color-background);
-    color: var(--color-highlight);
-  }
-  ::-webkit-scrollbar {
-    background-color: transparent;
-    width: var(--scrollbar-size);
-    height: var(--scrollbar-size);
-  }
-  ::-webkit-scrollbar-thumb {
-    background-image: repeating-linear-gradient(
-      0deg,
-      #0000 0rem,
-      var(--color-scrollbar) 0.02rem,
-      var(--color-scrollbar) 0.12rem,
-      #0000 0.14rem,
-      #0000 0.2rem
-    );
-    background-size: 0.8rem, 100%;
-    background-repeat: no-repeat, repeat;
-    background-position-y: 0.12rem;
-  }
+}
+
+::selection {
+  background-color: var(--color-background);
+  color: var(--color-highlight);
+}
+
+::-webkit-scrollbar {
+  background-color: transparent;
+  width: var(--scrollbar-size);
+  height: var(--scrollbar-size);
+}
+
+::-webkit-scrollbar-thumb {
+  background-image: repeating-linear-gradient(
+    0deg,
+    #0000 0,
+    var(--color-scrollbar) 0.02rem,
+    var(--color-scrollbar) 0.12rem,
+    #0000 0.14rem,
+    #0000 0.2rem
+  );
+  background-size: 0.8rem, 100%;
+  background-repeat: no-repeat, repeat;
+  background-position-y: 0.12rem;
 }
 
 html {
@@ -135,9 +145,11 @@ ol {
   padding: 0;
   margin-bottom: var(--line-height);
   list-style-position: outside;
+
   p {
     display: block !important;
   }
+
   ::marker {
     color: var(--color-primary);
   }
@@ -174,6 +186,7 @@ blockquote {
   padding: 0;
   padding-left: var(--padding);
   color: var(--color-highlight);
+
   p {
     margin: 0 !important;
     padding: 0 !important;
