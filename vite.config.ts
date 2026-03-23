@@ -1,5 +1,4 @@
 import {defineConfig, loadEnv} from "vite";
-import tsconfigPaths from "vite-tsconfig-paths";
 
 import pkg from "./package.json";
 
@@ -28,7 +27,10 @@ export default defineConfig(({mode}) => {
       "import.meta.env.API_PATH": JSON.stringify(env.API_PATH),
       "import.meta.env.BASE_PATH": JSON.stringify(process.cwd()),
     },
-    plugins: [react(), tsconfigPaths()],
+    plugins: [react()],
+    resolve: {
+      tsconfigPaths: true,
+    },
     server: {
       host: true,
       port: 3000,

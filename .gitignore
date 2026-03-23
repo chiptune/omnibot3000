@@ -5,5 +5,3 @@ node_modules
 dist
 *.tsbuildinfo
 .DS_Store
-.codacy
-.github/instructions

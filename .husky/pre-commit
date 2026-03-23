@@ -1,1 +1,1 @@
-pnpm lint && pnpm prettify && .codacy/cli.sh analyze ./src
+pnpm lint && pnpm prettify
