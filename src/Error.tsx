@@ -27,7 +27,7 @@ export class ErrorBoundary extends React.Component<Props, State> {
   }
 
   componentDidCatch(error: Error, errorInfo: React.ErrorInfo) {
-    console.error(`YOU DECEIVED ${NAME}`, error, errorInfo);
+    console.error("YOU DECEIVED %s", NAME, error, errorInfo);
   }
 
   render() {

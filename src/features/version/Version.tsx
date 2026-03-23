@@ -69,12 +69,10 @@ const Version = () => {
             <Caret></Caret>
           ) : (
             response.map((pkg, i) => (
-              <>
-                <div key={i}>
-                  <b>{pkg.name}</b> version <b>{pkg.version.join(".")}</b>
-                </div>
+              <div key={i}>
+                <b>{pkg.name}</b> version <b>{pkg.version.join(".")}</b>
                 <ProgressBar value={pkg.size} unit="byte" max={totalSize} />
-              </>
+              </div>
             ))
           )}
         </div>

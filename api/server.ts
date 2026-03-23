@@ -1,9 +1,10 @@
-import {exec} from "child_process";
+import {execSync} from "child_process";
 import {
   accessSync,
   constants as FS,
   Dirent,
   readdirSync,
+  realpathSync,
   statSync,
   writeFileSync,
 } from "fs";
@@ -12,13 +13,9 @@ import path from "path";
 
 import "dotenv/config";
 import {Mistral} from "@mistralai/mistralai";
-import type {
-  ChatCompletionRequest,
-  CompletionEvent,
-} from "@mistralai/mistralai/models/components";
 import OpenAI from "openai";
 import type {ChatCompletionCreateParamsNonStreaming} from "openai/resources/chat/completions";
-import type {ChatCompletionChunk} from "openai/resources/index.mjs";
+import type {ChatCompletionChunk} from "openai/resources/chat/completions/completions";
 import type {Stream} from "openai/streaming";
 
 type Package = {
@@ -35,11 +32,14 @@ const JSON_PATH = path.join(BASE_PATH, "dist", "packages.json");
 
 type Provider = "openai" | "mistral";
 
-export const MODEL: Provider = "openai";
+export const MODEL: Provider = "openai" as Provider;
 const MAX_TOKENS = 1000;
 
 type OpenAIConfig = Omit<ChatCompletionCreateParamsNonStreaming, "messages">;
-type MistralConfig = Omit<ChatCompletionRequest, "messages">;
+type MistralConfig = Omit<
+  Parameters<Mistral["chat"]["complete"]>[0],
+  "messages"
+>;
 
 export const API_CONFIG = {
   openai: {
@@ -58,21 +58,24 @@ export const API_CONFIG = {
     topP: 0.1 /* nucleus sampling */,
     frequencyPenalty: 1.0 /* avoid repetition */,
     presencePenalty: 1.0 /* encourage new topics */,
-    maxTokens: MAX_TOKENS,
+    maxTokens: MAX_TOKENS + 500,
     randomSeed: Math.round(Math.random() * 1e9),
   } satisfies MistralConfig,
 };
 
 const getFolderSize = (folder: string): number => {
+  const resolved = path.resolve(folder);
+  if (!resolved.startsWith(BASE_PATH)) return 0;
   let total = 0;
   try {
-    accessSync(folder, FS.R_OK);
+    accessSync(resolved, FS.R_OK);
   } catch {
     return total;
   }
-  const files: Dirent[] = readdirSync(folder, {withFileTypes: true});
+  const files: Dirent[] = readdirSync(resolved, {withFileTypes: true});
   for (const file of files) {
-    const fullPath = path.join(folder, file.name);
+    const fullPath = path.resolve(resolved, file.name);
+    if (!fullPath.startsWith(BASE_PATH)) continue;
     if (file.isDirectory()) total += getFolderSize(fullPath);
     else total += statSync(fullPath).size;
   }
@@ -153,7 +156,7 @@ const server = createServer((req: IncomingMessage, res: ServerResponse) => {
                   messages,
                 });
                 /* forward chunks to browser as SSE */
-                for await (const chunk of response as AsyncIterable<CompletionEvent>) {
+                for await (const chunk of response) {
                   res.write(`data: ${JSON.stringify(chunk)}\n\n`);
                 }
                 /* end the SSE stream */
@@ -199,29 +202,37 @@ const server = createServer((req: IncomingMessage, res: ServerResponse) => {
     res.writeHead(200, {"Content-Type": "application/json"});
     res.end(JSON.stringify(config));
   } else if (url.startsWith(`${API_PATH}/packages`)) {
-    exec("npm list --json --depth=0 --prod --silent", (err, stdout) => {
-      if (err) {
-        const error = err instanceof Error ? err.message : "unknown error";
-        res.writeHead(500, {"Content-Type": "application/json"});
-        res.end(JSON.stringify({error}));
-        return;
-      }
+    try {
+      const stdout = execSync("npm list --json --depth=0 --prod --silent", {
+        encoding: "utf8",
+      });
       const json = JSON.parse(stdout);
       const data = json?.dependencies || {};
       const list = Object.keys(data)
         .map((key) => {
-          const dir = data[key].resolved.replace("file:", "");
+          const modulePath = path.join(BASE_PATH, "node_modules", key);
+          let resolvedPath;
+          try {
+            resolvedPath = realpathSync(modulePath);
+          } catch {
+            resolvedPath = modulePath;
+          }
+
           return {
             name: key,
             version: data[key].version.split(".") as Package["version"],
-            size: getFolderSize(path.join(BASE_PATH, "node_modules", dir)),
+            size: getFolderSize(resolvedPath),
           };
         })
         .sort((a, b) => (a.name < b.name ? -1 : 1));
       res.writeHead(200, {"Content-Type": "application/json"});
       res.end(JSON.stringify(list));
       writeFileSync(JSON_PATH, JSON.stringify(list, null, 2));
-    });
+    } catch (error) {
+      const message = error instanceof Error ? error.message : "unknown error";
+      res.writeHead(500, {"Content-Type": "application/json"});
+      res.end(JSON.stringify({error: message}));
+    }
   } else {
     res.writeHead(404);
     res.end("nothing to see here");
