@@ -43,8 +43,7 @@
 
 .avatar {
   display: flex;
-  flex: row;
-  flex-wrap: nowrap;
+  flex-flow: row nowrap;
   column-gap: var(--font-width);
   align-items: flex-start;
   opacity: 0;

@@ -1,6 +1,6 @@
-## OMNIBOT 3000
+# OMNIBOT 3000
 
-YOUR OMNISCIENT SOURCE OF TRUTH
+## YOUR OMNISCIENT SOURCE OF TRUTH
 
 ![image](https://github.com/user-attachments/assets/f3c88ab8-4c8c-4056-8d82-9cfb3fbe023e)
 
@@ -35,7 +35,7 @@ OPENAI_API_KEY=<your_openai_api_key>
 
 ### Package
 
-https://www.npmjs.com/package/omnibot3000
+<https://www.npmjs.com/package/omnibot3000>
 
 ### Contributing
 
