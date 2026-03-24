@@ -12,6 +12,36 @@
       "path": "api",
     },
   ],
+  "settings": {
+    "workbench.colorCustomizations": {
+      "statusBar.background": "#042",
+      "statusBar.foreground": "#6c8",
+      "statusBar.debuggingBackground": "#042",
+      "statusBar.noFolderBackground": "#042",
+      "statusBar.prominentBackground": "#042",
+    },
+  },
+  "extensions": {
+    "recommendations": [
+      /* code quality */
+      "esbenp.prettier-vscode",
+      "dbaeumer.vscode-eslint",
+      "stylelint.vscode-stylelint",
+      "davidanson.vscode-markdownlint",
+      "timonwong.shellcheck",
+      /* code assistance */
+      "github.copilot-chat",
+      "github.vscode-github-actions",
+      "donjayamanne.githistory",
+      /* editor enhancements */
+      "vscodevim.vim",
+      "medo64.render-crlf",
+      "medo64.code-point",
+      "tal7aouy.indent-colorizer",
+      "atommaterial.a-file-icon-vscode",
+      "s3anmorrow.color-stamp",
+    ],
+  },
   "launch": {
     "configurations": [
       {

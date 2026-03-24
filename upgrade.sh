@@ -14,8 +14,14 @@ if [ ! -z "$PNPM_PIDS" ]; then
 fi
 
 if [ -d "node_modules" ]; then
-  rm -rf node_modules
+    rm -rf node_modules
 fi
+
+if [ -f ".env" ]; then
+    NPMJS_TOKEN=$(grep -v '^#' .env | grep '^NPMJS_TOKEN=' | cut -d '=' -f2-)
+    export NPMJS_TOKEN
+fi
+
 timeout 10s pnpm self-update
 pnpm up --latest
 
