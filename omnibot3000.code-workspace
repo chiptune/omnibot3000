@@ -16,9 +16,15 @@
     "workbench.colorCustomizations": {
       "statusBar.background": "#042",
       "statusBar.foreground": "#6c8",
+      "statusBar.border": "#163",
+      "statusBar.focusBorder": "#6c8",
+      "statusBarItem.hoverBackground": "#163",
+      "statusBarItem.hoverForeground": "#8fc",
+      "statusBarItem.activeBackground": "#284",
+      "statusBarItem.activeForeground": "#afe",
       "statusBar.debuggingBackground": "#042",
       "statusBar.noFolderBackground": "#042",
-      "statusBar.prominentBackground": "#042",
+      "statusBar.prominentBackground": "#163",
     },
   },
   "extensions": {
