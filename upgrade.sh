@@ -13,6 +13,18 @@ if [ ! -z "$PNPM_PIDS" ]; then
     fi
 fi
 
+NODE_PIDS=$(pgrep -f "server.ts")
+
+if [ ! -z "$NODE_PIDS" ]; then
+    pkill -TERM -f "server.ts"
+    sleep 2
+    REMAINING_NODE_PIDS=$(pgrep -f "server.ts")
+    if [ ! -z "$REMAINING_NODE_PIDS" ]; then
+        pkill -KILL -f "server.ts"
+        sleep 1
+    fi
+fi
+
 if [ -d "node_modules" ]; then
     rm -rf node_modules
 fi
