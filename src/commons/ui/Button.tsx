@@ -6,6 +6,7 @@ const Button = (props: {
   name: string;
   handler: MouseEventHandler<HTMLButtonElement>;
   className?: string;
+  disabled?: boolean;
 }) => (
   <button
     className={cls("ascii", props.className)}
@@ -14,7 +15,8 @@ const Button = (props: {
       e.stopPropagation();
       e.currentTarget.blur();
       props.handler(e);
-    }}>
+    }}
+    disabled={props.disabled}>
     {props.name}
   </button>
 );

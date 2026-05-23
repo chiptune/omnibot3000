@@ -59,7 +59,6 @@ export const API_CONFIG = {
     frequencyPenalty: 1.0 /* avoid repetition */,
     presencePenalty: 1.0 /* encourage new topics */,
     maxTokens: MAX_TOKENS + 500,
-    randomSeed: Math.round(Math.random() * 1e9),
   } satisfies MistralConfig,
 };
 
@@ -153,6 +152,7 @@ const server = createServer((req: IncomingMessage, res: ServerResponse) => {
                 });
                 const response = await mistral.chat.stream({
                   ...API_CONFIG[MODEL],
+                  randomSeed: Math.round(Math.random() * 1e9),
                   messages,
                 });
                 /* forward chunks to browser as SSE */
@@ -165,6 +165,7 @@ const server = createServer((req: IncomingMessage, res: ServerResponse) => {
               } else {
                 const response = await mistral.chat.complete({
                   ...API_CONFIG[MODEL],
+                  randomSeed: Math.round(Math.random() * 1e9),
                   messages,
                 });
                 res.writeHead(200, {"Content-Type": "application/json"});

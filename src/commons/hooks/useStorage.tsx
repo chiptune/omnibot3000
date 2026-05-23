@@ -15,7 +15,7 @@ function useStorage() {
     try {
       const data = localStorage.getItem(`${SESSION_KEY}_data`);
       if (data) {
-        chatStore.importData(JSON.parse(data));
+        chatStore.import(JSON.parse(data));
         if (debug) console.info("%cdata loaded", "color:#999");
       }
     } catch (error) {
@@ -25,7 +25,7 @@ function useStorage() {
 
   const save = () => {
     try {
-      const data = chatStore.exportData();
+      const data = chatStore.export();
       localStorage.setItem(`${SESSION_KEY}_data`, JSON.stringify(data));
       if (debug) console.info("%cdata saved", "color:#999");
     } catch (error) {

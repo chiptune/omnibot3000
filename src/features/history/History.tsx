@@ -15,7 +15,7 @@ import cls from "classnames";
 
 const History = () => {
   const chatStore = useChatCompletionStore();
-  const chatId = chatStore.getChatId();
+  const chatId = chatStore.chatId;
   const storage = useStorage();
 
   const navigate = useNavigate();
@@ -24,11 +24,6 @@ const History = () => {
 
   const removeChat = (chatId: ChatId) => {
     chatStore.deleteChat(chatId);
-    /* if the removed chat is the current one, we reset to a blank chat */
-    if (chatId === chatStore.chatId) {
-      chatStore.setCompletions();
-      chatStore.setChatId();
-    }
     storage.save();
   };
 
@@ -43,8 +38,7 @@ const History = () => {
 
   return (
     <ul className={cls("text", styles.root)}>
-      {chatStore
-        .getChats()
+      {chatStore.chats
         .map((chat: Chat) => {
           const selected = Boolean(chatId === chat.id);
           const id = `chat-history-${chat.id}`;

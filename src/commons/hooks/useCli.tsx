@@ -10,16 +10,17 @@ import {
 } from "react";
 import {useLocation, useNavigate} from "react-router-dom";
 
-import cmd from "@console/cmd";
+import {log} from "@utils/debug";
 
-import {useConfig} from "./useConfig";
+import {useConfig} from "@hooks/useConfig";
+
+import cmd from "@console/cmd";
 
 interface CliContextType {
   command?: string;
   set: (cmd: string[]) => void;
   get: () => string;
   submit: (cmd: string[]) => void;
-  log: (message: string) => void;
   blocked?: boolean;
   block: () => void;
   unblock: () => void;
@@ -64,25 +65,17 @@ export const CliProvider: FC<CliProviderProps> = ({children}) => {
   const block = () => setBlocked(true);
   const unblock = () => setBlocked(false);
 
-  const log = (message: string): void => {
-    if (message.trim() === "") return;
-    console.info(
-      `%c[CLI] ${message}`,
-      "padding: 0.3rem; border-radius: 0.3rem; font: monospace; background-color: #000; color: #ccc",
-    );
-  };
-
   useEffect(() => {
-    log(get());
+    log(get(), "cli");
   }, [command]);
 
   useEffect(() => {
-    log(blocked ? "blocked" : "unblocked");
+    log(blocked ? "blocked" : "unblocked", "cli");
   }, [blocked]);
 
   return (
     <CliContext.Provider
-      value={{command, set, get, submit, log, blocked, block, unblock}}>
+      value={{command, set, get, submit, blocked, block, unblock}}>
       {children}
     </CliContext.Provider>
   );

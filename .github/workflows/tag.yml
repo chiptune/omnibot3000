@@ -1,0 +1,38 @@
+name: tag new version
+
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  tag:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - name: checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 2
+
+      - name: check if version changed
+        id: version_check
+        run: |
+          CURRENT=$(node -p "require('./package.json').version")
+          PREVIOUS=$(git show HEAD~1:package.json 2>/dev/null | node -p "JSON.parse(require('fs').readFileSync('/dev/stdin','utf8')).version" || echo "none")
+          echo "current=$CURRENT" >> $GITHUB_OUTPUT
+          if [ "$CURRENT" != "$PREVIOUS" ]; then
+            echo "changed=true" >> $GITHUB_OUTPUT
+          else
+            echo "changed=false" >> $GITHUB_OUTPUT
+          fi
+
+      - name: create git tag
+        if: steps.version_check.outputs.changed == 'true'
+        run: |
+          VERSION=${{ steps.version_check.outputs.current }}
+          git config user.name github-actions
+          git config user.email github-actions@github.com
+          git tag "v$VERSION"
+          git push origin "v$VERSION"

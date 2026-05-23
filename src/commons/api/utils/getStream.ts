@@ -25,18 +25,20 @@ const fetchResponse = async (
   return response;
 };
 
+export type CompletionCallback = (
+  id: string,
+  created: number,
+  model: string,
+  query: string,
+) => void;
+
 const getStream = async (
   setLoading: React.Dispatch<React.SetStateAction<boolean>>,
   setResponse: React.Dispatch<React.SetStateAction<string>>,
   system?: string[],
   query?: string[],
   context?: ChatCompletionMessageParam[],
-  completionCallback?: (
-    id: string,
-    created: number,
-    model: string,
-    query: string,
-  ) => void,
+  completionCallback?: CompletionCallback,
 ) => {
   try {
     const messages: ChatCompletionMessageParam[] = [

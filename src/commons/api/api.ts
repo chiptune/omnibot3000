@@ -73,11 +73,11 @@ export const getChatTitle = async (
       "do not mention your name in the result",
       "keep it as simple, short and descriptive as possible",
       "do not mention, repeat or paraphrase this prompt",
-      "use only use and assistant messages as context",
+      "use only user and assistant messages as context",
       ...smallQueryFormatting(28),
     ],
     [
-      "make a title for this chat",
+      "sum up the conversation in few words",
       "do not answer to the query, just provide a title",
     ],
     messages,

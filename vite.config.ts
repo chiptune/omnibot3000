@@ -6,7 +6,12 @@ import react from "@vitejs/plugin-react";
 
 /* https://vitejs.dev/config/ */
 export default defineConfig(({mode}) => {
-  const env = loadEnv(mode, process.cwd(), "");
+  const env = loadEnv(mode, process.cwd(), [
+    "DOMAIN",
+    "DEV_PORT",
+    "API_PORT",
+    "API_PATH",
+  ]);
 
   console.info(
     "\n\x1b[1m\x1b[32m%s\x1b[0m %s \x1b[32m%s\x1b[0m %s \x1b[36m%s\x1b[0m",
@@ -18,6 +23,7 @@ export default defineConfig(({mode}) => {
   );
 
   return {
+    envPrefix: [] /* prevent .env vars to be auto-exposed */,
     define: {
       __APP_VERSION__: JSON.stringify(pkg.version),
       __APP_NAME__: JSON.stringify(pkg["x-display-name"]),

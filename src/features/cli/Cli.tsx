@@ -1,5 +1,7 @@
 import React, {FormEvent, memo, useEffect, useRef, useState} from "react";
 
+import Button from "@root/src/commons/ui/Button";
+
 import {getInputPlaceholder} from "@api/api";
 import {BUTTON_SUBMIT} from "@commons/constants";
 import {formatText} from "@utils/strings";
@@ -270,12 +272,12 @@ const Cli = () => {
           autoComplete="off"
         />
         <div>
-          <button
-            type="submit"
+          <Button
+            name={BUTTON_SUBMIT}
+            handler={() => formRef.current?.requestSubmit()}
+            className={styles.submit}
             disabled={isDisabled}
-            className={cls("ascii", styles.submit)}>
-            {BUTTON_SUBMIT}
-          </button>
+          />
         </div>
         <div className={styles.pill}></div>
       </form>

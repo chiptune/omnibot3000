@@ -36,7 +36,7 @@ export const formatText = (text: string): string =>
     .replaceAll("“", '"')
     .replaceAll("→", "->")
     .replaceAll("…", "...")
-    .replaceAll("█", ASCII_BLOCK3);
+    .replace(/[þ█]/g, ASCII_BLOCK3);
 
 export const sanitizeHTML = (html: string): string => {
   const parser = new DOMParser();

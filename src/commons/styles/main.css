@@ -1,7 +1,7 @@
 :root {
   /* constants */
   --base-size: 15; /* default font size */
-  --base-height: 2; /* default line height */
+  --base-height: 1.8; /* default line height */
 
   /* global variables */
   --font-width: 1rem;
@@ -28,7 +28,7 @@
   --lifespan: 750; /* lifespan of lifeforms in ms */
 
   /* colors */
-  --h: 150; /* amber:30 | yellow: 90 | green:120 | blue:180 */
+  --h: 160; /* amber:30 | yellow: 90 | green:120 | blue:180 */
   --s: 33.333; /* saturation */
   --l: 66.666; /* lightness */
   --color-primary: hsl(var(--h) var(--s) var(--l) / 70%);

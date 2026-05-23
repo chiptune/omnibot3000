@@ -21,6 +21,7 @@ interface Package {
   name: string;
   version: [number, number, number];
   size: number;
+  error?: string[];
 }
 
 export const PACKAGES_API = `${window.location.origin}:${API_PORT}${API_PATH}/packages`;
@@ -34,9 +35,23 @@ const Version = () => {
   const [loading, setLoading] = useState<boolean>(false);
 
   const getResponse = async () => {
-    const response = await fetch(PACKAGES_API);
+    const data = await fetch(PACKAGES_API);
 
-    const packages: Package[] = await response.json();
+    if (data.status !== 200) {
+      const error = JSON.parse(await data.text()).error;
+      setLoading(false);
+      setResponse([
+        {
+          name: "ERROR",
+          version: [0, 0, 0],
+          size: 0,
+          error: [`${data.statusText} (${data.status})`, data.url, error],
+        },
+      ]);
+      return;
+    }
+
+    const packages: Package[] = await data.json();
 
     setLoading(false);
     setResponse(packages);
@@ -68,10 +83,22 @@ const Version = () => {
           {loading ? (
             <Caret></Caret>
           ) : (
-            response.map((pkg, i) => (
+            (response as Package[]).map((pkg, i) => (
               <div key={i}>
-                <b>{pkg.name}</b> version <b>{pkg.version.join(".")}</b>
-                <ProgressBar value={pkg.size} unit="byte" max={totalSize} />
+                {pkg.error ? (
+                  <div>
+                    <b>[{pkg.name}]</b>
+                    <br />
+                    {pkg.error.map((line, j) => (
+                      <span key={j}>{line}</span>
+                    ))}
+                  </div>
+                ) : (
+                  <div>
+                    <b>{pkg.name}</b> version <b>{pkg.version.join(".")}</b>
+                    <ProgressBar value={pkg.size} unit="byte" max={totalSize} />
+                  </div>
+                )}
               </div>
             ))
           )}

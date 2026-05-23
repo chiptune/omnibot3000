@@ -13,7 +13,7 @@ import cls from "classnames";
 const Menu = () => {
   const chatStore = useChatCompletionStore();
 
-  const count = chatStore.getChats().length;
+  const count = chatStore.chats.length;
 
   const size = String(localStorage[`${SESSION_KEY}_data`] || "").length + 64;
 
