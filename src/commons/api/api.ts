@@ -78,7 +78,7 @@ export const getChatTitle = async (
     ],
     [
       "sum up the conversation in few words",
-      "do not answer to the query, just provide a title",
+      "do not answer to the query, just provide a summary",
     ],
     messages,
   );

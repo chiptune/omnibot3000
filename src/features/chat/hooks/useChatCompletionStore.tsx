@@ -2,8 +2,7 @@ import {create} from "zustand";
 
 import {ChatCompletionMessageParam} from "openai/resources/index.mjs";
 
-import {clamp} from "@utils/math";
-
+//import {clamp} from "@utils/math";
 import {getCompletionId, getRandomToken} from "@chat/commons/strings";
 
 export type ChatId = string | undefined;
@@ -215,7 +214,7 @@ const useChatCompletionStore = create<ChatCompletionStoreState>()(
       index: number,
     ): Completion | undefined => {
       const parent = get().getParent(id);
-      if (!parent) return;
+      if (!parent || !("children" in parent)) return;
       return parent.children && parent.children?.[index];
     },
     /* tools */

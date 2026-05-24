@@ -17,8 +17,8 @@ const getQuery = (
     [
       "keep your message short and concise, do not repeat yourself",
       "do not present yourself again, focus on answering the user prompt",
-      "end your answer with an acid but funny haiku about humankind",
-      "this comment length must be less than 256 characters long",
+      "end your answer with a final thought where you roast humankind",
+      "this last thought length must be less than 128 characters long",
       "you must separate each part with a line or empty line",
     ],
     query?.split("\n") || [],

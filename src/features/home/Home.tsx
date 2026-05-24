@@ -33,16 +33,13 @@ const Home = () => {
   };
 
   const newChat = () => {
-    chatStore.setChatId();
-    chatStore.setCompletionId();
-    chatStore.setCompletions();
+    chatStore.resetChat();
     navigate("/chat");
   };
 
   useEffect(() => {
     if (hasRunOnce.current) return;
     hasRunOnce.current = true;
-
     chatStore.resetChat();
     setLoading(true);
     cli.block();

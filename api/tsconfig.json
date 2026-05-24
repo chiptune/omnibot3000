@@ -5,12 +5,12 @@
     "moduleResolution": "NodeNext",
     "esModuleInterop": true,
     "skipLibCheck": true,
+    "types": ["node"],
     /* linting */
     "strict": true,
     /* paths */
-    "rootDir": "./api/",
-    "outDir": "./dist/api/"
+    "rootDir": "./",
+    "outDir": "../dist/api/"
   },
-  "include": ["./api/**/*.ts"],
-  "exclude": []
+  "include": ["./**/*.ts"]
 }

@@ -42,5 +42,5 @@
       "@images/*": ["./src/images/*"]
     }
   },
-  "include": ["src", "api"]
+  "include": ["src"]
 }
