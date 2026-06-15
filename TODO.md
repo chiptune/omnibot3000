@@ -2,8 +2,6 @@
 
 ## In Progress
 
-- make API available online on [Render](https://render.com)
-
 ## Backlog
 
 - add [OpenRouter](https://openrouter.ai/docs/quickstart#using-the-openai-sdk)
@@ -34,3 +32,4 @@
 - make the Game of Life background interactive with mouse clicks
 - allow query retry
 - handle conversation tree with multiple branches
+- make API available online on [Render](https://render.com)
