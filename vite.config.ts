@@ -14,12 +14,14 @@ export default defineConfig(({mode}) => {
   ]);
 
   console.info(
-    "\n\x1b[1m\x1b[32m%s\x1b[0m %s \x1b[32m%s\x1b[0m %s \x1b[36m%s\x1b[0m",
+    "\n\x1b[1m\x1b[32m%s\x1b[0m %s \x1b[32m%s\n\n \x1b[0m %s \x1b[36m%s\n \x1b[0m %s \x1b[36m%s\x1b[0m",
     "→",
     "Running",
     `${pkg["x-display-name"]} v${pkg.version}`,
     "dev server at",
     `http://${env.DOMAIN}:${env.DEV_PORT}`,
+    "API server at",
+    `${env.API_PATH}:${env.API_PORT}`,
   );
 
   return {

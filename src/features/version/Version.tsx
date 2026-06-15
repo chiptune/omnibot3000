@@ -14,16 +14,12 @@ import styles from "@version/Version.module.css";
 
 import cls from "classnames";
 
-const API_PORT = Number(import.meta.env.API_PORT) || 3001;
-
 interface Package {
   name: string;
   version: [number, number, number];
   size: number;
   error?: string[];
 }
-
-export const PACKAGES_API = `${window.location.origin}:${API_PORT}${API_PATH}/packages`;
 
 const Version = () => {
   const chatStore = useChatCompletionStore();
@@ -34,7 +30,7 @@ const Version = () => {
   const [loading, setLoading] = useState<boolean>(false);
 
   const getResponse = async () => {
-    const data = await fetch(PACKAGES_API);
+    const data = await fetch(`${API_PATH}/packages`);
 
     if (data.status !== 200) {
       const error = JSON.parse(await data.text()).error;
