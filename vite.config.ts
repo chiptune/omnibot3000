@@ -41,6 +41,12 @@ export default defineConfig(({mode}) => {
       host: true,
       port: 3000,
       allowedHosts: [env.DOMAIN],
+      proxy: {
+        "/api": {
+          target: "https://omnibot3000.onrender.com",
+          changeOrigin: true,
+        },
+      },
       watch: {
         usePolling: false /* speed up updates */,
         ignored: ["**/node_modules/**", "**/dist/**"],

@@ -15,6 +15,16 @@ export const clamp = (
   max: number = 1,
 ): number => Math.max(min, Math.min(n, max));
 
+export const lerp = (min: number = 0, max: number = 1, n: number = 0): number =>
+  min + (max - min) * clamp(n);
+
+export const lead = (
+  n: number = 0,
+  l: number = 1000,
+  c: string = "0",
+): string =>
+  `${c.repeat(Math.max(0, l.toFixed(0).length - n.toFixed(0).length))}${n}`;
+
 export type Unit = "byte" | "time" | "percent";
 
 const UNIT_SCALE: Record<Unit, Record<string, number>> = {

@@ -15,6 +15,7 @@ import Menu from "@layout/Menu";
 import Line from "@ui/Line";
 import {format} from "@utils/math";
 import {getCharWidth, getLineHeight} from "@utils/strings";
+import {getVariableFromCSS} from "@utils/styles";
 import {isSystemDarkModeOn} from "@utils/system";
 
 import {CliProvider} from "@hooks/useCli";
@@ -100,9 +101,11 @@ const Layout = () => {
     el.className = "debug-info";
     document.body.appendChild(el);
     el.innerHTML = [
-      `viewport: ${vw}*${vh}`,
+      `v: ${vw}*${vh}`,
+      `scr: ${w}*${h}`,
       `char: ${cw}*${lh}`,
-      `w: ${w} | h: ${h}`,
+      `size: ${Math.floor((w - cw * 2) / cw)}*${Math.floor((h - cw * 2) / lh)}`,
+      `col: ${getVariableFromCSS("h")},${getVariableFromCSS("s")},${getVariableFromCSS("l")}`,
     ].join(" | ");
     el.style.display = debug ? "block" : "none";
   }, [w, h]);

@@ -2,7 +2,8 @@ import {create} from "zustand";
 
 import {ChatCompletionMessageParam} from "openai/resources/index.mjs";
 
-//import {clamp} from "@utils/math";
+import {clamp} from "@utils/math";
+
 import {getCompletionId, getRandomToken} from "@chat/commons/strings";
 
 export type ChatId = string | undefined;
@@ -15,6 +16,8 @@ export interface Chat {
 
 export type CompletionId = string | undefined;
 
+export type ParentId = ChatId | CompletionId;
+
 export interface Completion {
   id: CompletionId;
   created: EpochTimeStamp;
@@ -24,13 +27,12 @@ export interface Completion {
   title: string;
   index: number;
   children: Completion[];
-  parentId: CompletionId;
+  parentId: ParentId;
 }
 
 export interface Data {
   chatId: ChatId;
   chats: Chat[];
-  completionId: CompletionId;
   completions: Completion[];
 }
 
@@ -39,14 +41,13 @@ export interface ChatCompletionStoreState {
   chatId: ChatId;
   chats: Chat[];
   createChat: (completion: Completion) => void;
-  readChat: (id?: ChatId) => Chat | undefined;
+  readChat: (id: ChatId) => Chat | undefined;
   updateChat: (chat: Chat) => void;
-  updateChatTitle: (title: string, id?: ChatId) => void;
-  deleteChat: (id?: ChatId) => void;
+  updateChatTitle: (id: ChatId, title: string) => void;
+  deleteChat: (id: ChatId) => void;
   resetChat: () => void;
-  loadChat: (id?: ChatId) => void;
+  loadChat: (id: ChatId) => void;
   /* completions */
-  completionId: CompletionId;
   completions: Completion[];
   createCompletion: (
     id: string,
@@ -54,15 +55,17 @@ export interface ChatCompletionStoreState {
     model: string,
     query: string,
   ) => Completion;
-  readCompletion: (id?: CompletionId) => Completion | undefined;
-  updateCompletion: (completion: Completion, id?: CompletionId) => void;
-  updateCompletionTitle: (title: string, id?: CompletionId) => void;
-  deleteCompletion: (id?: CompletionId) => void;
+  readCompletion: (id: CompletionId) => Completion | undefined;
+  updateCompletion: (id: CompletionId, completion: Completion) => void;
+  updateCompletionTitle: (id: CompletionId, title: string) => void;
+  deleteCompletion: (id: CompletionId) => void;
   findCompletion: (id: CompletionId, index: number) => Completion | undefined;
   /* tools */
-  getParent: (id?: CompletionId) => Completion | Chat | undefined;
-  readConversation: (id?: ChatId) => Completion[];
-  readMessages: (id?: ChatId) => ChatCompletionMessageParam[];
+  getParent: (id: CompletionId) => Completion | Chat | undefined;
+  getCompletions: (id: ParentId) => Completion[];
+  updateIndex: (id: CompletionId, index: number) => void;
+  readConversation: (id: ParentId) => Completion[];
+  readMessages: (id: ParentId) => ChatCompletionMessageParam[];
   /* data */
   export: () => Data;
   import: (data: Data) => void;
@@ -80,20 +83,18 @@ const useChatCompletionStore = create<ChatCompletionStoreState>()(
         index: 0,
       };
       get().chats.push(chat);
-      set({chatId: chat.id, completionId: completion.id});
+      set({chatId: chat.id});
       completion.parentId = chat.id;
       get().completions.push(completion);
     },
     readChat: (id?: ChatId): Chat | undefined =>
-      get().chats.find((chat: Chat) =>
-        Boolean((id || get().chatId) === chat.id),
-      ),
+      get().chats.find((chat: Chat) => (id || get().chatId) === chat.id),
     updateChat: (chat: Chat) => {
       set({
         chats: get().chats.map((c: Chat) => (c.id === chat.id ? {...chat} : c)),
       });
     },
-    updateChatTitle: (title: string, id?: ChatId) => {
+    updateChatTitle: (id: ChatId, title: string) => {
       const chat = get().readChat(id);
       if (!chat) return;
       chat.title = title;
@@ -112,24 +113,14 @@ const useChatCompletionStore = create<ChatCompletionStoreState>()(
       });
     },
     resetChat: () => {
-      set({
-        chatId: undefined,
-        completionId: undefined,
-      });
+      set({chatId: undefined});
     },
     loadChat: (id?: ChatId) => {
       const chat = get().readChat(id);
       if (!chat) return;
-      set({
-        chatId: chat.id,
-        completionId:
-          get().completions.find((completion) =>
-            Boolean(completion.parentId === chat.id),
-          )?.id || undefined,
-      });
+      set({chatId: chat.id});
     },
     /* completions */
-    completionId: undefined,
     completions: [],
     createCompletion: (
       id: string,
@@ -150,34 +141,30 @@ const useChatCompletionStore = create<ChatCompletionStoreState>()(
       };
       return completion;
     },
-    readCompletion: (id?: CompletionId): Completion | undefined => {
-      const completionId = id || get().completionId;
+    readCompletion: (id: CompletionId): Completion | undefined => {
       const queue: Completion[] = [...get().completions];
       let i = 0;
       while (i < queue.length) {
         const current = queue[i++];
-        if (current.id === completionId) return current;
+        if (current.id === id) return current;
         if (current.children.length > 0) queue.push(...current.children);
       }
       return undefined;
     },
-    updateCompletion: (completion: Completion, id?: CompletionId) => {
-      const parent = get().readCompletion(id);
-      if (parent) {
-        completion.parentId = parent.id;
+    updateCompletion: (id: ParentId, completion: Completion) => {
+      const parent = get().getParent(id);
+      if (!parent) return;
+      completion.parentId = parent.id;
+      if ("children" in parent) {
         parent.children.push(completion);
         parent.index = parent.children.length - 1;
-      } else if (get().chatId) {
-        const chat = get().readChat();
-        if (!chat) return;
-        completion.parentId = chat.id;
+      } else {
         get().completions.push(completion);
-        chat.index =
-          get().completions.filter((c) => c.parentId === chat.id).length - 1;
-      } else return;
-      set({completionId: completion.id});
+        parent.index =
+          get().completions.filter((c) => c.parentId === parent.id).length - 1;
+      }
     },
-    updateCompletionTitle: (title: string, id?: CompletionId) => {
+    updateCompletionTitle: (id: CompletionId, title: string) => {
       const completion = get().readCompletion(id);
       if (!completion) return;
       completion.title = title;
@@ -186,55 +173,79 @@ const useChatCompletionStore = create<ChatCompletionStoreState>()(
     deleteCompletion: (id?: CompletionId) => {
       const completion = get().readCompletion(id);
       if (!completion) return;
-      const parent = get().readCompletion(completion.parentId);
-      if (parent) {
-        parent.children = parent.children.filter((c) => c.id !== completion.id);
-        parent.index = parent.children.length - 1;
-        set({
-          completionId: parent.id,
-          completions: [...get().completions],
-        });
-      } else if (get().completions.length > 0) {
-        set({
-          completionId: undefined,
-          completions: get().completions.filter((c) => c.id !== completion.id),
-        });
+      const parent = get().getParent(completion.parentId);
+      const completions = get().completions.filter(
+        (c) => c.id !== completion.id,
+      );
+      set({completions: [...completions]});
+      /* delete the chat if the deleted completion is the last one */
+      if (completions.length === 0) get().deleteChat(completion.parentId);
+      if (!parent) return;
+      if ("children" in parent) {
+        parent.children = parent.children.filter((c) => c.id !== id);
       }
-    },
-    getParent: (id?: CompletionId): Completion | Chat | undefined => {
-      const completion = get().readCompletion(id);
-      if (!completion) return;
-      const parent =
-        get().readCompletion(completion.parentId) ||
-        get().readChat(completion.parentId);
-      return parent;
+      get().updateIndex(parent.id, parent.index - 1);
     },
     findCompletion: (
       id: CompletionId,
       index: number,
     ): Completion | undefined => {
-      const parent = get().getParent(id);
-      if (!parent || !("children" in parent)) return;
-      return parent.children && parent.children?.[index];
+      const completion = get().readCompletion(id);
+      if (!completion) return;
+      const parent = get().getParent(completion.parentId);
+      if (!parent) return;
+      return get()
+        .getCompletions(parent.id)
+        .filter((c) => c.parentId === parent.id)[index];
     },
     /* tools */
-    readConversation: (id?: ChatId): Completion[] => {
-      const conversation: Completion[] = [];
-      let current = get().completions.find((completion) =>
-        Boolean(completion.parentId === (id || get().chatId)),
+    getParent: (id?: ParentId): Completion | Chat | undefined =>
+      get().readCompletion(id) || get().readChat(id),
+    getCompletions: (id?: ParentId): Completion[] => {
+      let completions: Completion[] = [];
+      const parent = get().getParent(id);
+      if (!parent) return completions;
+      if ("children" in parent) completions = parent.children;
+      else
+        completions = completions.concat(
+          get().completions.filter((c) => c.parentId === parent.id),
+        );
+      return completions.sort((a, b) => a.created - b.created);
+    },
+    updateIndex: (id: ParentId, index: number) => {
+      const parent = get().getParent(id);
+      if (!parent) return;
+      const completions = get().getCompletions(parent.id);
+      parent.index = clamp(index, 0, completions.length - 1);
+      const conversation = get().readConversation(get().chatId);
+      get().updateChatTitle(
+        get().chatId,
+        conversation[conversation.length - 1]?.title || "",
       );
+    },
+    readConversation: (id: ParentId): Completion[] => {
+      const conversation: Completion[] = [];
+      const chat = get().readChat(id);
+      if (!chat) return [];
+      const completions = get()
+        .completions.filter((c) => c.parentId === chat.id)
+        .sort((a, b) => a.created - b.created);
+      let current = completions[clamp(chat.index, 0, completions.length - 1)];
       if (!current) return [];
       conversation.push(current);
       if (!current?.children) return conversation;
       while (current.children.length > 0) {
-        current = current.children[current.index ?? 0];
+        current =
+          current.children[
+            clamp(current.index, 0, current.children.length - 1)
+          ];
         conversation.push(current);
       }
       return conversation;
     },
-    readMessages: (): ChatCompletionMessageParam[] =>
+    readMessages: (id: ParentId): ChatCompletionMessageParam[] =>
       get()
-        .readConversation()
+        .readConversation(id)
         .map((completion: Completion) => {
           return [
             {role: "user", content: completion.prompt},
@@ -249,10 +260,6 @@ const useChatCompletionStore = create<ChatCompletionStoreState>()(
           get().chats.find((chat: Chat) => Boolean(chat.id === get().chatId))
             ?.id || undefined,
         chats: get().chats,
-        completionId:
-          get().completions.find((completion: Completion) =>
-            Boolean(completion.id === get().completionId),
-          )?.id || undefined,
         completions: get().completions.filter((completion: Completion) =>
           Boolean(
             get().chats.find((chat: Chat) =>
@@ -266,7 +273,6 @@ const useChatCompletionStore = create<ChatCompletionStoreState>()(
       set({
         chatId: data.chatId,
         chats: [...data.chats],
-        completionId: data.completionId,
         completions: [...data.completions],
       });
     },
@@ -274,142 +280,3 @@ const useChatCompletionStore = create<ChatCompletionStoreState>()(
 );
 
 export default useChatCompletionStore;
-
-/*
-    updateChat: (newChat: Chat) => {
-      const updatedChats: Chat[] = get().chats.map(
-        (chat: Chat): Chat => (chat.id === newChat.id ? {...newChat} : chat),
-      );
-      set({chats: updatedChats});
-      get().setConversation();
-      get().setMessages();
-    },
-    updateChatTitle: (title: string, id?: ChatId) => {
-      const chat = get().getChat(id);
-      if (!chat) return;
-      chat.title = title;
-      get().updateChat(chat);
-    },
-    loadChat: (id?: ChatId) => {
-      const chat = get().getChat(id);
-      if (!chat) return;
-      set({
-        chatId: chat.id,
-        chat,
-        completions: chat.completions,
-      });
-      const completion = get().getCompletion(get().getCompletionId());
-      if (completion) set({completionId: completion.id, completion});
-      get().setConversation();
-      get().setMessages();
-      console.info(get().chatId);
-      console.info(get().chat);
-      console.info(get().completions);
-      console.info(get().completionId);
-      console.info(get().completion);
-      console.info(get().conversation);
-      console.info(get().messages);
-    },
-    deleteChat: (id?: ChatId) => {
-      const index = get().chats.findIndex((chat: Chat) => id === chat.id);
-      if (index === -1) return;
-      const updatedChats = [...get().chats];
-      updatedChats.splice(index, 1);
-      get().setChats(updatedChats);
-      get().resetChat();
-    },
-    resetChat: () => {
-      set({
-        completionId: undefined,
-        completion: undefined,
-        completions: [],
-        chatId: undefined,
-        chat: undefined,
-        conversation: [],
-        messages: [],
-      });
-    },
-    chats: [],
-    getChats: () => get().chats,
-    setChats: (chats?: Chat[]) => set({chats}),
-    completionId: undefined,
-    setCompletionId: (id?: CompletionId) => set({completionId: id}),
-    getCompletionId: () => {
-      const completions = get().completions;
-      if (!completions.length) return;
-      let current = completions[get().chat?.index ?? completions.length - 1];
-      if (!current?.children) return;
-      while (current.children.length > 0)
-        current =
-          current.children[current.index ?? current.children.length - 1];
-      return current.id;
-    },
-    completion: undefined,
-    setCompletion: (completion?: Completion) => set({completion}),
-    appendCompletion: () => {
-      const completion = get().completion;
-      if (!completion) return;
-      if (completion.parentId) {
-        const parent = get().getCompletion(completion.parentId);
-        if (!parent) return;
-        console.info("append completion to", parent.id);
-        completion.parentId = parent.id;
-        parent.children.push(completion);
-        parent.index = parent.children.length - 1;
-      } else {
-        const chat = get().getChat();
-        if (!chat) return;
-        console.info("append completion to", chat.id);
-        completion.parentId = undefined;
-        chat.completions.push(completion);
-        chat.index = chat.completions.length - 1;
-      }
-      set({completionId: completion.id, completion});
-    },
-    loadCompletion: (id?: CompletionId) => {
-      const completion = get().getCompletion(id);
-      if (!completion) return;
-      set({completionId: completion.id, completion});
-      get().setConversation();
-      get().setMessages();
-    },
-    deleteCompletion: (id?: CompletionId) => {
-      const completion = get().getCompletion(id);
-      if (!completion) return;
-      const parent = get().getCompletion(completion.parentId);
-      if (parent) {
-        parent.children = parent.children.filter((c) => c.id !== completion.id);
-        parent.index = parent.children.length - 1;
-        set({
-          completionId: parent.id,
-          completion: parent,
-          completions: [...get().completions],
-        });
-      } else if (get().completions.length > 0) {
-        set({
-          completions: get().completions.filter((c) => c.id !== completion.id),
-        });
-      }
-    },
-    setCompletionIndex: (id?: CompletionId, index?: number) => {
-      const completion = get().getCompletion(id);
-      if (!completion) return;
-      completion.index = clamp(index, 0, completion.children.length - 1);
-      get().loadCompletion(completion.id);
-    },
-    completions: [],
-    setCompletions: (id?: ChatId) =>
-      set({completions: get().getCompletions(id)}),
-    getCompletions: (id?: ChatId) => get().getChat(id)?.completions || [],
-    updateCompletions: (id?: ChatId) => {
-      const chat = get().getChat(id);
-      if (!chat) return;
-      get().updateChat({...chat, completions: get().completions});
-    },
-    conversation: [],
-    setConversation: (id?: ChatId) =>
-      set({conversation: get().getConversation(id)}),
-    messages: [],
-    setMessages: (id?: ChatId) => set({messages: get().getMessages(id)}),
-    getMessages: (id?: ChatId) =>
-*/

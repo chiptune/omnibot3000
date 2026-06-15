@@ -27,6 +27,7 @@ const Chat = () => {
   const [parentId, setParentId] = useState<CompletionId>();
   const [loading, setLoading] = useState<boolean>(false);
   const [query, setQuery] = useState<string>("");
+  const [retry, setRetry] = useState<number>(0);
   const [updateTitle, setUpdateTitle] = useState<boolean>(false);
 
   const navigate = useNavigate();
@@ -45,6 +46,7 @@ const Chat = () => {
     const completion = chatStore.createCompletion(id, created, model, query);
     setCompletion(completion);
     setQuery("");
+    setRetry(0);
     cli.set([""]);
     cli.unblock();
   };
@@ -62,8 +64,8 @@ const Chat = () => {
       setLoading,
       setResponse,
       query,
-      chatStore.readMessages(completion?.id),
-      completion?.message,
+      chatStore.readMessages(id).slice(0, -retry * 2 || undefined),
+      undefined, //!retry ? completion?.message : undefined,
       completionCallback,
     );
   }, [query]);
@@ -76,9 +78,11 @@ const Chat = () => {
     } else {
       chatStore.loadChat(id);
     }
+    const conversation = chatStore.readConversation(id);
+    setParentId(conversation[conversation.length - 1]?.id);
   }, [id]);
 
-  /* update the chat is the chatId value in store changed */
+  /* update url if the chatId value in store changed */
   useEffect(() => {
     const unsubscribe = useChatCompletionStore.subscribe((state) => {
       navigate(`/chat${state.chatId ? `/${state.chatId}` : ""}`);
@@ -93,19 +97,18 @@ const Chat = () => {
       prev.message = response;
       return prev;
     });
-    if (!chatStore.chatId) chatStore.createChat(completion);
-    else chatStore.updateCompletion(completion, parentId);
+    if (!chatStore.readChat(id)) chatStore.createChat(completion);
+    else chatStore.updateCompletion(parentId, completion);
     /* reset values once the completion is saved in the store */
-    setCompletion(undefined);
-    setParentId(undefined);
+    setParentId(completion.id);
     setResponse("");
     setUpdateTitle(true);
   }, [completion]);
 
   const setTitle = async () => {
-    const title = await getChatTitle(chatStore.readMessages());
-    chatStore.updateChatTitle(title);
-    chatStore.updateCompletionTitle(title);
+    const title = await getChatTitle(chatStore.readMessages(id));
+    chatStore.updateChatTitle(id, title);
+    if (completion) chatStore.updateCompletionTitle(completion.id, title);
     storage.save();
   };
 
@@ -120,6 +123,7 @@ const Chat = () => {
       <Container>
         {chatStore
           .readConversation(id)
+          .slice(0, retry ? -retry : undefined)
           .map((completion: Completion, i: number, a: Completion[]) => (
             <Fragment key={`chat-completion-${completion.id}`}>
               <Message
@@ -132,8 +136,10 @@ const Chat = () => {
                 <Toolbar
                   completion={completion}
                   query={query}
+                  number={a.length - i}
                   setQuery={setQuery}
                   setParentId={setParentId}
+                  setRetry={setRetry}
                 />
               </div>
             </Fragment>

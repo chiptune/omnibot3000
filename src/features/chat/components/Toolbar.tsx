@@ -9,6 +9,7 @@ import {
 import Button from "@ui/Button";
 import Line from "@ui/Line";
 import {log} from "@utils/debug";
+import {lead} from "@utils/math";
 
 import useStorage from "@hooks/useStorage";
 
@@ -23,13 +24,15 @@ import cls from "classnames";
 const Toolbar = (props: {
   completion: Completion;
   query: string;
+  number: number;
   setQuery: React.Dispatch<React.SetStateAction<string>>;
-  setParentId: React.Dispatch<React.SetStateAction<CompletionId | undefined>>;
+  setParentId: React.Dispatch<React.SetStateAction<CompletionId>>;
+  setRetry: React.Dispatch<React.SetStateAction<number>>;
 }) => {
   const chatStore = useChatCompletionStore();
   const storage = useStorage();
 
-  const {setQuery, setParentId} = props;
+  const {setQuery, setParentId, setRetry} = props;
 
   const deleteCompletion = (id: CompletionId) => {
     log(`delete ${id}`, "chat");
@@ -44,17 +47,32 @@ const Toolbar = (props: {
     log(`prompt: ${completion.prompt}`, "chat");
     setQuery(completion.prompt);
     setParentId(completion.parentId);
+    setRetry(number);
   };
 
   const loadCompletion = (id: CompletionId, index: number) => {
+    log(`load ${id} (index: ${index})`, "chat");
     const c = chatStore.findCompletion(id, index);
     if (!c) return;
-    log(`${c.id} (index: ${c.index})`, "chat");
+    chatStore.updateIndex(c.parentId, index);
     storage.save();
+    const conversation = chatStore.readConversation(chatStore.chatId);
+    setParentId(conversation[conversation.length - 1]?.id);
   };
 
-  const {completion} = props;
-  const parent = chatStore.readCompletion(completion.parentId);
+  const {completion, number} = props;
+
+  let parent;
+  if (completion.parentId === chatStore.chatId) {
+    const chat = chatStore.readChat(chatStore.chatId);
+    parent = {
+      id: chat?.id,
+      children: chatStore.completions.filter((c) => c.parentId === chat?.id),
+      index: chat?.index ?? 0,
+    };
+  } else {
+    parent = chatStore.readCompletion(completion.parentId);
+  }
 
   return (
     <footer className={styles.root}>
@@ -78,7 +96,7 @@ const Toolbar = (props: {
               }}
               disabled={parent.index === 0}
             />
-            <span>{`${parent.index + 1}/${parent.children.length}`}</span>
+            <span>{`${lead(parent.index + 1, parent.children.length)}/${parent.children.length}`}</span>
             <Button
               name={BUTTON_RIGHT}
               handler={() => {

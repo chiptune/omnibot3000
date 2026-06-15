@@ -9,5 +9,6 @@
 
 [[redirects]]
   from = "/api/*"
-  to = "/api"
+  to = "https://omnibot3000.onrender.com/api/:splat"
   status = 200
+  force = true

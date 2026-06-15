@@ -2,8 +2,7 @@
 
 ## In Progress
 
-- allow query retry
-- handle conversation tree with multiple branches
+- make API available online on [Render](https://render.com)
 
 ## Backlog
 
@@ -16,7 +15,9 @@
 - support for multiple models in the same conversation
 - keep the latest query on the top while streaming the response
 - hide all visual elements in _Game of Life_ mode except the toggle button
+- randomize _Game of Life_ lifeforms angle by 90° steps
 - try to color text with [rasterbars](https://en.wikipedia.org/wiki/Raster_bar)
+- add links to [npmjs.com package](https://www.npmjs.com) on the /version page
 
 ## Done
 
@@ -31,3 +32,5 @@
   [Conway's Game of Life](https://en.wikipedia.org/wiki/Conway%27s_Game_of_Life)
   in the background
 - make the Game of Life background interactive with mouse clicks
+- allow query retry
+- handle conversation tree with multiple branches

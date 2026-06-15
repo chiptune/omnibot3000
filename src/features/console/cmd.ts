@@ -1,4 +1,4 @@
-import {clamp} from "@utils/math";
+import {clamp, format} from "@utils/math";
 import {getVariableFromCSS, setVariableToCSS} from "@utils/styles";
 
 import Config, {ConfigValue} from "@console/config";
@@ -53,17 +53,17 @@ const cmd = (
       }
       switch (arg1) {
         case "h":
-          value = clamp(parseFloat(arg2), 0, 360).toFixed(1);
+          value = format(clamp(parseFloat(arg2), 0, 360), 0);
           break;
         case "s":
-          value = clamp(parseInt(arg2), 0, 100).toFixed(0);
+          value = format(clamp(parseFloat(arg2), 0, 100), 0);
           break;
         case "l":
-          value = clamp(parseInt(arg2), 0, 100).toFixed(0);
+          value = format(clamp(parseFloat(arg2), 0, 100), 0);
           break;
       }
-      setVariableToCSS(arg1, value);
-      config.update(cmd, arg1, value);
+      setVariableToCSS(arg1, value.toString());
+      config.update(cmd, arg1, value.toString());
       break;
     case "size":
       value = clamp(
