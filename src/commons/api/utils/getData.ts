@@ -2,6 +2,7 @@ import type {ChatCompletionMessageParam} from "openai/resources";
 import type {ChatCompletion} from "openai/resources/index.mjs";
 
 import {getSystemConfig} from "@api/api";
+import {API_PATH} from "@commons/constants";
 
 export const getData = async (
   system?: string[],
@@ -21,7 +22,7 @@ export const getData = async (
         content: query?.map((str) => str.trim()).join(". ") || "",
       },
     ];
-    const response = await fetch("/api/completion", {
+    const response = await fetch(`${API_PATH}/completion`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

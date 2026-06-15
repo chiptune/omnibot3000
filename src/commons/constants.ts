@@ -8,6 +8,8 @@ export const AUTHOR = pkg.author;
 export const SOURCE = pkg.repository.url;
 export const SESSION_KEY = String(NAME).toLowerCase().replace(/\s/g, "_");
 
+export const API_PATH = import.meta.env.API_PATH || "/api";
+
 export const COMPLETION_WILDCARD: RegExp = /chatcmpl-/gi;
 
 export const ASCII_SPACE = "\u0020";

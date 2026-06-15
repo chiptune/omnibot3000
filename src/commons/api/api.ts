@@ -1,13 +1,13 @@
 import {ChatCompletionMessageParam} from "openai/resources/index.mjs";
 
 import getData from "@api/utils/getData";
-import {NAME, VERSION} from "@commons/constants";
+import {API_PATH, NAME, VERSION} from "@commons/constants";
 import persona from "@commons/persona.txt?raw";
 import {formatText} from "@utils/strings";
 import {getVariableFromCSS} from "@utils/styles";
 
 export const getApiConfig = async (): Promise<Record<string, string>> => {
-  const response = await fetch("/api/config");
+  const response = await fetch(`${API_PATH}/config`);
   return response.ok ? await response.json() : {};
 };
 

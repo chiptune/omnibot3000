@@ -1,6 +1,6 @@
 import {memo, useEffect, useRef, useState} from "react";
 
-import {NAME, VERSION} from "@commons/constants";
+import {API_PATH, NAME, VERSION} from "@commons/constants";
 import Container from "@layout/Container";
 import Line from "@ui/Line";
 import ProgressBar from "@ui/ProgressBar";
@@ -15,7 +15,6 @@ import styles from "@version/Version.module.css";
 import cls from "classnames";
 
 const API_PORT = Number(import.meta.env.API_PORT) || 3001;
-const API_PATH = import.meta.env.API_PATH || "/api";
 
 interface Package {
   name: string;

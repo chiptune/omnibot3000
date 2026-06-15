@@ -3,6 +3,7 @@ import type {ChatCompletionChunk} from "openai/resources/index.mjs";
 import {Stream} from "openai/streaming.mjs";
 
 import {getSystemConfig} from "@api/api";
+import {API_PATH} from "@commons/constants";
 import {formatText} from "@utils/strings";
 
 import type {CompletionEvent} from "@mistralai/mistralai/models/components";
@@ -10,7 +11,7 @@ import type {CompletionEvent} from "@mistralai/mistralai/models/components";
 const fetchResponse = async (
   messages: ChatCompletionMessageParam[],
 ): Promise<Response> => {
-  const response = await fetch("/api/completion", {
+  const response = await fetch(`${API_PATH}/completion`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
