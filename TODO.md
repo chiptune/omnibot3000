@@ -16,6 +16,7 @@
 - randomize _Game of Life_ lifeforms angle by 90° steps
 - try to color text with [rasterbars](https://en.wikipedia.org/wiki/Raster_bar)
 - add links to [npmjs.com package](https://www.npmjs.com) on the /version page
+- display time spent to return API response
 
 ## Done
 

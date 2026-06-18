@@ -82,6 +82,8 @@ const getFolderSize = (folder: string): number => {
 };
 
 const server = createServer((req: IncomingMessage, res: ServerResponse) => {
+  const requestStartedAt = performance.now();
+
   /* CORS headers */
   res.setHeader("Access-Control-Allow-Origin", "*");
   res.setHeader("Access-Control-Allow-Methods", "GET, POST, OPTIONS");
@@ -234,6 +236,15 @@ const server = createServer((req: IncomingMessage, res: ServerResponse) => {
       res.writeHead(500, {"Content-Type": "application/json"});
       res.end(JSON.stringify({error: message}));
     }
+  } else if (url.startsWith(`${API_PATH}/ping`)) {
+    res.writeHead(200, {"Content-Type": "application/json"});
+    res.end(
+      JSON.stringify({
+        status: "ok",
+        rendertime:
+          Math.round((performance.now() - requestStartedAt) * 100) / 100,
+      }),
+    );
   } else {
     res.writeHead(404);
     res.end("nothing to see here");
