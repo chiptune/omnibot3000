@@ -236,11 +236,11 @@ const server = createServer((req: IncomingMessage, res: ServerResponse) => {
       res.writeHead(500, {"Content-Type": "application/json"});
       res.end(JSON.stringify({error: message}));
     }
-  } else if (url.startsWith(`${API_PATH}/ping`)) {
+  } else if (url.startsWith(`${API_PATH}/status`)) {
     res.writeHead(200, {"Content-Type": "application/json"});
     res.end(
       JSON.stringify({
-        status: "ok",
+        status: res.statusCode,
         rendertime:
           Math.round((performance.now() - requestStartedAt) * 100) / 100,
       }),
