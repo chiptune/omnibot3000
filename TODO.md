@@ -2,6 +2,8 @@
 
 ## In Progress
 
+- loader animation while waiting for API response (`Loader.tsx`)
+
 ## Backlog
 
 - add [OpenRouter](https://openrouter.ai/docs/quickstart#using-the-openai-sdk)
@@ -17,6 +19,8 @@
 - try to color text with [rasterbars](https://en.wikipedia.org/wiki/Raster_bar)
 - add links to [npmjs.com package](https://www.npmjs.com) on the /version page
 - display time spent to return API response
+- display the component name in debug mode
+- move keyboard handler from `Cli.tsx` to a separate `./utils/keyboard.ts` file
 
 ## Done
 

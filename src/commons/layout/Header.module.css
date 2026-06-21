@@ -29,7 +29,12 @@
   opacity: var(--opacity-secondary);
 }
 
+.loader {
+  margin-right: var(--font-width);
+}
+
 .subtext {
+  float: right;
   animation: fadein var(--duration-fade) forwards;
 }
 

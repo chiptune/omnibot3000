@@ -3,12 +3,11 @@ import {memo, useEffect, useRef, useState} from "react";
 import {API_PATH, NAME, VERSION} from "@commons/constants";
 import Container from "@layout/Container";
 import Line from "@ui/Line";
+import Loader from "@ui/Loader";
 import ProgressBar from "@ui/ProgressBar";
 import {displayPackageVersion} from "@utils/version";
 
 import useChatCompletionStore from "@chat/hooks/useChatCompletionStore";
-
-import Caret from "@/commons/ui/Caret";
 
 import styles from "@version/Version.module.css";
 
@@ -76,7 +75,7 @@ const Version = () => {
           <br />
           <Line char={"~"} className={styles.line} />
           {loading ? (
-            <Caret></Caret>
+            <Loader />
           ) : (
             (response as Package[]).map((pkg, i) => (
               <div key={i}>

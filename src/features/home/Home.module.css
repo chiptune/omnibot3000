@@ -9,6 +9,7 @@
 
 .button {
   padding-top: var(--line-height);
+  animation: fadein var(--duration-fade) forwards;
 }
 
 .button::before {
@@ -23,4 +24,14 @@
   display: inline-block;
   padding-left: var(--margin);
   opacity: var(--opacity-tertiary);
+}
+
+@keyframes fadein {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
 }

@@ -15,6 +15,7 @@ import {
 } from "@commons/constants";
 import styles from "@layout/Header.module.css";
 import Button from "@ui/Button";
+import Loader from "@ui/Loader";
 import Spacer from "@ui/Spacer";
 import {formatText} from "@utils/strings";
 
@@ -75,7 +76,8 @@ const Header = (_props: {darkMode: boolean; onThemeToggle: () => void}) => {
             }>{`${ASCII_BLOCK3}${ASCII_BLOCK2}${ASCII_BLOCK1}`}</span>
           <br />
           <div className={styles.subtitle}>
-            <div className={subtitle && styles.subtext}>{subtitle}</div>
+            {!subtitle && <Loader className={styles.loader} />}
+            <div className={styles.subtext}>{subtitle}</div>
           </div>
         </div>
       </div>
